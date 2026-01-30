@@ -1,0 +1,1730 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: supplychain@pearcomputer.com
+    name: Pear Supply Chain Team
+  description: |
+    Internal inventory management service for tracking stock levels across all
+    Pear Computer warehouses, distribution centers, and retail stores. Provides
+    real-time inventory data, stock alerts, and fulfillment optimization.
+  license:
+    name: Proprietary - Internal Use Only
+  title: Pear Computer - Inventory Management Service
+  version: 1.0.0
+servers:
+- url: /v1/inventory
+tags:
+- description: Stock level operations
+  name: Stock
+- description: Warehouse and store locations
+  name: Locations
+- description: Inventory transfer operations
+  name: Transfers
+- description: Stock alerts and notifications
+  name: Alerts
+- description: Inventory reports and analytics
+  name: Reports
+paths:
+  /stock:
+    get:
+      description: Retrieve current stock levels with optional filters
+      operationId: getStockLevels
+      parameters:
+      - description: Filter by SKU (supports wildcards)
+        explode: true
+        in: query
+        name: sku
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by location ID
+        explode: true
+        in: query
+        name: locationId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Filter by location type
+        explode: true
+        in: query
+        name: locationType
+        required: false
+        schema:
+          $ref: "#/components/schemas/LocationType"
+        style: form
+      - description: Only return items below reorder point
+        explode: true
+        in: query
+        name: belowReorderPoint
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockLevelResponse"
+          description: Successful response
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get stock levels
+      tags:
+      - Stock
+      x-eov-operation-handler: controllers/StockController
+  /stock/{sku}:
+    get:
+      description: Retrieve stock levels across all locations for a specific SKU
+      operationId: getStockBySku
+      parameters:
+      - explode: false
+        in: path
+        name: sku
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkuStockDetail"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get stock for specific SKU
+      tags:
+      - Stock
+      x-eov-operation-handler: controllers/StockController
+  /stock/{sku}/locations/{locationId}:
+    get:
+      description: Retrieve stock level for a SKU at a specific location
+      operationId: getStockAtLocation
+      parameters:
+      - explode: false
+        in: path
+        name: sku
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockLevel"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get stock at specific location
+      tags:
+      - Stock
+      x-eov-operation-handler: controllers/StockController
+    put:
+      description: Update the stock level for a SKU at a specific location
+      operationId: updateStock
+      parameters:
+      - explode: false
+        in: path
+        name: sku
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockLevel"
+          description: Stock updated
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Update stock level
+      tags:
+      - Stock
+      x-codegen-request-body-name: stockUpdateRequest
+      x-eov-operation-handler: controllers/StockController
+  /stock/adjust:
+    post:
+      description: Adjust stock quantity with audit trail
+      operationId: adjustStock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAdjustmentRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAdjustmentResponse"
+          description: Stock adjusted
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Adjust stock (add/remove)
+      tags:
+      - Stock
+      x-codegen-request-body-name: stockAdjustmentRequest
+      x-eov-operation-handler: controllers/StockController
+  /stock/reserve:
+    post:
+      description: Reserve inventory for a pending order
+      operationId: reserveStock
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockReservationRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockReservation"
+          description: Stock reserved
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InsufficientStockError"
+          description: Insufficient stock
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Reserve stock for order
+      tags:
+      - Stock
+      x-codegen-request-body-name: stockReservationRequest
+      x-eov-operation-handler: controllers/StockController
+  /stock/reservations/{reservationId}:
+    delete:
+      description: Release reserved stock back to available inventory
+      operationId: cancelReservation
+      parameters:
+      - explode: false
+        in: path
+        name: reservationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Reservation cancelled
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Cancel stock reservation
+      tags:
+      - Stock
+      x-eov-operation-handler: controllers/StockController
+  /locations:
+    get:
+      description: "Retrieve all warehouses, distribution centers, and stores"
+      operationId: listLocations
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          $ref: "#/components/schemas/LocationType"
+        style: form
+      - explode: true
+        in: query
+        name: region
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: active
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationListResponse"
+          description: Successful response
+      security:
+      - oauth2:
+        - inventory:read
+      summary: List inventory locations
+      tags:
+      - Locations
+      x-eov-operation-handler: controllers/LocationsController
+  /locations/{locationId}:
+    get:
+      description: Retrieve detailed information about an inventory location
+      operationId: getLocation
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get location details
+      tags:
+      - Locations
+      x-eov-operation-handler: controllers/LocationsController
+  /locations/{locationId}/inventory:
+    get:
+      description: Retrieve complete inventory for a specific location
+      operationId: getLocationInventory
+      parameters:
+      - explode: false
+        in: path
+        name: locationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockLevelResponse"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get all inventory at location
+      tags:
+      - Locations
+      x-eov-operation-handler: controllers/LocationsController
+  /transfers:
+    get:
+      description: Retrieve inventory transfer orders
+      operationId: listTransfers
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          $ref: "#/components/schemas/TransferStatus"
+        style: form
+      - explode: true
+        in: query
+        name: fromLocationId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: toLocationId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransferListResponse"
+          description: Successful response
+      security:
+      - oauth2:
+        - inventory:read
+      summary: List inventory transfers
+      tags:
+      - Transfers
+      x-eov-operation-handler: controllers/TransfersController
+    post:
+      description: Initiate a transfer between locations
+      operationId: createTransfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransferRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transfer"
+          description: Transfer created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Create inventory transfer
+      tags:
+      - Transfers
+      x-codegen-request-body-name: transferRequest
+      x-eov-operation-handler: controllers/TransfersController
+  /transfers/{transferId}:
+    get:
+      description: Retrieve details of a specific transfer
+      operationId: getTransfer
+      parameters:
+      - explode: false
+        in: path
+        name: transferId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transfer"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get transfer details
+      tags:
+      - Transfers
+      x-eov-operation-handler: controllers/TransfersController
+    patch:
+      description: Update the status of an inventory transfer
+      operationId: updateTransferStatus
+      parameters:
+      - explode: false
+        in: path
+        name: transferId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransferStatusUpdate"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transfer"
+          description: Transfer updated
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Update transfer status
+      tags:
+      - Transfers
+      x-codegen-request-body-name: transferStatusUpdate
+      x-eov-operation-handler: controllers/TransfersController
+  /alerts:
+    get:
+      description: Retrieve active inventory alerts
+      operationId: listAlerts
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          $ref: "#/components/schemas/AlertType"
+        style: form
+      - explode: true
+        in: query
+        name: severity
+        required: false
+        schema:
+          $ref: "#/components/schemas/AlertSeverity"
+        style: form
+      - explode: true
+        in: query
+        name: acknowledged
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertListResponse"
+          description: Successful response
+      security:
+      - oauth2:
+        - inventory:read
+      summary: List inventory alerts
+      tags:
+      - Alerts
+      x-eov-operation-handler: controllers/AlertsController
+  /alerts/{alertId}/acknowledge:
+    post:
+      description: Mark an alert as acknowledged
+      operationId: acknowledgeAlert
+      parameters:
+      - explode: false
+        in: path
+        name: alertId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Alert acknowledged
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - oauth2:
+        - inventory:write
+      summary: Acknowledge alert
+      tags:
+      - Alerts
+      x-eov-operation-handler: controllers/AlertsController
+  /reports/stock-summary:
+    get:
+      description: Generate a summary of current stock levels
+      operationId: getStockSummary
+      parameters:
+      - explode: true
+        in: query
+        name: groupBy
+        required: false
+        schema:
+          enum:
+          - category
+          - location
+          - region
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockSummaryReport"
+          description: Successful response
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get stock summary report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+  /reports/movements:
+    get:
+      description: Retrieve historical stock movements
+      operationId: getStockMovements
+      parameters:
+      - explode: true
+        in: query
+        name: sku
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: locationId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockMovementReport"
+          description: Successful response
+      security:
+      - oauth2:
+        - inventory:read
+      summary: Get stock movement history
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+components:
+  parameters:
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 50
+        maximum: 500
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Unauthorized
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    LocationType:
+      enum:
+      - warehouse
+      - distribution_center
+      - retail_store
+      - repair_center
+      type: string
+    TransferStatus:
+      enum:
+      - pending
+      - approved
+      - in_transit
+      - received
+      - completed
+      - cancelled
+      type: string
+    AlertType:
+      enum:
+      - low_stock
+      - out_of_stock
+      - overstock
+      - expiring
+      - discrepancy
+      type: string
+    AlertSeverity:
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      type: string
+    StockLevel:
+      example:
+        quantityAvailable: 1
+        locationName: locationName
+        reorderPoint: 5
+        productId: productId
+        lastReceived: 2000-01-23T04:56:07.000+00:00
+        lastSold: 2000-01-23T04:56:07.000+00:00
+        reorderQuantity: 2
+        productName: productName
+        locationId: locationId
+        quantityOnOrder: 5
+        quantityOnHand: 0
+        quantityReserved: 6
+        sku: sku
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        sku:
+          type: string
+        productId:
+          type: string
+        productName:
+          type: string
+        locationId:
+          type: string
+        locationName:
+          type: string
+        quantityOnHand:
+          type: integer
+        quantityReserved:
+          type: integer
+        quantityAvailable:
+          type: integer
+        quantityOnOrder:
+          type: integer
+        reorderPoint:
+          type: integer
+        reorderQuantity:
+          type: integer
+        lastReceived:
+          format: date-time
+          type: string
+        lastSold:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    SkuStockDetail:
+      example:
+        totalAvailable: 1
+        productId: productId
+        locations:
+        - quantityAvailable: 1
+          locationName: locationName
+          reorderPoint: 5
+          productId: productId
+          lastReceived: 2000-01-23T04:56:07.000+00:00
+          lastSold: 2000-01-23T04:56:07.000+00:00
+          reorderQuantity: 2
+          productName: productName
+          locationId: locationId
+          quantityOnOrder: 5
+          quantityOnHand: 0
+          quantityReserved: 6
+          sku: sku
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - quantityAvailable: 1
+          locationName: locationName
+          reorderPoint: 5
+          productId: productId
+          lastReceived: 2000-01-23T04:56:07.000+00:00
+          lastSold: 2000-01-23T04:56:07.000+00:00
+          reorderQuantity: 2
+          productName: productName
+          locationId: locationId
+          quantityOnOrder: 5
+          quantityOnHand: 0
+          quantityReserved: 6
+          sku: sku
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        sku: sku
+        totalReserved: 6
+        productName: productName
+        totalOnHand: 0
+      properties:
+        sku:
+          type: string
+        productId:
+          type: string
+        productName:
+          type: string
+        totalOnHand:
+          type: integer
+        totalReserved:
+          type: integer
+        totalAvailable:
+          type: integer
+        locations:
+          items:
+            $ref: "#/components/schemas/StockLevel"
+          type: array
+      type: object
+    StockLevelResponse:
+      example:
+        pagination:
+          totalItems: 3
+          limit: 9
+          totalPages: 2
+          page: 7
+        items:
+        - quantityAvailable: 1
+          locationName: locationName
+          reorderPoint: 5
+          productId: productId
+          lastReceived: 2000-01-23T04:56:07.000+00:00
+          lastSold: 2000-01-23T04:56:07.000+00:00
+          reorderQuantity: 2
+          productName: productName
+          locationId: locationId
+          quantityOnOrder: 5
+          quantityOnHand: 0
+          quantityReserved: 6
+          sku: sku
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - quantityAvailable: 1
+          locationName: locationName
+          reorderPoint: 5
+          productId: productId
+          lastReceived: 2000-01-23T04:56:07.000+00:00
+          lastSold: 2000-01-23T04:56:07.000+00:00
+          reorderQuantity: 2
+          productName: productName
+          locationId: locationId
+          quantityOnOrder: 5
+          quantityOnHand: 0
+          quantityReserved: 6
+          sku: sku
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/StockLevel"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    StockUpdateRequest:
+      example:
+        reason: count
+        quantity: 0
+        notes: notes
+      properties:
+        quantity:
+          minimum: 0
+          type: integer
+        reason:
+          enum:
+          - count
+          - received
+          - sold
+          - damaged
+          - returned
+          - adjustment
+          type: string
+        notes:
+          type: string
+      required:
+      - quantity
+      - reason
+      type: object
+    StockAdjustmentRequest:
+      example:
+        reason: count_correction
+        notes: notes
+        referenceNumber: referenceNumber
+        locationId: locationId
+        adjustment: 0
+        sku: sku
+      properties:
+        sku:
+          type: string
+        locationId:
+          type: string
+        adjustment:
+          type: integer
+        reason:
+          enum:
+          - count_correction
+          - damage
+          - theft
+          - found
+          - other
+          type: string
+        notes:
+          type: string
+        referenceNumber:
+          type: string
+      required:
+      - adjustment
+      - locationId
+      - reason
+      - sku
+      type: object
+    StockAdjustmentResponse:
+      example:
+        previousQuantity: 0
+        reason: reason
+        adjustedBy: adjustedBy
+        adjustedAt: 2000-01-23T04:56:07.000+00:00
+        locationId: locationId
+        adjustmentId: adjustmentId
+        adjustment: 6
+        newQuantity: 1
+        sku: sku
+      properties:
+        adjustmentId:
+          type: string
+        sku:
+          type: string
+        locationId:
+          type: string
+        previousQuantity:
+          type: integer
+        adjustment:
+          type: integer
+        newQuantity:
+          type: integer
+        reason:
+          type: string
+        adjustedAt:
+          format: date-time
+          type: string
+        adjustedBy:
+          type: string
+      type: object
+    StockReservationRequest:
+      example:
+        orderId: orderId
+        items:
+        - quantity: 1
+          preferredLocationId: preferredLocationId
+          sku: sku
+        - quantity: 1
+          preferredLocationId: preferredLocationId
+          sku: sku
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        orderId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/ReservationItem"
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+      required:
+      - items
+      - orderId
+      type: object
+    ReservationItem:
+      example:
+        quantity: 1
+        preferredLocationId: preferredLocationId
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          minimum: 1
+          type: integer
+        preferredLocationId:
+          type: string
+      required:
+      - quantity
+      - sku
+      type: object
+    StockReservation:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        reservationId: reservationId
+        orderId: orderId
+        items:
+        - quantity: 0
+          locationId: locationId
+          sku: sku
+        - quantity: 0
+          locationId: locationId
+          sku: sku
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: active
+      properties:
+        reservationId:
+          type: string
+        orderId:
+          type: string
+        status:
+          enum:
+          - active
+          - fulfilled
+          - cancelled
+          - expired
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/ReservedItem"
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    ReservedItem:
+      example:
+        quantity: 0
+        locationId: locationId
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+        locationId:
+          type: string
+      type: object
+    InsufficientStockError:
+      example:
+        code: INSUFFICIENT_STOCK
+        message: message
+        items:
+        - requested: 6
+          available: 1
+          sku: sku
+        - requested: 6
+          available: 1
+          sku: sku
+      properties:
+        code:
+          example: INSUFFICIENT_STOCK
+          type: string
+        message:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/InsufficientItem"
+          type: array
+      type: object
+    InsufficientItem:
+      example:
+        requested: 6
+        available: 1
+        sku: sku
+      properties:
+        sku:
+          type: string
+        requested:
+          type: integer
+        available:
+          type: integer
+      type: object
+    Location:
+      example:
+        code: code
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        capabilities:
+        - shipping
+        - shipping
+        contactEmail: contactEmail
+        timezone: timezone
+        operatingHours:
+          key: operatingHours
+        name: name
+        active: true
+        id: id
+        type: warehouse
+        region: region
+        contactPhone: contactPhone
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          $ref: "#/components/schemas/LocationType"
+        code:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        region:
+          type: string
+        timezone:
+          type: string
+        active:
+          type: boolean
+        capabilities:
+          items:
+            enum:
+            - shipping
+            - receiving
+            - retail
+            - repair
+            - returns
+            type: string
+          type: array
+        operatingHours:
+          additionalProperties:
+            type: string
+          type: object
+        contactEmail:
+          format: email
+          type: string
+        contactPhone:
+          type: string
+      type: object
+    LocationListResponse:
+      example:
+        locations:
+        - code: code
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          capabilities:
+          - shipping
+          - shipping
+          contactEmail: contactEmail
+          timezone: timezone
+          operatingHours:
+            key: operatingHours
+          name: name
+          active: true
+          id: id
+          type: warehouse
+          region: region
+          contactPhone: contactPhone
+        - code: code
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          capabilities:
+          - shipping
+          - shipping
+          contactEmail: contactEmail
+          timezone: timezone
+          operatingHours:
+            key: operatingHours
+          name: name
+          active: true
+          id: id
+          type: warehouse
+          region: region
+          contactPhone: contactPhone
+      properties:
+        locations:
+          items:
+            $ref: "#/components/schemas/Location"
+          type: array
+      type: object
+    Address:
+      example:
+        country: country
+        city: city
+        postalCode: postalCode
+        street1: street1
+        street2: street2
+        state: state
+      properties:
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      type: object
+    Transfer:
+      example:
+        notes: notes
+        toLocationName: toLocationName
+        approvedBy: approvedBy
+        toLocationId: toLocationId
+        fromLocationId: fromLocationId
+        priority: low
+        requestedBy: requestedBy
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        expectedArrival: 2000-01-23T04:56:07.000+00:00
+        id: id
+        fromLocationName: fromLocationName
+        items:
+        - quantity: 0
+          receivedQuantity: 6
+          sku: sku
+          productName: productName
+        - quantity: 0
+          receivedQuantity: 6
+          sku: sku
+          productName: productName
+        status: pending
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        fromLocationId:
+          type: string
+        fromLocationName:
+          type: string
+        toLocationId:
+          type: string
+        toLocationName:
+          type: string
+        status:
+          $ref: "#/components/schemas/TransferStatus"
+        items:
+          items:
+            $ref: "#/components/schemas/TransferItem"
+          type: array
+        priority:
+          enum:
+          - low
+          - normal
+          - high
+          - urgent
+          type: string
+        notes:
+          type: string
+        requestedBy:
+          type: string
+        approvedBy:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        expectedArrival:
+          format: date-time
+          type: string
+      type: object
+    TransferItem:
+      example:
+        quantity: 0
+        receivedQuantity: 6
+        sku: sku
+        productName: productName
+      properties:
+        sku:
+          type: string
+        productName:
+          type: string
+        quantity:
+          type: integer
+        receivedQuantity:
+          type: integer
+      type: object
+    TransferListResponse:
+      example:
+        pagination:
+          totalItems: 3
+          limit: 9
+          totalPages: 2
+          page: 7
+        transfers:
+        - notes: notes
+          toLocationName: toLocationName
+          approvedBy: approvedBy
+          toLocationId: toLocationId
+          fromLocationId: fromLocationId
+          priority: low
+          requestedBy: requestedBy
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          expectedArrival: 2000-01-23T04:56:07.000+00:00
+          id: id
+          fromLocationName: fromLocationName
+          items:
+          - quantity: 0
+            receivedQuantity: 6
+            sku: sku
+            productName: productName
+          - quantity: 0
+            receivedQuantity: 6
+            sku: sku
+            productName: productName
+          status: pending
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - notes: notes
+          toLocationName: toLocationName
+          approvedBy: approvedBy
+          toLocationId: toLocationId
+          fromLocationId: fromLocationId
+          priority: low
+          requestedBy: requestedBy
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          expectedArrival: 2000-01-23T04:56:07.000+00:00
+          id: id
+          fromLocationName: fromLocationName
+          items:
+          - quantity: 0
+            receivedQuantity: 6
+            sku: sku
+            productName: productName
+          - quantity: 0
+            receivedQuantity: 6
+            sku: sku
+            productName: productName
+          status: pending
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        transfers:
+          items:
+            $ref: "#/components/schemas/Transfer"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    TransferRequest:
+      example:
+        notes: notes
+        requestedDeliveryDate: 2000-01-23
+        toLocationId: toLocationId
+        fromLocationId: fromLocationId
+        priority: normal
+        items:
+        - quantity: 1
+          sku: sku
+        - quantity: 1
+          sku: sku
+      properties:
+        fromLocationId:
+          type: string
+        toLocationId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/TransferRequestItem"
+          type: array
+        priority:
+          default: normal
+          enum:
+          - low
+          - normal
+          - high
+          - urgent
+          type: string
+        notes:
+          type: string
+        requestedDeliveryDate:
+          format: date
+          type: string
+      required:
+      - fromLocationId
+      - items
+      - toLocationId
+      type: object
+    TransferRequestItem:
+      example:
+        quantity: 1
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          minimum: 1
+          type: integer
+      required:
+      - quantity
+      - sku
+      type: object
+    TransferStatusUpdate:
+      example:
+        notes: notes
+        status: pending
+      properties:
+        status:
+          $ref: "#/components/schemas/TransferStatus"
+        notes:
+          type: string
+      required:
+      - status
+      type: object
+    Alert:
+      example:
+        severity: low
+        locationName: locationName
+        acknowledged: true
+        threshold: 6
+        acknowledgedBy: acknowledgedBy
+        type: low_stock
+        message: message
+        productName: productName
+        acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        locationId: locationId
+        id: id
+        sku: sku
+        currentQuantity: 0
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/AlertType"
+        severity:
+          $ref: "#/components/schemas/AlertSeverity"
+        sku:
+          type: string
+        productName:
+          type: string
+        locationId:
+          type: string
+        locationName:
+          type: string
+        message:
+          type: string
+        currentQuantity:
+          type: integer
+        threshold:
+          type: integer
+        acknowledged:
+          type: boolean
+        acknowledgedBy:
+          type: string
+        acknowledgedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    AlertListResponse:
+      example:
+        alerts:
+        - severity: low
+          locationName: locationName
+          acknowledged: true
+          threshold: 6
+          acknowledgedBy: acknowledgedBy
+          type: low_stock
+          message: message
+          productName: productName
+          acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          locationId: locationId
+          id: id
+          sku: sku
+          currentQuantity: 0
+        - severity: low
+          locationName: locationName
+          acknowledged: true
+          threshold: 6
+          acknowledgedBy: acknowledgedBy
+          type: low_stock
+          message: message
+          productName: productName
+          acknowledgedAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          locationId: locationId
+          id: id
+          sku: sku
+          currentQuantity: 0
+      properties:
+        alerts:
+          items:
+            $ref: "#/components/schemas/Alert"
+          type: array
+      type: object
+    StockSummaryReport:
+      example:
+        totalValue: 1.4658129805029452
+        summary:
+        - unitCount: 5
+          value: 2.3021358869347655
+          groupKey: groupKey
+          skuCount: 5
+        - unitCount: 5
+          value: 2.3021358869347655
+          groupKey: groupKey
+          skuCount: 5
+        generatedAt: 2000-01-23T04:56:07.000+00:00
+        totalSkus: 0
+        totalUnits: 6
+      properties:
+        generatedAt:
+          format: date-time
+          type: string
+        totalSkus:
+          type: integer
+        totalUnits:
+          type: integer
+        totalValue:
+          type: number
+        summary:
+          items:
+            $ref: "#/components/schemas/SummaryItem"
+          type: array
+      type: object
+    SummaryItem:
+      example:
+        unitCount: 5
+        value: 2.3021358869347655
+        groupKey: groupKey
+        skuCount: 5
+      properties:
+        groupKey:
+          type: string
+        skuCount:
+          type: integer
+        unitCount:
+          type: integer
+        value:
+          type: number
+      type: object
+    StockMovementReport:
+      example:
+        pagination:
+          totalItems: 3
+          limit: 9
+          totalPages: 2
+          page: 7
+        movements:
+        - reference: reference
+          quantity: 0
+          performedBy: performedBy
+          locationId: locationId
+          id: id
+          sku: sku
+          type: received
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - reference: reference
+          quantity: 0
+          performedBy: performedBy
+          locationId: locationId
+          id: id
+          sku: sku
+          type: received
+          timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        movements:
+          items:
+            $ref: "#/components/schemas/StockMovement"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    StockMovement:
+      example:
+        reference: reference
+        quantity: 0
+        performedBy: performedBy
+        locationId: locationId
+        id: id
+        sku: sku
+        type: received
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        sku:
+          type: string
+        locationId:
+          type: string
+        type:
+          enum:
+          - received
+          - sold
+          - transferred_in
+          - transferred_out
+          - adjustment
+          - returned
+          type: string
+        quantity:
+          type: integer
+        reference:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+        performedBy:
+          type: string
+      type: object
+    Pagination:
+      example:
+        totalItems: 3
+        limit: 9
+        totalPages: 2
+        page: 7
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+  securitySchemes:
+    oauth2:
+      flows:
+        clientCredentials:
+          scopes:
+            inventory:read: Read inventory data
+            inventory:write: Modify inventory data
+            inventory:admin: Administrative access
+          tokenUrl: https://auth.pearcomputer.com/oauth/token
+      type: oauth2

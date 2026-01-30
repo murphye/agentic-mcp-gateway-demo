@@ -1,0 +1,2194 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: support-platform@pearcomputer.com
+    name: Pear Support Platform Team
+  description: |
+    Product support and self-service knowledge base API for Pear Computer.
+    Provides support articles, FAQs, warranty information, repair options,
+    software updates, device diagnostics, and unified search.
+  title: Pear Computer Product Support API
+  version: 1.0.0
+servers:
+- url: /v1/product-support
+tags:
+- description: "Support articles, guides, and troubleshooting documentation"
+  name: Articles
+- description: Frequently asked questions organized by product and topic
+  name: FAQs
+- description: Warranty coverage lookup and service eligibility
+  name: Warranty
+- description: "Repair options, pricing, and service documentation"
+  name: Repairs
+- description: "Software updates, downloads, and compatibility information"
+  name: Software
+- description: Device diagnostics and health check endpoints
+  name: Diagnostics
+- description: Unified search across all support content
+  name: Search
+paths:
+  /articles:
+    get:
+      operationId: listArticles
+      parameters:
+      - explode: true
+        in: query
+        name: product_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          enum:
+          - getting_started
+          - troubleshooting
+          - how_to
+          - specifications
+          - safety
+          - accessibility
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: topic
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: device_type
+        required: false
+        schema:
+          enum:
+          - pphone
+          - pearbook
+          - pearpad
+          - pear_watch
+          - pearpods
+          - peartv
+          - accessories
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          default: relevance
+          enum:
+          - relevance
+          - newest
+          - most_viewed
+          - most_helpful
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleListResponse"
+          description: List of articles
+      summary: List support articles
+      tags:
+      - Articles
+      x-eov-operation-handler: controllers/ArticlesController
+  /articles/{article_id}:
+    get:
+      operationId: getArticle
+      parameters:
+      - explode: false
+        in: path
+        name: article_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: include_related
+        required: false
+        schema:
+          default: true
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+          description: Article details
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get article by ID
+      tags:
+      - Articles
+      x-eov-operation-handler: controllers/ArticlesController
+  /articles/{article_id}/feedback:
+    post:
+      operationId: submitArticleFeedback
+      parameters:
+      - explode: false
+        in: path
+        name: article_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ArticleFeedback"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeedbackResponse"
+          description: Feedback submitted
+      summary: Submit article feedback
+      tags:
+      - Articles
+      x-eov-operation-handler: controllers/ArticlesController
+      x-codegen-request-body-name: articleFeedback
+  /faqs:
+    get:
+      operationId: listFAQs
+      parameters:
+      - explode: true
+        in: query
+        name: product_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: device_type
+        required: false
+        schema:
+          enum:
+          - pphone
+          - pearbook
+          - pearpad
+          - pear_watch
+          - pearpods
+          - peartv
+          - accessories
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: topic
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FAQListResponse"
+          description: List of FAQs
+      summary: List frequently asked questions
+      tags:
+      - FAQs
+      x-eov-operation-handler: controllers/FAQsController
+  /faqs/{faq_id}:
+    get:
+      operationId: getFAQ
+      parameters:
+      - explode: false
+        in: path
+        name: faq_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FAQ"
+          description: FAQ details
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get FAQ by ID
+      tags:
+      - FAQs
+      x-eov-operation-handler: controllers/FAQsController
+  /warranty/coverage:
+    get:
+      operationId: checkWarrantyCoverage
+      parameters:
+      - explode: true
+        in: query
+        name: serial_number
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WarrantyCoverage"
+          description: Warranty coverage details
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Check warranty coverage
+      tags:
+      - Warranty
+      x-eov-operation-handler: controllers/WarrantyController
+  /warranty/products/{product_id}:
+    get:
+      operationId: getProductWarrantyInfo
+      parameters:
+      - explode: false
+        in: path
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductWarrantyInfo"
+          description: Product warranty information
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get warranty information for a product
+      tags:
+      - Warranty
+      x-eov-operation-handler: controllers/WarrantyController
+  /warranty/pearcare:
+    get:
+      operationId: getPearCarePlans
+      parameters:
+      - explode: true
+        in: query
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PearCarePlans"
+          description: Available PearCare+ plans
+      summary: Get PearCare+ plans
+      tags:
+      - Warranty
+      x-eov-operation-handler: controllers/WarrantyController
+  /repairs/options:
+    get:
+      operationId: getRepairOptions
+      parameters:
+      - explode: true
+        in: query
+        name: serial_number
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: product_id
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: issue_type
+        required: false
+        schema:
+          enum:
+          - screen
+          - battery
+          - camera
+          - speaker
+          - microphone
+          - buttons
+          - water_damage
+          - software
+          - other
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: postal_code
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepairOptions"
+          description: Available repair options
+      summary: Get repair options
+      tags:
+      - Repairs
+      x-eov-operation-handler: controllers/RepairsController
+  /repairs/pricing:
+    get:
+      operationId: getRepairPricing
+      parameters:
+      - explode: true
+        in: query
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: repair_type
+        required: true
+        schema:
+          enum:
+          - screen_replacement
+          - battery_replacement
+          - back_glass
+          - camera_repair
+          - full_unit_replacement
+          - keyboard_replacement
+          - trackpad_replacement
+          - display_replacement
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: coverage_type
+        required: false
+        schema:
+          default: out_of_warranty
+          enum:
+          - out_of_warranty
+          - limited_warranty
+          - pearcare_plus
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepairPricing"
+          description: Repair pricing details
+      summary: Get repair pricing
+      tags:
+      - Repairs
+      x-eov-operation-handler: controllers/RepairsController
+  /software/updates:
+    get:
+      operationId: listSoftwareUpdates
+      parameters:
+      - explode: true
+        in: query
+        name: device_type
+        required: false
+        schema:
+          enum:
+          - pphone
+          - pearbook
+          - pearpad
+          - pear_watch
+          - peartv
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: os_type
+        required: false
+        schema:
+          enum:
+          - pear_os
+          - pear_ios
+          - watch_os
+          - tv_os
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: current_version
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareUpdateList"
+          description: Available software updates
+      summary: List software updates
+      tags:
+      - Software
+      x-eov-operation-handler: controllers/SoftwareController
+  /software/updates/{update_id}:
+    get:
+      operationId: getSoftwareUpdate
+      parameters:
+      - explode: false
+        in: path
+        name: update_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SoftwareUpdate"
+          description: Software update details
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get software update details
+      tags:
+      - Software
+      x-eov-operation-handler: controllers/SoftwareController
+  /software/compatibility:
+    get:
+      operationId: checkSoftwareCompatibility
+      parameters:
+      - explode: true
+        in: query
+        name: product_id
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: software_version
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompatibilityResult"
+          description: Compatibility check result
+      summary: Check software compatibility
+      tags:
+      - Software
+      x-eov-operation-handler: controllers/SoftwareController
+  /diagnostics/run:
+    post:
+      operationId: runDiagnostics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiagnosticsRequest"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticsSession"
+          description: Diagnostics initiated
+      summary: Run device diagnostics
+      tags:
+      - Diagnostics
+      x-eov-operation-handler: controllers/DiagnosticsController
+      x-codegen-request-body-name: diagnosticsRequest
+  /diagnostics/{session_id}:
+    get:
+      operationId: getDiagnosticsResults
+      parameters:
+      - explode: false
+        in: path
+        name: session_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticsResults"
+          description: Diagnostics results
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get diagnostics results
+      tags:
+      - Diagnostics
+      x-eov-operation-handler: controllers/DiagnosticsController
+  /search:
+    get:
+      operationId: searchSupport
+      parameters:
+      - explode: true
+        in: query
+        name: q
+        required: true
+        schema:
+          minLength: 2
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: content_type
+        required: false
+        schema:
+          items:
+            enum:
+            - article
+            - faq
+            - video
+            - download
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: device_type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: locale
+        required: false
+        schema:
+          default: en-US
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResults"
+          description: Search results
+      summary: Search support content
+      tags:
+      - Search
+      x-eov-operation-handler: controllers/SearchController
+  /search/suggestions:
+    get:
+      operationId: getSearchSuggestions
+      parameters:
+      - explode: true
+        in: query
+        name: q
+        required: true
+        schema:
+          minLength: 1
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: device_type
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchSuggestions"
+          description: Search suggestions
+      summary: Get search suggestions
+      tags:
+      - Search
+      x-eov-operation-handler: controllers/SearchController
+components:
+  responses:
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    ArticleListResponse:
+      example:
+        pagination:
+          totalItems: 1
+          limit: 6
+          totalPages: 5
+          hasPrevious: true
+          hasNext: true
+          page: 0
+        articles:
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+      properties:
+        articles:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ArticleSummary:
+      example:
+        summary: summary
+        deviceTypes:
+        - deviceTypes
+        - deviceTypes
+        id: id
+        title: title
+        category: category
+        slug: slug
+        thumbnailUrl: thumbnailUrl
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        summary:
+          type: string
+        category:
+          type: string
+        deviceTypes:
+          items:
+            type: string
+          type: array
+        thumbnailUrl:
+          type: string
+      type: object
+    Article:
+      example:
+        summary: summary
+        images:
+        - duration: 1
+          altText: altText
+          width: 0
+          caption: caption
+          id: id
+          type: image
+          url: url
+          thumbnailUrl: thumbnailUrl
+          height: 6
+        - duration: 1
+          altText: altText
+          width: 0
+          caption: caption
+          id: id
+          type: image
+          url: url
+          thumbnailUrl: thumbnailUrl
+          height: 6
+        metadata:
+          lastUpdated: 2000-01-23T04:56:07.000+00:00
+          helpfulVotes: 5
+          publishedAt: 2000-01-23T04:56:07.000+00:00
+          author: author
+          notHelpfulVotes: 2
+          locale: locale
+          views: 5
+        topics:
+        - topics
+        - topics
+        videos:
+        - duration: 1
+          altText: altText
+          width: 0
+          caption: caption
+          id: id
+          type: image
+          url: url
+          thumbnailUrl: thumbnailUrl
+          height: 6
+        - duration: 1
+          altText: altText
+          width: 0
+          caption: caption
+          id: id
+          type: image
+          url: url
+          thumbnailUrl: thumbnailUrl
+          height: 6
+        title: title
+        content: content
+        deviceTypes:
+        - deviceTypes
+        - deviceTypes
+        relatedArticles:
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+        applicableProducts:
+        - productId: productId
+          productName: productName
+          slug: slug
+        - productId: productId
+          productName: productName
+          slug: slug
+        id: id
+        category: category
+        slug: slug
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        summary:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+        topics:
+          items:
+            type: string
+          type: array
+        applicableProducts:
+          items:
+            $ref: "#/components/schemas/ProductReference"
+          type: array
+        deviceTypes:
+          items:
+            type: string
+          type: array
+        images:
+          items:
+            $ref: "#/components/schemas/MediaAsset"
+          type: array
+        videos:
+          items:
+            $ref: "#/components/schemas/MediaAsset"
+          type: array
+        relatedArticles:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        metadata:
+          $ref: "#/components/schemas/ArticleMetadata"
+      type: object
+    ArticleMetadata:
+      example:
+        lastUpdated: 2000-01-23T04:56:07.000+00:00
+        helpfulVotes: 5
+        publishedAt: 2000-01-23T04:56:07.000+00:00
+        author: author
+        notHelpfulVotes: 2
+        locale: locale
+        views: 5
+      properties:
+        views:
+          type: integer
+        helpfulVotes:
+          type: integer
+        notHelpfulVotes:
+          type: integer
+        lastUpdated:
+          format: date-time
+          type: string
+        publishedAt:
+          format: date-time
+          type: string
+        author:
+          type: string
+        locale:
+          type: string
+      type: object
+    ArticleFeedback:
+      example:
+        issueResolved: true
+        comment: comment
+        helpful: true
+      properties:
+        helpful:
+          type: boolean
+        comment:
+          type: string
+        issueResolved:
+          type: boolean
+      required:
+      - helpful
+      type: object
+    FeedbackResponse:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
+    FAQListResponse:
+      example:
+        faqs:
+        - metadata:
+            lastUpdated: 2000-01-23T04:56:07.000+00:00
+            locale: locale
+            views: 0
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          question: question
+          answer: answer
+          relatedArticles:
+          - summary: summary
+            deviceTypes:
+            - deviceTypes
+            - deviceTypes
+            id: id
+            title: title
+            category: category
+            slug: slug
+            thumbnailUrl: thumbnailUrl
+          - summary: summary
+            deviceTypes:
+            - deviceTypes
+            - deviceTypes
+            id: id
+            title: title
+            category: category
+            slug: slug
+            thumbnailUrl: thumbnailUrl
+          topics:
+          - topics
+          - topics
+          relatedFAQs:
+          - relatedFAQs
+          - relatedFAQs
+          id: id
+          shortAnswer: shortAnswer
+          category: category
+        - metadata:
+            lastUpdated: 2000-01-23T04:56:07.000+00:00
+            locale: locale
+            views: 0
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          question: question
+          answer: answer
+          relatedArticles:
+          - summary: summary
+            deviceTypes:
+            - deviceTypes
+            - deviceTypes
+            id: id
+            title: title
+            category: category
+            slug: slug
+            thumbnailUrl: thumbnailUrl
+          - summary: summary
+            deviceTypes:
+            - deviceTypes
+            - deviceTypes
+            id: id
+            title: title
+            category: category
+            slug: slug
+            thumbnailUrl: thumbnailUrl
+          topics:
+          - topics
+          - topics
+          relatedFAQs:
+          - relatedFAQs
+          - relatedFAQs
+          id: id
+          shortAnswer: shortAnswer
+          category: category
+        groups:
+        - name: name
+          faqIds:
+          - faqIds
+          - faqIds
+          slug: slug
+        - name: name
+          faqIds:
+          - faqIds
+          - faqIds
+          slug: slug
+      properties:
+        faqs:
+          items:
+            $ref: "#/components/schemas/FAQ"
+          type: array
+        groups:
+          items:
+            $ref: "#/components/schemas/FAQGroup"
+          type: array
+      type: object
+    FAQGroup:
+      example:
+        name: name
+        faqIds:
+        - faqIds
+        - faqIds
+        slug: slug
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        faqIds:
+          items:
+            type: string
+          type: array
+      type: object
+    FAQ:
+      example:
+        metadata:
+          lastUpdated: 2000-01-23T04:56:07.000+00:00
+          locale: locale
+          views: 0
+        deviceTypes:
+        - deviceTypes
+        - deviceTypes
+        question: question
+        answer: answer
+        relatedArticles:
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+        - summary: summary
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          id: id
+          title: title
+          category: category
+          slug: slug
+          thumbnailUrl: thumbnailUrl
+        topics:
+        - topics
+        - topics
+        relatedFAQs:
+        - relatedFAQs
+        - relatedFAQs
+        id: id
+        shortAnswer: shortAnswer
+        category: category
+      properties:
+        id:
+          type: string
+        question:
+          type: string
+        answer:
+          type: string
+        shortAnswer:
+          type: string
+        category:
+          type: string
+        topics:
+          items:
+            type: string
+          type: array
+        deviceTypes:
+          items:
+            type: string
+          type: array
+        relatedArticles:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        relatedFAQs:
+          items:
+            type: string
+          type: array
+        metadata:
+          $ref: "#/components/schemas/FAQMetadata"
+      type: object
+    FAQMetadata:
+      example:
+        lastUpdated: 2000-01-23T04:56:07.000+00:00
+        locale: locale
+        views: 0
+      properties:
+        views:
+          type: integer
+        lastUpdated:
+          format: date-time
+          type: string
+        locale:
+          type: string
+      type: object
+    WarrantyCoverage:
+      example:
+        daysRemaining: 0
+        coverageType: limited_warranty
+        purchaseDate: 2000-01-23
+        batteryService:
+          currentHealth: 5
+          eligible: true
+          minimumHealthForService: 5
+        serialNumber: serialNumber
+        productId: productId
+        warrantyStatus: active
+        telephoneSupport:
+          included: true
+          expirationDate: 2000-01-23
+        eligibleRepairs:
+        - covered: true
+          repairType: repairType
+          incidentsRemaining: 1
+          estimatedCost: 6.027456183070403
+        - covered: true
+          repairType: repairType
+          incidentsRemaining: 1
+          estimatedCost: 6.027456183070403
+        hardwareCoverage:
+          covered: true
+          details: details
+        productName: productName
+        coverageEndDate: 2000-01-23
+      properties:
+        serialNumber:
+          type: string
+        productName:
+          type: string
+        productId:
+          type: string
+        purchaseDate:
+          format: date
+          type: string
+        warrantyStatus:
+          enum:
+          - active
+          - expired
+          - out_of_coverage
+          type: string
+        coverageType:
+          enum:
+          - limited_warranty
+          - pearcare_plus
+          - pearcare_plus_theft_loss
+          - none
+          type: string
+        coverageEndDate:
+          format: date
+          type: string
+        daysRemaining:
+          type: integer
+        eligibleRepairs:
+          items:
+            $ref: "#/components/schemas/EligibleRepair"
+          type: array
+        hardwareCoverage:
+          $ref: "#/components/schemas/HardwareCoverage"
+        batteryService:
+          $ref: "#/components/schemas/BatteryService"
+        telephoneSupport:
+          $ref: "#/components/schemas/TelephoneSupport"
+      type: object
+    EligibleRepair:
+      example:
+        covered: true
+        repairType: repairType
+        incidentsRemaining: 1
+        estimatedCost: 6.027456183070403
+      properties:
+        repairType:
+          type: string
+        covered:
+          type: boolean
+        estimatedCost:
+          type: number
+        incidentsRemaining:
+          type: integer
+      type: object
+    HardwareCoverage:
+      example:
+        covered: true
+        details: details
+      properties:
+        covered:
+          type: boolean
+        details:
+          type: string
+      type: object
+    BatteryService:
+      example:
+        currentHealth: 5
+        eligible: true
+        minimumHealthForService: 5
+      properties:
+        eligible:
+          type: boolean
+        currentHealth:
+          type: integer
+        minimumHealthForService:
+          type: integer
+      type: object
+    TelephoneSupport:
+      example:
+        included: true
+        expirationDate: 2000-01-23
+      properties:
+        included:
+          type: boolean
+        expirationDate:
+          format: date
+          type: string
+      type: object
+    ProductWarrantyInfo:
+      example:
+        productId: productId
+        pearCarePlans:
+        - duration: duration
+          coverage:
+          - coverage
+          - coverage
+          accidentalDamage:
+            serviceFee: 5.962133916683182
+            incidents: 1
+            included: true
+          price: 0.8008281904610115
+          theftAndLoss:
+            deductible: 2.3021358869347655
+            available: true
+            additionalCost: 5.637376656633329
+          name: name
+          description: description
+          planId: planId
+          monthlyPrice: 6.027456183070403
+        - duration: duration
+          coverage:
+          - coverage
+          - coverage
+          accidentalDamage:
+            serviceFee: 5.962133916683182
+            incidents: 1
+            included: true
+          price: 0.8008281904610115
+          theftAndLoss:
+            deductible: 2.3021358869347655
+            available: true
+            additionalCost: 5.637376656633329
+          name: name
+          description: description
+          planId: planId
+          monthlyPrice: 6.027456183070403
+        warrantyTermsUrl: warrantyTermsUrl
+        standardWarranty:
+          duration: duration
+          coverage:
+          - coverage
+          - coverage
+          exclusions:
+          - exclusions
+          - exclusions
+        productName: productName
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        standardWarranty:
+          $ref: "#/components/schemas/StandardWarranty"
+        pearCarePlans:
+          items:
+            $ref: "#/components/schemas/PearCarePlan"
+          type: array
+        warrantyTermsUrl:
+          type: string
+      type: object
+    StandardWarranty:
+      example:
+        duration: duration
+        coverage:
+        - coverage
+        - coverage
+        exclusions:
+        - exclusions
+        - exclusions
+      properties:
+        duration:
+          type: string
+        coverage:
+          items:
+            type: string
+          type: array
+        exclusions:
+          items:
+            type: string
+          type: array
+      type: object
+    PearCarePlans:
+      example:
+        productId: productId
+        enrollmentDeadline: enrollmentDeadline
+        plans:
+        - duration: duration
+          coverage:
+          - coverage
+          - coverage
+          accidentalDamage:
+            serviceFee: 5.962133916683182
+            incidents: 1
+            included: true
+          price: 0.8008281904610115
+          theftAndLoss:
+            deductible: 2.3021358869347655
+            available: true
+            additionalCost: 5.637376656633329
+          name: name
+          description: description
+          planId: planId
+          monthlyPrice: 6.027456183070403
+        - duration: duration
+          coverage:
+          - coverage
+          - coverage
+          accidentalDamage:
+            serviceFee: 5.962133916683182
+            incidents: 1
+            included: true
+          price: 0.8008281904610115
+          theftAndLoss:
+            deductible: 2.3021358869347655
+            available: true
+            additionalCost: 5.637376656633329
+          name: name
+          description: description
+          planId: planId
+          monthlyPrice: 6.027456183070403
+        productName: productName
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        plans:
+          items:
+            $ref: "#/components/schemas/PearCarePlan"
+          type: array
+        enrollmentDeadline:
+          type: string
+      type: object
+    PearCarePlan:
+      example:
+        duration: duration
+        coverage:
+        - coverage
+        - coverage
+        accidentalDamage:
+          serviceFee: 5.962133916683182
+          incidents: 1
+          included: true
+        price: 0.8008281904610115
+        theftAndLoss:
+          deductible: 2.3021358869347655
+          available: true
+          additionalCost: 5.637376656633329
+        name: name
+        description: description
+        planId: planId
+        monthlyPrice: 6.027456183070403
+      properties:
+        planId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        monthlyPrice:
+          type: number
+        duration:
+          type: string
+        coverage:
+          items:
+            type: string
+          type: array
+        accidentalDamage:
+          $ref: "#/components/schemas/AccidentalDamage"
+        theftAndLoss:
+          $ref: "#/components/schemas/TheftAndLoss"
+      type: object
+    AccidentalDamage:
+      example:
+        serviceFee: 5.962133916683182
+        incidents: 1
+        included: true
+      properties:
+        included:
+          type: boolean
+        incidents:
+          type: integer
+        serviceFee:
+          type: number
+      type: object
+    TheftAndLoss:
+      example:
+        deductible: 2.3021358869347655
+        available: true
+        additionalCost: 5.637376656633329
+      properties:
+        available:
+          type: boolean
+        additionalCost:
+          type: number
+        deductible:
+          type: number
+      type: object
+    RepairOptions:
+      example:
+        options:
+        - estimatedTurnaround: estimatedTurnaround
+          name: name
+          available: true
+          description: description
+          locations:
+          - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+            distance: distance
+            storeName: storeName
+            storeId: storeId
+          - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+            distance: distance
+            storeName: storeName
+            storeId: storeId
+          type: mail_in
+        - estimatedTurnaround: estimatedTurnaround
+          name: name
+          available: true
+          description: description
+          locations:
+          - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+            distance: distance
+            storeName: storeName
+            storeId: storeId
+          - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+            distance: distance
+            storeName: storeName
+            storeId: storeId
+          type: mail_in
+        deviceInfo:
+          serialNumber: serialNumber
+          productId: productId
+          warrantyStatus: warrantyStatus
+          productName: productName
+      properties:
+        deviceInfo:
+          $ref: "#/components/schemas/DeviceInfo"
+        options:
+          items:
+            $ref: "#/components/schemas/RepairOption"
+          type: array
+      type: object
+    DeviceInfo:
+      example:
+        serialNumber: serialNumber
+        productId: productId
+        warrantyStatus: warrantyStatus
+        productName: productName
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        serialNumber:
+          type: string
+        warrantyStatus:
+          type: string
+      type: object
+    RepairOption:
+      example:
+        estimatedTurnaround: estimatedTurnaround
+        name: name
+        available: true
+        description: description
+        locations:
+        - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+          distance: distance
+          storeName: storeName
+          storeId: storeId
+        - nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+          distance: distance
+          storeName: storeName
+          storeId: storeId
+        type: mail_in
+      properties:
+        type:
+          enum:
+          - mail_in
+          - carry_in
+          - onsite
+          - express_replacement
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        estimatedTurnaround:
+          type: string
+        available:
+          type: boolean
+        locations:
+          items:
+            $ref: "#/components/schemas/RepairLocation"
+          type: array
+      type: object
+    RepairLocation:
+      example:
+        nextAvailableSlot: 2000-01-23T04:56:07.000+00:00
+        distance: distance
+        storeName: storeName
+        storeId: storeId
+      properties:
+        storeId:
+          type: string
+        storeName:
+          type: string
+        distance:
+          type: string
+        nextAvailableSlot:
+          format: date-time
+          type: string
+      type: object
+    RepairPricing:
+      example:
+        notes:
+        - notes
+        - notes
+        productId: productId
+        repairType: repairType
+        productName: productName
+        pricing:
+          withPearCare: 6.027456183070403
+          underWarranty: underWarranty
+          outOfWarranty: 0.8008281904610115
+        disclaimer: disclaimer
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        repairType:
+          type: string
+        pricing:
+          $ref: "#/components/schemas/PricingDetails"
+        notes:
+          items:
+            type: string
+          type: array
+        disclaimer:
+          type: string
+      type: object
+    PricingDetails:
+      example:
+        withPearCare: 6.027456183070403
+        underWarranty: underWarranty
+        outOfWarranty: 0.8008281904610115
+      properties:
+        outOfWarranty:
+          type: number
+        withPearCare:
+          type: number
+        underWarranty:
+          type: string
+      type: object
+    SoftwareUpdateList:
+      example:
+        updates:
+        - size: size
+          releaseDate: 2000-01-23
+          name: name
+          osType: osType
+          id: id
+          version: version
+          updateType: major
+        - size: size
+          releaseDate: 2000-01-23
+          name: name
+          osType: osType
+          id: id
+          version: version
+          updateType: major
+      properties:
+        updates:
+          items:
+            $ref: "#/components/schemas/SoftwareUpdateSummary"
+          type: array
+      type: object
+    SoftwareUpdateSummary:
+      example:
+        size: size
+        releaseDate: 2000-01-23
+        name: name
+        osType: osType
+        id: id
+        version: version
+        updateType: major
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        releaseDate:
+          format: date
+          type: string
+        osType:
+          type: string
+        updateType:
+          enum:
+          - major
+          - minor
+          - security
+          - rapid_security_response
+          type: string
+        size:
+          type: string
+      type: object
+    SoftwareUpdate:
+      example:
+        releaseDate: 2000-01-23
+        downloadUrl: downloadUrl
+        version: version
+        installationInstructions: installationInstructions
+        prerequisites:
+        - prerequisites
+        - prerequisites
+        releaseNotes: releaseNotes
+        highlights:
+        - highlights
+        - highlights
+        compatibleDevices:
+        - compatibleDevices
+        - compatibleDevices
+        size: size
+        name: name
+        osType: osType
+        id: id
+        securityContent:
+        - severity: severity
+          cve: cve
+          description: description
+        - severity: severity
+          cve: cve
+          description: description
+        updateType: updateType
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        releaseDate:
+          format: date
+          type: string
+        osType:
+          type: string
+        updateType:
+          type: string
+        size:
+          type: string
+        releaseNotes:
+          type: string
+        highlights:
+          items:
+            type: string
+          type: array
+        securityContent:
+          items:
+            $ref: "#/components/schemas/SecurityFix"
+          type: array
+        compatibleDevices:
+          items:
+            type: string
+          type: array
+        installationInstructions:
+          type: string
+        downloadUrl:
+          type: string
+        prerequisites:
+          items:
+            type: string
+          type: array
+      type: object
+    SecurityFix:
+      example:
+        severity: severity
+        cve: cve
+        description: description
+      properties:
+        cve:
+          type: string
+        description:
+          type: string
+        severity:
+          type: string
+      type: object
+    CompatibilityResult:
+      example:
+        requestedVersion: requestedVersion
+        compatible: true
+        productId: productId
+        upgradeOptions:
+        - upgradeOptions
+        - upgradeOptions
+        currentMaxVersion: currentMaxVersion
+        message: message
+        productName: productName
+      properties:
+        compatible:
+          type: boolean
+        productId:
+          type: string
+        productName:
+          type: string
+        requestedVersion:
+          type: string
+        currentMaxVersion:
+          type: string
+        message:
+          type: string
+        upgradeOptions:
+          items:
+            type: string
+          type: array
+      type: object
+    DiagnosticsRequest:
+      example:
+        callback_url: callback_url
+        serialNumber: serialNumber
+        tests:
+        - battery
+        - battery
+      properties:
+        serialNumber:
+          type: string
+        tests:
+          items:
+            enum:
+            - battery
+            - display
+            - camera
+            - audio
+            - connectivity
+            - storage
+            - sensors
+            - full
+            type: string
+          type: array
+        callback_url:
+          type: string
+      required:
+      - serialNumber
+      - tests
+      type: object
+    DiagnosticsSession:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        sessionId: sessionId
+        estimatedDuration: 0
+        status: pending
+      properties:
+        sessionId:
+          type: string
+        status:
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          type: string
+        estimatedDuration:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    DiagnosticsResults:
+      example:
+        overallHealth: excellent
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        serialNumber: serialNumber
+        tests:
+        - name: name
+          details: details
+          threshold: threshold
+          value: value
+          status: passed
+        - name: name
+          details: details
+          threshold: threshold
+          value: value
+          status: passed
+        sessionId: sessionId
+        recommendations:
+        - articleId: articleId
+          priority: critical
+          message: message
+        - articleId: articleId
+          priority: critical
+          message: message
+        status: pending
+      properties:
+        sessionId:
+          type: string
+        serialNumber:
+          type: string
+        status:
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          type: string
+        overallHealth:
+          enum:
+          - excellent
+          - good
+          - fair
+          - poor
+          - critical
+          type: string
+        tests:
+          items:
+            $ref: "#/components/schemas/DiagnosticTest"
+          type: array
+        recommendations:
+          items:
+            $ref: "#/components/schemas/DiagnosticRecommendation"
+          type: array
+        completedAt:
+          format: date-time
+          type: string
+      type: object
+    DiagnosticTest:
+      example:
+        name: name
+        details: details
+        threshold: threshold
+        value: value
+        status: passed
+      properties:
+        name:
+          type: string
+        status:
+          enum:
+          - passed
+          - warning
+          - failed
+          - skipped
+          type: string
+        details:
+          type: string
+        value:
+          type: string
+        threshold:
+          type: string
+      type: object
+    DiagnosticRecommendation:
+      example:
+        articleId: articleId
+        priority: critical
+        message: message
+      properties:
+        priority:
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        message:
+          type: string
+        articleId:
+          type: string
+      type: object
+    SearchResults:
+      example:
+        totalResults: 0
+        suggestedQuery: suggestedQuery
+        query: query
+        filters:
+          deviceTypes:
+          - count: 1
+            value: value
+          - count: 1
+            value: value
+          contentTypes:
+          - count: 1
+            value: value
+          - count: 1
+            value: value
+        results:
+        - snippet: snippet
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          relevanceScore: 6.027456183070403
+          id: id
+          type: article
+          title: title
+          url: url
+        - snippet: snippet
+          deviceTypes:
+          - deviceTypes
+          - deviceTypes
+          relevanceScore: 6.027456183070403
+          id: id
+          type: article
+          title: title
+          url: url
+      properties:
+        query:
+          type: string
+        totalResults:
+          type: integer
+        results:
+          items:
+            $ref: "#/components/schemas/SearchResult"
+          type: array
+        filters:
+          $ref: "#/components/schemas/SearchFilters"
+        suggestedQuery:
+          type: string
+      type: object
+    SearchResult:
+      example:
+        snippet: snippet
+        deviceTypes:
+        - deviceTypes
+        - deviceTypes
+        relevanceScore: 6.027456183070403
+        id: id
+        type: article
+        title: title
+        url: url
+      properties:
+        type:
+          enum:
+          - article
+          - faq
+          - video
+          - download
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        snippet:
+          type: string
+        url:
+          type: string
+        relevanceScore:
+          type: number
+        deviceTypes:
+          items:
+            type: string
+          type: array
+      type: object
+    SearchFilters:
+      example:
+        deviceTypes:
+        - count: 1
+          value: value
+        - count: 1
+          value: value
+        contentTypes:
+        - count: 1
+          value: value
+        - count: 1
+          value: value
+      properties:
+        deviceTypes:
+          items:
+            $ref: "#/components/schemas/FilterOption"
+          type: array
+        contentTypes:
+          items:
+            $ref: "#/components/schemas/FilterOption"
+          type: array
+      type: object
+    FilterOption:
+      example:
+        count: 1
+        value: value
+      properties:
+        value:
+          type: string
+        count:
+          type: integer
+      type: object
+    SearchSuggestions:
+      example:
+        query: query
+        suggestions:
+        - resultId: resultId
+          text: text
+          type: query
+        - resultId: resultId
+          text: text
+          type: query
+      properties:
+        query:
+          type: string
+        suggestions:
+          items:
+            $ref: "#/components/schemas/SearchSuggestion"
+          type: array
+      type: object
+    SearchSuggestion:
+      example:
+        resultId: resultId
+        text: text
+        type: query
+      properties:
+        text:
+          type: string
+        type:
+          enum:
+          - query
+          - article
+          - faq
+          type: string
+        resultId:
+          type: string
+      type: object
+    ProductReference:
+      example:
+        productId: productId
+        productName: productName
+        slug: slug
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        slug:
+          type: string
+      type: object
+    MediaAsset:
+      example:
+        duration: 1
+        altText: altText
+        width: 0
+        caption: caption
+        id: id
+        type: image
+        url: url
+        thumbnailUrl: thumbnailUrl
+        height: 6
+      properties:
+        id:
+          type: string
+        type:
+          enum:
+          - image
+          - video
+          - gif
+          type: string
+        url:
+          type: string
+        thumbnailUrl:
+          type: string
+        altText:
+          type: string
+        caption:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        duration:
+          type: integer
+      type: object
+    Pagination:
+      example:
+        totalItems: 1
+        limit: 6
+        totalPages: 5
+        hasPrevious: true
+        hasNext: true
+        page: 0
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object

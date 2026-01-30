@@ -1,0 +1,40 @@
+{
+  "name": "pear-computer-services",
+  "version": "1.0.0",
+  "description": "Pear Computer Enterprise MCP Demo Services",
+  "scripts": {
+    "start-service-analytics": "nodemon analytics/server/index.js",
+    "start-service-customer-accounts": "nodemon customer-accounts/server/index.js",
+    "start-service-customer-support": "nodemon customer-support/server/index.js",
+    "start-service-inventory": "nodemon inventory/server/index.js",
+    "start-service-online-store": "nodemon online-store/server/index.js",
+    "start-service-order-management": "nodemon order-management/server/index.js",
+    "start-service-payments": "nodemon payments/server/index.js",
+    "start-service-physical-stores": "nodemon physical-stores/server/index.js",
+    "start-service-product-catalog": "nodemon product-catalog/server/index.js",
+    "start-service-product-support": "nodemon product-support/server/index.js",
+    "start-service-shipping": "nodemon shipping/server/index.js",
+    "start-services": "concurrently \"npm:start-service-*\"",
+    "install:analytics": "cd analytics/server && npm install",
+    "install:customer-accounts": "cd customer-accounts/server && npm install",
+    "install:customer-support": "cd customer-support/server && npm install",
+    "install:inventory": "cd inventory/server && npm install",
+    "install:online-store": "cd online-store/server && npm install",
+    "install:order-management": "cd order-management/server && npm install",
+    "install:payments": "cd payments/server && npm install",
+    "install:physical-stores": "cd physical-stores/server && npm install",
+    "install:product-catalog": "cd product-catalog/server && npm install",
+    "install:product-support": "cd product-support/server && npm install",
+    "install:shipping": "cd shipping/server && npm install",
+    "postinstall": "run-p install:*",
+    "inspector": "npx @modelcontextprotocol/inspector --transport sse --server-url http://localhost:3000/mcp"
+  },
+  "devDependencies": {
+    "concurrently": "latest",
+    "nodemon": "latest",
+    "npm-run-all": "latest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/inspector": "^0.19.0"
+  }
+}

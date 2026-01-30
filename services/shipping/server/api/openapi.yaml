@@ -1,0 +1,2124 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: logistics@pearcomputer.com
+    name: Pear Logistics Team
+  description: |
+    Shipping and logistics service for all Pear Computer fulfillment operations.
+    Handles shipping rate calculation, carrier integration, label generation,
+    and package tracking across multiple carriers worldwide.
+  title: Pear Computer - Shipping & Logistics Service
+  version: 1.0.0
+servers:
+- url: /v1/shipping
+tags:
+- description: Shipping rate calculation
+  name: Rates
+- description: Shipment management
+  name: Shipments
+- description: Package tracking
+  name: Tracking
+- description: Shipping label generation
+  name: Labels
+- description: Return shipment handling
+  name: Returns
+- description: Carrier information
+  name: Carriers
+paths:
+  /rates:
+    post:
+      description: Get available shipping options and rates
+      operationId: calculateRates
+      x-codegen-request-body-name: rateRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RateResponse"
+          description: Shipping rates
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      summary: Calculate shipping rates
+      tags:
+      - Rates
+      x-eov-operation-handler: controllers/RatesController
+  /rates/estimate:
+    post:
+      description: Get estimated delivery dates for an address
+      operationId: estimateDelivery
+      x-codegen-request-body-name: deliveryEstimateRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeliveryEstimateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeliveryEstimateResponse"
+          description: Delivery estimates
+      summary: Estimate delivery date
+      tags:
+      - Rates
+      x-eov-operation-handler: controllers/RatesController
+  /shipments:
+    get:
+      description: Retrieve shipments with optional filters
+      operationId: listShipments
+      parameters:
+      - explode: true
+        in: query
+        name: orderId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          $ref: "#/components/schemas/ShipmentStatus"
+        style: form
+      - explode: true
+        in: query
+        name: carrier
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShipmentListResponse"
+          description: Successful response
+      summary: List shipments
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+    post:
+      description: Create a new shipment
+      operationId: createShipment
+      x-codegen-request-body-name: createShipmentRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateShipmentRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+          description: Shipment created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      summary: Create shipment
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+  /shipments/{shipmentId}:
+    get:
+      description: Retrieve detailed shipment information
+      operationId: getShipment
+      parameters:
+      - explode: false
+        in: path
+        name: shipmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get shipment details
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+    patch:
+      description: Update shipment details
+      operationId: updateShipment
+      x-codegen-request-body-name: updateShipmentRequest
+      parameters:
+      - explode: false
+        in: path
+        name: shipmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateShipmentRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+          description: Shipment updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Update shipment
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+  /shipments/{shipmentId}/cancel:
+    post:
+      description: Cancel a shipment before pickup
+      operationId: cancelShipment
+      x-codegen-request-body-name: cancelShipmentRequest
+      parameters:
+      - explode: false
+        in: path
+        name: shipmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CancelShipmentRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+          description: Shipment cancelled
+        "400":
+          description: Cannot cancel shipment
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Cancel shipment
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+  /tracking/{trackingNumber}:
+    get:
+      description: Get real-time tracking information
+      operationId: trackPackage
+      parameters:
+      - explode: false
+        in: path
+        name: trackingNumber
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Carrier code (auto-detected if not provided)
+        explode: true
+        in: query
+        name: carrier
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackingInfo"
+          description: Tracking information
+        "404":
+          description: Tracking number not found
+      summary: Track package
+      tags:
+      - Tracking
+      x-eov-operation-handler: controllers/TrackingController
+  /tracking/subscribe:
+    post:
+      description: Register for tracking update notifications
+      operationId: subscribeToTracking
+      x-codegen-request-body-name: trackingSubscriptionRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TrackingSubscriptionRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackingSubscription"
+          description: Subscription created
+      summary: Subscribe to tracking updates
+      tags:
+      - Tracking
+      x-eov-operation-handler: controllers/TrackingController
+  /labels/{shipmentId}:
+    get:
+      description: Download shipping label for a shipment
+      operationId: getShippingLabel
+      parameters:
+      - explode: false
+        in: path
+        name: shipmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: format
+        required: false
+        schema:
+          default: pdf
+          enum:
+          - pdf
+          - png
+          - zpl
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelResponse"
+          description: Shipping label
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get shipping label
+      tags:
+      - Labels
+      x-eov-operation-handler: controllers/LabelsController
+  /labels/{shipmentId}/regenerate:
+    post:
+      description: Generate a new label (voids previous)
+      operationId: regenerateLabel
+      parameters:
+      - explode: false
+        in: path
+        name: shipmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LabelResponse"
+          description: New label generated
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Regenerate shipping label
+      tags:
+      - Labels
+      x-eov-operation-handler: controllers/LabelsController
+  /returns/label:
+    post:
+      description: Generate a prepaid return shipping label
+      operationId: createReturnLabel
+      x-codegen-request-body-name: returnLabelRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReturnLabelRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnLabel"
+          description: Return label created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      summary: Create return label
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+  /returns/{returnId}/tracking:
+    get:
+      description: Get tracking for a return shipment
+      operationId: trackReturn
+      parameters:
+      - explode: false
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackingInfo"
+          description: Return tracking
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Track return shipment
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+  /carriers:
+    get:
+      description: Get all supported shipping carriers
+      operationId: listCarriers
+      parameters:
+      - description: Filter carriers by destination country
+        explode: true
+        in: query
+        name: country
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarrierListResponse"
+          description: Carrier list
+      summary: List available carriers
+      tags:
+      - Carriers
+      x-eov-operation-handler: controllers/CarriersController
+  /carriers/{carrierCode}/services:
+    get:
+      description: List available services for a carrier
+      operationId: getCarrierServices
+      parameters:
+      - explode: false
+        in: path
+        name: carrierCode
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarrierServicesResponse"
+          description: Carrier services
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get carrier services
+      tags:
+      - Carriers
+      x-eov-operation-handler: controllers/CarriersController
+  /addresses/validate:
+    post:
+      description: Validate and standardize a shipping address
+      operationId: validateAddress
+      x-codegen-request-body-name: address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Address"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddressValidationResult"
+          description: Validation result
+      summary: Validate address
+      tags:
+      - Rates
+      x-eov-operation-handler: controllers/RatesController
+  /pickup/schedule:
+    post:
+      description: Schedule a pickup for outgoing shipments
+      operationId: schedulePickup
+      x-codegen-request-body-name: pickupRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PickupRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pickup"
+          description: Pickup scheduled
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      summary: Schedule carrier pickup
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+  /pickup/{pickupId}/cancel:
+    post:
+      description: Cancel a previously scheduled pickup
+      operationId: cancelPickup
+      parameters:
+      - explode: false
+        in: path
+        name: pickupId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Pickup cancelled
+        "400":
+          description: Cannot cancel pickup
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Cancel scheduled pickup
+      tags:
+      - Shipments
+      x-eov-operation-handler: controllers/ShipmentsController
+components:
+  parameters:
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    ShipmentStatus:
+      enum:
+      - pending
+      - label_created
+      - picked_up
+      - in_transit
+      - out_for_delivery
+      - delivered
+      - exception
+      - returned
+      - cancelled
+      type: string
+    DeliveryEstimateRequest:
+      example:
+        country: country
+        postalCode: postalCode
+        items:
+        - quantity: 0
+          sku: sku
+        - quantity: 0
+          sku: sku
+      properties:
+        postalCode:
+          type: string
+        country:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/DeliveryEstimateRequest_items_inner"
+          type: array
+      required:
+      - country
+      - postalCode
+      type: object
+    DeliveryEstimateResponse:
+      example:
+        estimates:
+        - service: service
+          cutoffTime: cutoffTime
+          businessDays: 0
+          inStock: true
+          deliveryDate: 2000-01-23
+        - service: service
+          cutoffTime: cutoffTime
+          businessDays: 0
+          inStock: true
+          deliveryDate: 2000-01-23
+      properties:
+        estimates:
+          items:
+            $ref: "#/components/schemas/DeliveryEstimate"
+          type: array
+      type: object
+    UpdateShipmentRequest:
+      example:
+        status: pending
+        deliveryInstructions: deliveryInstructions
+      properties:
+        status:
+          $ref: "#/components/schemas/ShipmentStatus"
+        deliveryInstructions:
+          type: string
+      type: object
+    CancelShipmentRequest:
+      example:
+        reason: reason
+      properties:
+        reason:
+          type: string
+      type: object
+    TrackingSubscriptionRequest:
+      example:
+        carrier: carrier
+        trackingNumber: trackingNumber
+        webhookUrl: https://openapi-generator.tech
+        events:
+        - all
+        - all
+      properties:
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        webhookUrl:
+          format: uri
+          type: string
+        events:
+          items:
+            enum:
+            - all
+            - in_transit
+            - out_for_delivery
+            - delivered
+            - exception
+            type: string
+          type: array
+      required:
+      - trackingNumber
+      - webhookUrl
+      type: object
+    TrackingSubscription:
+      example:
+        subscriptionId: subscriptionId
+      properties:
+        subscriptionId:
+          type: string
+      type: object
+    LabelResponse:
+      example:
+        format: format
+        labelUrl: https://openapi-generator.tech
+        trackingNumber: trackingNumber
+      properties:
+        labelUrl:
+          format: uri
+          type: string
+        trackingNumber:
+          type: string
+        format:
+          type: string
+      type: object
+    CarrierListResponse:
+      example:
+        carriers:
+        - features:
+          - features
+          - features
+          code: code
+          trackingUrl: trackingUrl
+          name: name
+          logo: https://openapi-generator.tech
+          countries:
+          - countries
+          - countries
+        - features:
+          - features
+          - features
+          code: code
+          trackingUrl: trackingUrl
+          name: name
+          logo: https://openapi-generator.tech
+          countries:
+          - countries
+          - countries
+      properties:
+        carriers:
+          items:
+            $ref: "#/components/schemas/Carrier"
+          type: array
+      type: object
+    CarrierServicesResponse:
+      example:
+        services:
+        - domestic: true
+          code: code
+          trackingLevel: none
+          deliveryDays:
+            min: 0
+            max: 6
+          name: name
+          description: description
+          international: true
+        - domestic: true
+          code: code
+          trackingLevel: none
+          deliveryDays:
+            min: 0
+            max: 6
+          name: name
+          description: description
+          international: true
+      properties:
+        services:
+          items:
+            $ref: "#/components/schemas/CarrierService"
+          type: array
+      type: object
+    RateRequest:
+      example:
+        insurance: false
+        residential: true
+        origin:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        signatureRequired: false
+        destination:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        packages:
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        shipDate: 2000-01-23
+        declaredValue:
+          amount: 0.8008281904610115
+          currency: USD
+      properties:
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        packages:
+          items:
+            $ref: "#/components/schemas/Package"
+          type: array
+        shipDate:
+          format: date
+          type: string
+        residential:
+          default: true
+          type: boolean
+        signatureRequired:
+          default: false
+          type: boolean
+        insurance:
+          default: false
+          type: boolean
+        declaredValue:
+          $ref: "#/components/schemas/Money"
+      required:
+      - destination
+      - origin
+      - packages
+      type: object
+    RateResponse:
+      example:
+        rates:
+        - insuranceIncluded: true
+          carrier: carrier
+          cost:
+            amount: 0.8008281904610115
+            currency: USD
+          serviceCode: serviceCode
+          deliveryDays: 5
+          signatureIncluded: true
+          service: service
+          carrierCode: carrierCode
+          retailCost:
+            amount: 0.8008281904610115
+            currency: USD
+          id: id
+          trackingSupported: true
+          estimatedDelivery:
+            date: 2000-01-23
+            maxDays: 1
+            guaranteed: true
+            minDays: 6
+        - insuranceIncluded: true
+          carrier: carrier
+          cost:
+            amount: 0.8008281904610115
+            currency: USD
+          serviceCode: serviceCode
+          deliveryDays: 5
+          signatureIncluded: true
+          service: service
+          carrierCode: carrierCode
+          retailCost:
+            amount: 0.8008281904610115
+            currency: USD
+          id: id
+          trackingSupported: true
+          estimatedDelivery:
+            date: 2000-01-23
+            maxDays: 1
+            guaranteed: true
+            minDays: 6
+        messages:
+        - messages
+        - messages
+      properties:
+        rates:
+          items:
+            $ref: "#/components/schemas/ShippingRate"
+          type: array
+        messages:
+          items:
+            type: string
+          type: array
+      type: object
+    ShippingRate:
+      example:
+        insuranceIncluded: true
+        carrier: carrier
+        cost:
+          amount: 0.8008281904610115
+          currency: USD
+        serviceCode: serviceCode
+        deliveryDays: 5
+        signatureIncluded: true
+        service: service
+        carrierCode: carrierCode
+        retailCost:
+          amount: 0.8008281904610115
+          currency: USD
+        id: id
+        trackingSupported: true
+        estimatedDelivery:
+          date: 2000-01-23
+          maxDays: 1
+          guaranteed: true
+          minDays: 6
+      properties:
+        id:
+          type: string
+        carrier:
+          type: string
+        carrierCode:
+          type: string
+        service:
+          type: string
+        serviceCode:
+          type: string
+        cost:
+          $ref: "#/components/schemas/Money"
+        retailCost:
+          $ref: "#/components/schemas/Money"
+        estimatedDelivery:
+          $ref: "#/components/schemas/ShippingRate_estimatedDelivery"
+        deliveryDays:
+          type: integer
+        trackingSupported:
+          type: boolean
+        insuranceIncluded:
+          type: boolean
+        signatureIncluded:
+          type: boolean
+      type: object
+    DeliveryEstimate:
+      example:
+        service: service
+        cutoffTime: cutoffTime
+        businessDays: 0
+        inStock: true
+        deliveryDate: 2000-01-23
+      properties:
+        service:
+          type: string
+        deliveryDate:
+          format: date
+          type: string
+        cutoffTime:
+          type: string
+        businessDays:
+          type: integer
+        inStock:
+          type: boolean
+      type: object
+    Shipment:
+      example:
+        insurance:
+          insured: true
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        shippingCost:
+          amount: 0.8008281904610115
+          currency: USD
+        orderId: orderId
+        trackingUrl: https://openapi-generator.tech
+        origin:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        destination:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        labelUrl: https://openapi-generator.tech
+        packages:
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        deliveryInstructions: deliveryInstructions
+        deliveredAt: 2000-01-23T04:56:07.000+00:00
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        carrier: carrier
+        service: service
+        carrierCode: carrierCode
+        signatureRequired: true
+        shippedAt: 2000-01-23T04:56:07.000+00:00
+        actualDelivery: 2000-01-23T04:56:07.000+00:00
+        id: id
+        trackingNumber: trackingNumber
+        items:
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        estimatedDelivery: 2000-01-23
+        events:
+        - description: description
+          location:
+            country: country
+            city: city
+            postalCode: postalCode
+            state: state
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - description: description
+          location:
+            country: country
+            city: city
+            postalCode: postalCode
+            state: state
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        status: pending
+      properties:
+        id:
+          type: string
+        orderId:
+          type: string
+        status:
+          $ref: "#/components/schemas/ShipmentStatus"
+        carrier:
+          type: string
+        carrierCode:
+          type: string
+        service:
+          type: string
+        trackingNumber:
+          type: string
+        trackingUrl:
+          format: uri
+          type: string
+        labelUrl:
+          format: uri
+          type: string
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        packages:
+          items:
+            $ref: "#/components/schemas/Package"
+          type: array
+        items:
+          items:
+            $ref: "#/components/schemas/ShipmentItem"
+          type: array
+        shippingCost:
+          $ref: "#/components/schemas/Money"
+        insurance:
+          $ref: "#/components/schemas/Shipment_insurance"
+        signatureRequired:
+          type: boolean
+        deliveryInstructions:
+          type: string
+        estimatedDelivery:
+          format: date
+          type: string
+        actualDelivery:
+          format: date-time
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/TrackingEvent"
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        shippedAt:
+          format: date-time
+          type: string
+        deliveredAt:
+          format: date-time
+          type: string
+      type: object
+    CreateShipmentRequest:
+      example:
+        insurance:
+          insured: true
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        reference: reference
+        carrier: carrier
+        orderId: orderId
+        service: service
+        origin:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        signatureRequired: false
+        destination:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        packages:
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        - weight:
+            unit: oz
+            value: 0.8008281904610115
+          packageType: package
+          dimensions:
+            unit: in
+            length: 6.027456183070403
+            width: 1.4658129805029452
+            height: 5.962133916683182
+        shipDate: 2000-01-23
+        items:
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        deliveryInstructions: deliveryInstructions
+      properties:
+        orderId:
+          type: string
+        carrier:
+          type: string
+        service:
+          type: string
+        origin:
+          $ref: "#/components/schemas/Address"
+        destination:
+          $ref: "#/components/schemas/Address"
+        packages:
+          items:
+            $ref: "#/components/schemas/Package"
+          type: array
+        items:
+          items:
+            $ref: "#/components/schemas/ShipmentItem"
+          type: array
+        signatureRequired:
+          default: false
+          type: boolean
+        insurance:
+          $ref: "#/components/schemas/Shipment_insurance"
+        deliveryInstructions:
+          type: string
+        shipDate:
+          format: date
+          type: string
+        reference:
+          type: string
+      required:
+      - carrier
+      - destination
+      - orderId
+      - origin
+      - packages
+      - service
+      type: object
+    Package:
+      example:
+        weight:
+          unit: oz
+          value: 0.8008281904610115
+        packageType: package
+        dimensions:
+          unit: in
+          length: 6.027456183070403
+          width: 1.4658129805029452
+          height: 5.962133916683182
+      properties:
+        weight:
+          $ref: "#/components/schemas/Package_weight"
+        dimensions:
+          $ref: "#/components/schemas/Package_dimensions"
+        packageType:
+          enum:
+          - package
+          - envelope
+          - flat_rate_box
+          - carrier_box
+          - custom
+          type: string
+      type: object
+    ShipmentItem:
+      example:
+        quantity: 0
+        hsCode: hsCode
+        name: name
+        weight: 6.027456183070403
+        sku: sku
+        value:
+          amount: 0.8008281904610115
+          currency: USD
+      properties:
+        sku:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+        value:
+          $ref: "#/components/schemas/Money"
+        weight:
+          type: number
+        hsCode:
+          type: string
+      type: object
+    TrackingInfo:
+      example:
+        carrier: carrier
+        statusDescription: statusDescription
+        signedBy: signedBy
+        destination:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        actualDelivery: 2000-01-23T04:56:07.000+00:00
+        trackingNumber: trackingNumber
+        estimatedDelivery: 2000-01-23
+        events:
+        - description: description
+          location:
+            country: country
+            city: city
+            postalCode: postalCode
+            state: state
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - description: description
+          location:
+            country: country
+            city: city
+            postalCode: postalCode
+            state: state
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        status: pending
+      properties:
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        status:
+          $ref: "#/components/schemas/ShipmentStatus"
+        statusDescription:
+          type: string
+        estimatedDelivery:
+          format: date
+          type: string
+        actualDelivery:
+          format: date-time
+          type: string
+        signedBy:
+          type: string
+        destination:
+          $ref: "#/components/schemas/Address"
+        events:
+          items:
+            $ref: "#/components/schemas/TrackingEvent"
+          type: array
+      type: object
+    TrackingEvent:
+      example:
+        description: description
+        location:
+          country: country
+          city: city
+          postalCode: postalCode
+          state: state
+        status: status
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        status:
+          type: string
+        description:
+          type: string
+        location:
+          $ref: "#/components/schemas/TrackingEvent_location"
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    ReturnLabelRequest:
+      example:
+        customerAddress:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        carrier: carrier
+        orderId: orderId
+        service: service
+        returnId: returnId
+        items:
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        - quantity: 0
+          hsCode: hsCode
+          name: name
+          weight: 6.027456183070403
+          sku: sku
+          value:
+            amount: 0.8008281904610115
+            currency: USD
+        returnAddress:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+      properties:
+        orderId:
+          type: string
+        returnId:
+          type: string
+        returnAddress:
+          $ref: "#/components/schemas/Address"
+        customerAddress:
+          $ref: "#/components/schemas/Address"
+        items:
+          items:
+            $ref: "#/components/schemas/ShipmentItem"
+          type: array
+        carrier:
+          type: string
+        service:
+          type: string
+      required:
+      - customerAddress
+      - orderId
+      - returnAddress
+      type: object
+    ReturnLabel:
+      example:
+        carrier: carrier
+        orderId: orderId
+        dropOffLocations:
+        - hours: hours
+          address:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          name: name
+        - hours: hours
+          address:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          name: name
+        qrCodeUrl: https://openapi-generator.tech
+        id: id
+        labelUrl: https://openapi-generator.tech
+        trackingNumber: trackingNumber
+        expiresAt: 2000-01-23
+      properties:
+        id:
+          type: string
+        orderId:
+          type: string
+        trackingNumber:
+          type: string
+        carrier:
+          type: string
+        labelUrl:
+          format: uri
+          type: string
+        qrCodeUrl:
+          format: uri
+          type: string
+        expiresAt:
+          format: date
+          type: string
+        dropOffLocations:
+          items:
+            $ref: "#/components/schemas/ReturnLabel_dropOffLocations_inner"
+          type: array
+      type: object
+    Carrier:
+      example:
+        features:
+        - features
+        - features
+        code: code
+        trackingUrl: trackingUrl
+        name: name
+        logo: https://openapi-generator.tech
+        countries:
+        - countries
+        - countries
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        logo:
+          format: uri
+          type: string
+        trackingUrl:
+          type: string
+        countries:
+          items:
+            type: string
+          type: array
+        features:
+          items:
+            type: string
+          type: array
+      type: object
+    CarrierService:
+      example:
+        domestic: true
+        code: code
+        trackingLevel: none
+        deliveryDays:
+          min: 0
+          max: 6
+        name: name
+        description: description
+        international: true
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        deliveryDays:
+          $ref: "#/components/schemas/CarrierService_deliveryDays"
+        domestic:
+          type: boolean
+        international:
+          type: boolean
+        trackingLevel:
+          enum:
+          - none
+          - basic
+          - detailed
+          type: string
+      type: object
+    AddressValidationResult:
+      example:
+        valid: true
+        original:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        residential: true
+        corrections:
+        - original: original
+          field: field
+          corrected: corrected
+        - original: original
+          field: field
+          corrected: corrected
+        warnings:
+        - warnings
+        - warnings
+        deliverable: true
+        standardized:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+      properties:
+        valid:
+          type: boolean
+        original:
+          $ref: "#/components/schemas/Address"
+        standardized:
+          $ref: "#/components/schemas/Address"
+        residential:
+          type: boolean
+        deliverable:
+          type: boolean
+        corrections:
+          items:
+            $ref: "#/components/schemas/AddressValidationResult_corrections_inner"
+          type: array
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+    PickupRequest:
+      example:
+        instructions: instructions
+        carrier: carrier
+        readyTime: readyTime
+        address:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        closeTime: closeTime
+        totalWeight:
+          unit: unit
+          value: 6.027456183070403
+        pickupDate: 2000-01-23
+        packageCount: 0
+      properties:
+        carrier:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        pickupDate:
+          format: date
+          type: string
+        readyTime:
+          type: string
+        closeTime:
+          type: string
+        packageCount:
+          type: integer
+        totalWeight:
+          $ref: "#/components/schemas/PickupRequest_totalWeight"
+        instructions:
+          type: string
+      required:
+      - address
+      - carrier
+      - pickupDate
+      type: object
+    Pickup:
+      example:
+        carrier: carrier
+        timeWindow:
+          start: start
+          end: end
+        confirmationNumber: confirmationNumber
+        pickupDate: 2000-01-23
+        id: id
+        status: scheduled
+      properties:
+        id:
+          type: string
+        carrier:
+          type: string
+        confirmationNumber:
+          type: string
+        pickupDate:
+          format: date
+          type: string
+        timeWindow:
+          $ref: "#/components/schemas/Pickup_timeWindow"
+        status:
+          enum:
+          - scheduled
+          - completed
+          - cancelled
+          type: string
+      type: object
+    Address:
+      example:
+        country: country
+        city: city
+        phone: phone
+        postalCode: postalCode
+        name: name
+        company: company
+        street1: street1
+        street2: street2
+        state: state
+        email: email
+      properties:
+        name:
+          type: string
+        company:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+        email:
+          format: email
+          type: string
+      type: object
+    Money:
+      example:
+        amount: 0.8008281904610115
+        currency: USD
+      properties:
+        amount:
+          type: number
+        currency:
+          default: USD
+          type: string
+      type: object
+    ShipmentListResponse:
+      example:
+        pagination:
+          totalItems: 5
+          limit: 5
+          totalPages: 2
+          page: 1
+        shipments:
+        - insurance:
+            insured: true
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          shippingCost:
+            amount: 0.8008281904610115
+            currency: USD
+          orderId: orderId
+          trackingUrl: https://openapi-generator.tech
+          origin:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          destination:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          labelUrl: https://openapi-generator.tech
+          packages:
+          - weight:
+              unit: oz
+              value: 0.8008281904610115
+            packageType: package
+            dimensions:
+              unit: in
+              length: 6.027456183070403
+              width: 1.4658129805029452
+              height: 5.962133916683182
+          - weight:
+              unit: oz
+              value: 0.8008281904610115
+            packageType: package
+            dimensions:
+              unit: in
+              length: 6.027456183070403
+              width: 1.4658129805029452
+              height: 5.962133916683182
+          deliveryInstructions: deliveryInstructions
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          carrier: carrier
+          service: service
+          carrierCode: carrierCode
+          signatureRequired: true
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          actualDelivery: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - quantity: 0
+            hsCode: hsCode
+            name: name
+            weight: 6.027456183070403
+            sku: sku
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          - quantity: 0
+            hsCode: hsCode
+            name: name
+            weight: 6.027456183070403
+            sku: sku
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location:
+              country: country
+              city: city
+              postalCode: postalCode
+              state: state
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location:
+              country: country
+              city: city
+              postalCode: postalCode
+              state: state
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+        - insurance:
+            insured: true
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          shippingCost:
+            amount: 0.8008281904610115
+            currency: USD
+          orderId: orderId
+          trackingUrl: https://openapi-generator.tech
+          origin:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          destination:
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            name: name
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+            email: email
+          labelUrl: https://openapi-generator.tech
+          packages:
+          - weight:
+              unit: oz
+              value: 0.8008281904610115
+            packageType: package
+            dimensions:
+              unit: in
+              length: 6.027456183070403
+              width: 1.4658129805029452
+              height: 5.962133916683182
+          - weight:
+              unit: oz
+              value: 0.8008281904610115
+            packageType: package
+            dimensions:
+              unit: in
+              length: 6.027456183070403
+              width: 1.4658129805029452
+              height: 5.962133916683182
+          deliveryInstructions: deliveryInstructions
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          carrier: carrier
+          service: service
+          carrierCode: carrierCode
+          signatureRequired: true
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          actualDelivery: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - quantity: 0
+            hsCode: hsCode
+            name: name
+            weight: 6.027456183070403
+            sku: sku
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          - quantity: 0
+            hsCode: hsCode
+            name: name
+            weight: 6.027456183070403
+            sku: sku
+            value:
+              amount: 0.8008281904610115
+              currency: USD
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location:
+              country: country
+              city: city
+              postalCode: postalCode
+              state: state
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location:
+              country: country
+              city: city
+              postalCode: postalCode
+              state: state
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+      properties:
+        shipments:
+          items:
+            $ref: "#/components/schemas/Shipment"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    Pagination:
+      example:
+        totalItems: 5
+        limit: 5
+        totalPages: 2
+        page: 1
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+    DeliveryEstimateRequest_items_inner:
+      example:
+        quantity: 0
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+      type: object
+    ShippingRate_estimatedDelivery:
+      example:
+        date: 2000-01-23
+        maxDays: 1
+        guaranteed: true
+        minDays: 6
+      properties:
+        date:
+          format: date
+          type: string
+        minDays:
+          type: integer
+        maxDays:
+          type: integer
+        guaranteed:
+          type: boolean
+      type: object
+    Shipment_insurance:
+      example:
+        insured: true
+        value:
+          amount: 0.8008281904610115
+          currency: USD
+      properties:
+        insured:
+          type: boolean
+        value:
+          $ref: "#/components/schemas/Money"
+      type: object
+    Package_weight:
+      example:
+        unit: oz
+        value: 0.8008281904610115
+      properties:
+        value:
+          type: number
+        unit:
+          enum:
+          - oz
+          - lb
+          - g
+          - kg
+          type: string
+      type: object
+    Package_dimensions:
+      example:
+        unit: in
+        length: 6.027456183070403
+        width: 1.4658129805029452
+        height: 5.962133916683182
+      properties:
+        length:
+          type: number
+        width:
+          type: number
+        height:
+          type: number
+        unit:
+          enum:
+          - in
+          - cm
+          type: string
+      type: object
+    TrackingEvent_location:
+      example:
+        country: country
+        city: city
+        postalCode: postalCode
+        state: state
+      properties:
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        postalCode:
+          type: string
+      type: object
+    ReturnLabel_dropOffLocations_inner:
+      example:
+        hours: hours
+        address:
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          name: name
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+          email: email
+        name: name
+      properties:
+        name:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        hours:
+          type: string
+      type: object
+    CarrierService_deliveryDays:
+      example:
+        min: 0
+        max: 6
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+      type: object
+    AddressValidationResult_corrections_inner:
+      example:
+        original: original
+        field: field
+        corrected: corrected
+      properties:
+        field:
+          type: string
+        original:
+          type: string
+        corrected:
+          type: string
+      type: object
+    PickupRequest_totalWeight:
+      example:
+        unit: unit
+        value: 6.027456183070403
+      properties:
+        value:
+          type: number
+        unit:
+          type: string
+      type: object
+    Pickup_timeWindow:
+      example:
+        start: start
+        end: end
+      properties:
+        start:
+          type: string
+        end:
+          type: string
+      type: object

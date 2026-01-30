@@ -1,0 +1,1470 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: payments-engineering@pearcomputer.com
+    name: Pear Payments Team
+  description: |
+    Secure payment processing service for all Pear Computer transactions.
+    Handles payment authorization, capture, refunds, and stored payment methods.
+  title: Pear Computer - Payments Service
+  version: 1.0.0
+servers:
+- url: /v1/payments
+tags:
+- description: Payment transaction operations
+  name: Transactions
+- description: Stored payment methods
+  name: PaymentMethods
+- description: Refund processing
+  name: Refunds
+- description: Pear Card specific operations
+  name: PearCard
+- description: Financing and installment plans
+  name: Financing
+- description: Payment event webhooks
+  name: Webhooks
+paths:
+  /transactions:
+    post:
+      operationId: createTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTransactionRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+          description: Transaction created
+        "400":
+          description: Bad request
+        "402":
+          description: Payment declined
+      summary: Create payment transaction
+      tags:
+      - Transactions
+      x-eov-operation-handler: controllers/TransactionsController
+      x-codegen-request-body-name: transactionRequest
+  /transactions/{transactionId}:
+    get:
+      operationId: getTransaction
+      parameters:
+      - explode: false
+        in: path
+        name: transactionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get transaction details
+      tags:
+      - Transactions
+      x-eov-operation-handler: controllers/TransactionsController
+  /transactions/{transactionId}/capture:
+    post:
+      operationId: captureTransaction
+      parameters:
+      - explode: false
+        in: path
+        name: transactionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/captureTransaction_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+          description: Payment captured
+        "404":
+          description: Not found
+      summary: Capture authorized payment
+      tags:
+      - Transactions
+      x-eov-operation-handler: controllers/TransactionsController
+      x-codegen-request-body-name: captureRequest
+  /transactions/{transactionId}/void:
+    post:
+      operationId: voidTransaction
+      parameters:
+      - explode: false
+        in: path
+        name: transactionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/voidTransaction_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+          description: Transaction voided
+        "404":
+          description: Not found
+      summary: Void transaction
+      tags:
+      - Transactions
+      x-eov-operation-handler: controllers/TransactionsController
+      x-codegen-request-body-name: voidRequest
+  /transactions/verify:
+    post:
+      operationId: verifyPaymentMethod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/verifyPaymentMethod_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerificationResult"
+          description: Verification result
+      summary: Verify payment method
+      tags:
+      - Transactions
+      x-eov-operation-handler: controllers/TransactionsController
+      x-codegen-request-body-name: verifyRequest
+  /payment-methods:
+    get:
+      operationId: listPaymentMethods
+      parameters:
+      - explode: true
+        in: query
+        name: customerId
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listPaymentMethods_200_response"
+          description: Successful response
+      summary: List stored payment methods
+      tags:
+      - PaymentMethods
+      x-eov-operation-handler: controllers/PaymentMethodsController
+    post:
+      operationId: createPaymentMethod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePaymentMethodRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoredPaymentMethod"
+          description: Payment method stored
+        "400":
+          description: Bad request
+      summary: Store payment method
+      tags:
+      - PaymentMethods
+      x-eov-operation-handler: controllers/PaymentMethodsController
+      x-codegen-request-body-name: paymentMethodRequest
+  /payment-methods/{paymentMethodId}:
+    delete:
+      operationId: deletePaymentMethod
+      parameters:
+      - explode: false
+        in: path
+        name: paymentMethodId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Payment method deleted
+        "404":
+          description: Not found
+      summary: Delete payment method
+      tags:
+      - PaymentMethods
+      x-eov-operation-handler: controllers/PaymentMethodsController
+    get:
+      operationId: getPaymentMethod
+      parameters:
+      - explode: false
+        in: path
+        name: paymentMethodId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoredPaymentMethod"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get payment method
+      tags:
+      - PaymentMethods
+      x-eov-operation-handler: controllers/PaymentMethodsController
+    patch:
+      operationId: updatePaymentMethod
+      parameters:
+      - explode: false
+        in: path
+        name: paymentMethodId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updatePaymentMethod_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoredPaymentMethod"
+          description: Payment method updated
+        "404":
+          description: Not found
+      summary: Update payment method
+      tags:
+      - PaymentMethods
+      x-eov-operation-handler: controllers/PaymentMethodsController
+      x-codegen-request-body-name: updateRequest
+  /refunds:
+    post:
+      operationId: createRefund
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRefundRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
+          description: Refund initiated
+        "400":
+          description: Cannot refund transaction
+      summary: Create refund
+      tags:
+      - Refunds
+      x-eov-operation-handler: controllers/RefundsController
+      x-codegen-request-body-name: refundRequest
+  /refunds/{refundId}:
+    get:
+      operationId: getRefund
+      parameters:
+      - explode: false
+        in: path
+        name: refundId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Refund"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get refund details
+      tags:
+      - Refunds
+      x-eov-operation-handler: controllers/RefundsController
+  /pear-card/link:
+    post:
+      operationId: linkPearCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/linkPearCard_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PearCard"
+          description: Pear Card linked
+        "400":
+          description: Invalid card details
+      summary: Link Pear Card
+      tags:
+      - PearCard
+      x-eov-operation-handler: controllers/PearCardController
+      x-codegen-request-body-name: linkRequest
+  /pear-card/{cardId}:
+    get:
+      operationId: getPearCard
+      parameters:
+      - explode: false
+        in: path
+        name: cardId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PearCard"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get Pear Card details
+      tags:
+      - PearCard
+      x-eov-operation-handler: controllers/PearCardController
+  /pear-card/{cardId}/rewards:
+    get:
+      operationId: getPearCardRewards
+      parameters:
+      - explode: false
+        in: path
+        name: cardId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PearCardRewards"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get Pear Card rewards
+      tags:
+      - PearCard
+      x-eov-operation-handler: controllers/PearCardController
+  /pear-card/{cardId}/installments:
+    get:
+      operationId: getPearCardInstallments
+      parameters:
+      - explode: false
+        in: path
+        name: cardId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getPearCardInstallments_200_response"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get Pear Card installment plans
+      tags:
+      - PearCard
+      x-eov-operation-handler: controllers/PearCardController
+  /financing/eligibility:
+    post:
+      operationId: checkFinancingEligibility
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/checkFinancingEligibility_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FinancingEligibility"
+          description: Eligibility result
+      summary: Check financing eligibility
+      tags:
+      - Financing
+      x-eov-operation-handler: controllers/FinancingController
+      x-codegen-request-body-name: eligibilityRequest
+  /financing/options:
+    post:
+      operationId: getFinancingOptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getFinancingOptions_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getFinancingOptions_200_response"
+          description: Financing options
+      summary: Get financing options
+      tags:
+      - Financing
+      x-eov-operation-handler: controllers/FinancingController
+      x-codegen-request-body-name: optionsRequest
+  /financing/apply:
+    post:
+      operationId: applyForFinancing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FinancingApplication"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FinancingApplicationResult"
+          description: Application submitted
+        "400":
+          description: Bad request
+      summary: Apply for financing
+      tags:
+      - Financing
+      x-eov-operation-handler: controllers/FinancingController
+      x-codegen-request-body-name: financingApplication
+  /webhooks:
+    post:
+      operationId: registerWebhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookRegistration"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Webhook"
+          description: Webhook registered
+      summary: Register webhook
+      tags:
+      - Webhooks
+      x-eov-operation-handler: controllers/WebhooksController
+      x-codegen-request-body-name: webhookRegistration
+  /webhooks/{webhookId}:
+    delete:
+      operationId: deleteWebhook
+      parameters:
+      - explode: false
+        in: path
+        name: webhookId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Webhook deleted
+        "404":
+          description: Not found
+      summary: Delete webhook
+      tags:
+      - Webhooks
+      x-eov-operation-handler: controllers/WebhooksController
+components:
+  schemas:
+    Transaction:
+      example:
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        avsResult: avsResult
+        capturedAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        orderId: orderId
+        authorizationCode: authorizationCode
+        type: authorization
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        cvvResult: cvvResult
+        authorizedAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        customerId: customerId
+        paymentMethod:
+          last4: last4
+          holderName: holderName
+          expiryMonth: 6
+          expiryYear: 1
+          type: type
+          brand: brand
+        capturedAt: 2000-01-23T04:56:07.000+00:00
+        currency: currency
+        networkTransactionId: networkTransactionId
+        id: id
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        riskScore: 5
+        refundedAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        status: pending
+        processorResponse:
+          code: code
+          message: message
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        type:
+          enum:
+          - authorization
+          - capture
+          - sale
+          - refund
+          - void
+          type: string
+        status:
+          enum:
+          - pending
+          - authorized
+          - captured
+          - declined
+          - voided
+          - refunded
+          - partially_refunded
+          - failed
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        authorizedAmount:
+          $ref: "#/components/schemas/Money"
+        capturedAmount:
+          $ref: "#/components/schemas/Money"
+        refundedAmount:
+          $ref: "#/components/schemas/Money"
+        currency:
+          type: string
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethodSummary"
+        orderId:
+          type: string
+        customerId:
+          type: string
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        riskScore:
+          type: integer
+        avsResult:
+          type: string
+        cvvResult:
+          type: string
+        authorizationCode:
+          type: string
+        networkTransactionId:
+          type: string
+        processorResponse:
+          $ref: "#/components/schemas/Transaction_processorResponse"
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        capturedAt:
+          format: date-time
+          type: string
+      type: object
+    CreateTransactionRequest:
+      example:
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        orderId: orderId
+        idempotencyKey: idempotencyKey
+        statementDescriptor: statementDescriptor
+        customerId: customerId
+        paymentMethod:
+          type: credit_card
+          card:
+            number: number
+            cvv: cvv
+            holderName: holderName
+            expiryMonth: 0
+            expiryYear: 6
+          token: token
+        capture: true
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+      properties:
+        amount:
+          $ref: "#/components/schemas/Money"
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethodInput"
+        orderId:
+          type: string
+        customerId:
+          type: string
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        capture:
+          default: true
+          type: boolean
+        idempotencyKey:
+          type: string
+        statementDescriptor:
+          type: string
+      required:
+      - amount
+      - orderId
+      - paymentMethod
+      type: object
+    PaymentMethodInput:
+      example:
+        type: credit_card
+        card:
+          number: number
+          cvv: cvv
+          holderName: holderName
+          expiryMonth: 0
+          expiryYear: 6
+        token: token
+      properties:
+        type:
+          enum:
+          - credit_card
+          - debit_card
+          - pear_card
+          - pear_pay
+          - paypal
+          - financing
+          - gift_card
+          - store_credit
+          type: string
+        token:
+          type: string
+        card:
+          $ref: "#/components/schemas/PaymentMethodInput_card"
+      required:
+      - type
+      type: object
+    PaymentMethodSummary:
+      example:
+        last4: last4
+        holderName: holderName
+        expiryMonth: 6
+        expiryYear: 1
+        type: type
+        brand: brand
+      properties:
+        type:
+          type: string
+        brand:
+          type: string
+        last4:
+          type: string
+        expiryMonth:
+          type: integer
+        expiryYear:
+          type: integer
+        holderName:
+          type: string
+      type: object
+    StoredPaymentMethod:
+      example:
+        last4: last4
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        holderName: holderName
+        isDefault: true
+        expiryMonth: 0
+        nickname: nickname
+        id: id
+        expiryYear: 6
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        type: type
+        brand: brand
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        last4:
+          type: string
+        expiryMonth:
+          type: integer
+        expiryYear:
+          type: integer
+        holderName:
+          type: string
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        isDefault:
+          type: boolean
+        nickname:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    CreatePaymentMethodRequest:
+      example:
+        isDefault: true
+        customerId: customerId
+        nickname: nickname
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        type: type
+        token: token
+      properties:
+        customerId:
+          type: string
+        type:
+          type: string
+        token:
+          type: string
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        isDefault:
+          type: boolean
+        nickname:
+          type: string
+      required:
+      - customerId
+      - type
+      type: object
+    VerificationResult:
+      example:
+        avsResult: avsResult
+        cvvResult: cvvResult
+        verified: true
+        riskScore: 0
+        message: message
+      properties:
+        verified:
+          type: boolean
+        avsResult:
+          type: string
+        cvvResult:
+          type: string
+        riskScore:
+          type: integer
+        message:
+          type: string
+      type: object
+    Refund:
+      example:
+        reason: reason
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        transactionId: transactionId
+        status: pending
+      properties:
+        id:
+          type: string
+        transactionId:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        status:
+          enum:
+          - pending
+          - processing
+          - completed
+          - failed
+          type: string
+        reason:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+      type: object
+    CreateRefundRequest:
+      example:
+        reason: reason
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        idempotencyKey: idempotencyKey
+        transactionId: transactionId
+      properties:
+        transactionId:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        reason:
+          type: string
+        idempotencyKey:
+          type: string
+      required:
+      - transactionId
+      type: object
+    PearCard:
+      example:
+        last4: last4
+        availableCredit:
+          amount: 0.8008281904610115
+          currency: USD
+        currentBalance:
+          amount: 0.8008281904610115
+          currency: USD
+        creditLimit:
+          amount: 0.8008281904610115
+          currency: USD
+        linkedAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        dailyCashBalance:
+          amount: 0.8008281904610115
+          currency: USD
+        type: titanium
+        status: active
+      properties:
+        id:
+          type: string
+        last4:
+          type: string
+        type:
+          enum:
+          - titanium
+          - white
+          type: string
+        status:
+          enum:
+          - active
+          - frozen
+          - closed
+          type: string
+        creditLimit:
+          $ref: "#/components/schemas/Money"
+        availableCredit:
+          $ref: "#/components/schemas/Money"
+        currentBalance:
+          $ref: "#/components/schemas/Money"
+        dailyCashBalance:
+          $ref: "#/components/schemas/Money"
+        linkedAt:
+          format: date-time
+          type: string
+      type: object
+    PearCardRewards:
+      example:
+        cardId: cardId
+        currentBalance:
+          amount: 0.8008281904610115
+          currency: USD
+        lifetimeEarned:
+          amount: 0.8008281904610115
+          currency: USD
+        history:
+        - date: 2000-01-23
+          amount:
+            amount: 0.8008281904610115
+            currency: USD
+          description: description
+          category: category
+        - date: 2000-01-23
+          amount:
+            amount: 0.8008281904610115
+            currency: USD
+          description: description
+          category: category
+      properties:
+        cardId:
+          type: string
+        currentBalance:
+          $ref: "#/components/schemas/Money"
+        lifetimeEarned:
+          $ref: "#/components/schemas/Money"
+        history:
+          items:
+            $ref: "#/components/schemas/PearCardRewards_history_inner"
+          type: array
+      type: object
+    InstallmentPlan:
+      example:
+        totalAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        remainingAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        remainingPayments: 6
+        apr: 1.4658129805029452
+        nextPaymentDate: 2000-01-23
+        orderId: orderId
+        monthlyPayment:
+          amount: 0.8008281904610115
+          currency: USD
+        term: 0
+        id: id
+        orderDescription: orderDescription
+        startDate: 2000-01-23
+        status: active
+      properties:
+        id:
+          type: string
+        orderId:
+          type: string
+        orderDescription:
+          type: string
+        totalAmount:
+          $ref: "#/components/schemas/Money"
+        remainingAmount:
+          $ref: "#/components/schemas/Money"
+        monthlyPayment:
+          $ref: "#/components/schemas/Money"
+        term:
+          type: integer
+        remainingPayments:
+          type: integer
+        apr:
+          type: number
+        startDate:
+          format: date
+          type: string
+        nextPaymentDate:
+          format: date
+          type: string
+        status:
+          enum:
+          - active
+          - completed
+          - cancelled
+          type: string
+      type: object
+    FinancingEligibility:
+      example:
+        reason: reason
+        eligible: true
+        maxAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        prequalified: true
+      properties:
+        eligible:
+          type: boolean
+        maxAmount:
+          $ref: "#/components/schemas/Money"
+        reason:
+          type: string
+        prequalified:
+          type: boolean
+      type: object
+    FinancingOption:
+      example:
+        apr: 6.027456183070403
+        provider: provider
+        monthlyPayment:
+          amount: 0.8008281904610115
+          currency: USD
+        interestCharge:
+          amount: 0.8008281904610115
+          currency: USD
+        promotionalRate: true
+        term: 0
+        id: id
+        totalCost:
+          amount: 0.8008281904610115
+          currency: USD
+      properties:
+        id:
+          type: string
+        provider:
+          type: string
+        term:
+          type: integer
+        apr:
+          type: number
+        monthlyPayment:
+          $ref: "#/components/schemas/Money"
+        totalCost:
+          $ref: "#/components/schemas/Money"
+        interestCharge:
+          $ref: "#/components/schemas/Money"
+        promotionalRate:
+          type: boolean
+      type: object
+    FinancingApplication:
+      example:
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        orderId: orderId
+        optionId: optionId
+      properties:
+        optionId:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        orderId:
+          type: string
+      required:
+      - amount
+      - optionId
+      type: object
+    FinancingApplicationResult:
+      example:
+        apr: 6.027456183070403
+        monthlyPayment:
+          amount: 0.8008281904610115
+          currency: USD
+        term: 0
+        approvedAmount:
+          amount: 0.8008281904610115
+          currency: USD
+        applicationId: applicationId
+        message: message
+        status: approved
+      properties:
+        applicationId:
+          type: string
+        status:
+          enum:
+          - approved
+          - pending_review
+          - declined
+          type: string
+        approvedAmount:
+          $ref: "#/components/schemas/Money"
+        term:
+          type: integer
+        apr:
+          type: number
+        monthlyPayment:
+          $ref: "#/components/schemas/Money"
+        message:
+          type: string
+      type: object
+    Webhook:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        active: true
+        id: id
+        secret: secret
+        url: https://openapi-generator.tech
+        events:
+        - events
+        - events
+      properties:
+        id:
+          type: string
+        url:
+          format: uri
+          type: string
+        events:
+          items:
+            type: string
+          type: array
+        secret:
+          type: string
+        active:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    WebhookRegistration:
+      example:
+        url: https://openapi-generator.tech
+        events:
+        - transaction.authorized
+        - transaction.authorized
+      properties:
+        url:
+          format: uri
+          type: string
+        events:
+          items:
+            enum:
+            - transaction.authorized
+            - transaction.captured
+            - transaction.failed
+            - transaction.refunded
+            - refund.completed
+            - payment_method.created
+            - payment_method.deleted
+            type: string
+          type: array
+      required:
+      - events
+      - url
+      type: object
+    Address:
+      example:
+        firstName: firstName
+        lastName: lastName
+        country: country
+        city: city
+        postalCode: postalCode
+        street1: street1
+        street2: street2
+        state: state
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      type: object
+    Money:
+      example:
+        amount: 0.8008281904610115
+        currency: USD
+      properties:
+        amount:
+          type: number
+        currency:
+          default: USD
+          type: string
+      type: object
+    captureTransaction_request:
+      properties:
+        amount:
+          $ref: "#/components/schemas/Money"
+        finalCapture:
+          default: true
+          type: boolean
+      type: object
+    voidTransaction_request:
+      properties:
+        reason:
+          type: string
+      type: object
+    verifyPaymentMethod_request:
+      properties:
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethodInput"
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+      required:
+      - paymentMethod
+      type: object
+    listPaymentMethods_200_response:
+      example:
+        paymentMethods:
+        - last4: last4
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          holderName: holderName
+          isDefault: true
+          expiryMonth: 0
+          nickname: nickname
+          id: id
+          expiryYear: 6
+          billingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          type: type
+          brand: brand
+        - last4: last4
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          holderName: holderName
+          isDefault: true
+          expiryMonth: 0
+          nickname: nickname
+          id: id
+          expiryYear: 6
+          billingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          type: type
+          brand: brand
+      properties:
+        paymentMethods:
+          items:
+            $ref: "#/components/schemas/StoredPaymentMethod"
+          type: array
+      type: object
+    updatePaymentMethod_request:
+      properties:
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        isDefault:
+          type: boolean
+        nickname:
+          type: string
+      type: object
+    linkPearCard_request:
+      properties:
+        cardNumber:
+          type: string
+        verificationCode:
+          type: string
+        setAsDefault:
+          type: boolean
+      required:
+      - cardNumber
+      - verificationCode
+      type: object
+    getPearCardInstallments_200_response:
+      example:
+        plans:
+        - totalAmount:
+            amount: 0.8008281904610115
+            currency: USD
+          remainingAmount:
+            amount: 0.8008281904610115
+            currency: USD
+          remainingPayments: 6
+          apr: 1.4658129805029452
+          nextPaymentDate: 2000-01-23
+          orderId: orderId
+          monthlyPayment:
+            amount: 0.8008281904610115
+            currency: USD
+          term: 0
+          id: id
+          orderDescription: orderDescription
+          startDate: 2000-01-23
+          status: active
+        - totalAmount:
+            amount: 0.8008281904610115
+            currency: USD
+          remainingAmount:
+            amount: 0.8008281904610115
+            currency: USD
+          remainingPayments: 6
+          apr: 1.4658129805029452
+          nextPaymentDate: 2000-01-23
+          orderId: orderId
+          monthlyPayment:
+            amount: 0.8008281904610115
+            currency: USD
+          term: 0
+          id: id
+          orderDescription: orderDescription
+          startDate: 2000-01-23
+          status: active
+      properties:
+        plans:
+          items:
+            $ref: "#/components/schemas/InstallmentPlan"
+          type: array
+      type: object
+    checkFinancingEligibility_request:
+      properties:
+        customerId:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+      required:
+      - amount
+      - customerId
+      type: object
+    getFinancingOptions_request:
+      properties:
+        amount:
+          $ref: "#/components/schemas/Money"
+        customerId:
+          type: string
+      required:
+      - amount
+      type: object
+    getFinancingOptions_200_response:
+      example:
+        options:
+        - apr: 6.027456183070403
+          provider: provider
+          monthlyPayment:
+            amount: 0.8008281904610115
+            currency: USD
+          interestCharge:
+            amount: 0.8008281904610115
+            currency: USD
+          promotionalRate: true
+          term: 0
+          id: id
+          totalCost:
+            amount: 0.8008281904610115
+            currency: USD
+        - apr: 6.027456183070403
+          provider: provider
+          monthlyPayment:
+            amount: 0.8008281904610115
+            currency: USD
+          interestCharge:
+            amount: 0.8008281904610115
+            currency: USD
+          promotionalRate: true
+          term: 0
+          id: id
+          totalCost:
+            amount: 0.8008281904610115
+            currency: USD
+      properties:
+        options:
+          items:
+            $ref: "#/components/schemas/FinancingOption"
+          type: array
+      type: object
+    Transaction_processorResponse:
+      example:
+        code: code
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      type: object
+    PaymentMethodInput_card:
+      example:
+        number: number
+        cvv: cvv
+        holderName: holderName
+        expiryMonth: 0
+        expiryYear: 6
+      properties:
+        number:
+          type: string
+        expiryMonth:
+          type: integer
+        expiryYear:
+          type: integer
+        cvv:
+          type: string
+        holderName:
+          type: string
+      type: object
+    PearCardRewards_history_inner:
+      example:
+        date: 2000-01-23
+        amount:
+          amount: 0.8008281904610115
+          currency: USD
+        description: description
+        category: category
+      properties:
+        date:
+          format: date
+          type: string
+        description:
+          type: string
+        amount:
+          $ref: "#/components/schemas/Money"
+        category:
+          type: string
+      type: object

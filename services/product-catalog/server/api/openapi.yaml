@@ -1,0 +1,1274 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: platform@pearcomputer.com
+    name: Pear Platform Team
+  description: |
+    Central product information service for all Pear Computer products including
+    PearPhones, PearBooks, PearPads, PearWatches, and accessories. Provides
+    detailed specifications, pricing, and availability information.
+  license:
+    name: Proprietary
+    url: https://pearcomputer.com/licenses/api
+  title: Pear Computer - Product Catalog Service
+  version: 1.0.0
+servers:
+- url: /v1/product-catalog
+tags:
+- description: Product information and search
+  name: Products
+- description: Product categories and collections
+  name: Categories
+- description: Technical specifications
+  name: Specifications
+- description: Product pricing and promotions
+  name: Pricing
+paths:
+  /products:
+    get:
+      description: Retrieve a paginated list of all Pear Computer products
+      operationId: listProducts
+      parameters:
+      - description: Page number for pagination
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - description: Number of items per page
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: Filter by product category
+        explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          $ref: "#/components/schemas/ProductCategory"
+        style: form
+      - description: Filter by product status
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - active
+          - discontinued
+          - coming_soon
+          type: string
+        style: form
+      - description: Search products by name or description
+        explode: true
+        in: query
+        name: search
+        required: false
+        schema:
+          maxLength: 100
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListResponse"
+          description: Successful response
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      - oauth2:
+        - catalog:read
+      summary: List all products
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /products/{productId}:
+    get:
+      description: Retrieve detailed information about a specific product
+      operationId: getProduct
+      parameters:
+      - description: Unique product identifier
+        explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          example: PEAR-PH-2024
+          pattern: "^PEAR-[A-Z]{2,4}-[A-Z0-9-]{2,10}$"
+          type: string
+        style: simple
+      - description: Additional data to include
+        explode: true
+        in: query
+        name: include
+        required: false
+        schema:
+          items:
+            enum:
+            - specifications
+            - pricing
+            - variants
+            - reviews
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+          description: Successful response
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Get product details
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /products/{productId}/variants:
+    get:
+      description: "Retrieve all variants (colors, storage sizes, etc.) for a product"
+      operationId: getProductVariants
+      parameters:
+      - description: Unique product identifier
+        explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          example: PEAR-PH-2024
+          pattern: "^PEAR-[A-Z]{2,4}-[A-Z0-9-]{2,10}$"
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductVariantsResponse"
+          description: Successful response
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Get product variants
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /products/{productId}/specifications:
+    get:
+      description: Retrieve detailed technical specifications for a product
+      operationId: getProductSpecifications
+      parameters:
+      - description: Unique product identifier
+        explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          example: PEAR-PH-2024
+          pattern: "^PEAR-[A-Z]{2,4}-[A-Z0-9-]{2,10}$"
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductSpecifications"
+          description: Successful response
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Get product specifications
+      tags:
+      - Specifications
+      x-eov-operation-handler: controllers/SpecificationsController
+  /products/{productId}/pricing:
+    get:
+      description: Retrieve pricing information including regional prices and promotions
+      operationId: getProductPricing
+      parameters:
+      - description: Unique product identifier
+        explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          example: PEAR-PH-2024
+          pattern: "^PEAR-[A-Z]{2,4}-[A-Z0-9-]{2,10}$"
+          type: string
+        style: simple
+      - description: Region code for localized pricing
+        explode: true
+        in: query
+        name: region
+        required: false
+        schema:
+          default: US
+          pattern: "^[A-Z]{2}$"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductPricing"
+          description: Successful response
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Get product pricing
+      tags:
+      - Pricing
+      x-eov-operation-handler: controllers/PricingController
+  /categories:
+    get:
+      description: Retrieve all product categories
+      operationId: listCategories
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryListResponse"
+          description: Successful response
+      security:
+      - apiKey: []
+      summary: List product categories
+      tags:
+      - Categories
+      x-eov-operation-handler: controllers/CategoriesController
+  /categories/{categoryId}/products:
+    get:
+      description: Retrieve all products in a specific category
+      operationId: getProductsByCategory
+      parameters:
+      - explode: false
+        in: path
+        name: categoryId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Page number for pagination
+        explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - description: Number of items per page
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListResponse"
+          description: Successful response
+        "404":
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Get products by category
+      tags:
+      - Categories
+      x-eov-operation-handler: controllers/CategoriesController
+  /compare:
+    post:
+      description: Compare specifications and features across multiple products
+      operationId: compareProducts
+      x-codegen-request-body-name: compareProductsRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompareProductsRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductComparison"
+          description: Successful response
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      security:
+      - apiKey: []
+      summary: Compare products
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+components:
+  parameters:
+    ProductIdParam:
+      description: Unique product identifier
+      explode: false
+      in: path
+      name: productId
+      required: true
+      schema:
+        example: PEAR-PH-2024
+        pattern: "^PEAR-[A-Z]{2,4}-[A-Z0-9-]{2,10}$"
+        type: string
+      style: simple
+    PageParam:
+      description: Page number for pagination
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      description: Number of items per page
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  schemas:
+    ProductCategory:
+      description: Product category classification for Pear Computer products.
+      enum:
+      - pearphone
+      - pearbook
+      - pearpad
+      - pearwatch
+      - pearpods
+      - peartv
+      - accessories
+      - software
+      type: string
+    Product:
+      example:
+        images:
+        - alt: alt
+          type: hero
+          url: https://openapi-generator.tech
+        - alt: alt
+          type: hero
+          url: https://openapi-generator.tech
+        releaseDate: 2000-01-23
+        description: description
+        variants:
+        - price:
+            amount: 999.0
+            currency: USD
+          available: true
+          attributes:
+            memory: 8GB
+            color: Midnight Black
+            connectivity: WiFi + Cellular
+            storage: 256GB
+          id: id
+          sku: PEAR-PH16P-256-BLK
+        - price:
+            amount: 999.0
+            currency: USD
+          available: true
+          attributes:
+            memory: 8GB
+            color: Midnight Black
+            connectivity: WiFi + Cellular
+            storage: 256GB
+          id: id
+          sku: PEAR-PH16P-256-BLK
+        specifications:
+          features:
+          - features
+          - features
+          connectivity:
+          - connectivity
+          - connectivity
+          display:
+            size: 6.7 inches
+            refreshRate: 120Hz ProMotion
+            technology: Super Retina XDR OLED
+            resolution: 2796 x 1290
+          camera:
+            ultrawide: 12MP ultrawide
+            telephoto: 12MP 5x telephoto
+            main: 48MP main
+          battery:
+            capacity: capacity
+            videoPlayback: Up to 29 hours
+          processor:
+            cores: 6-core CPU
+            name: P18 Pro chip
+            gpu: 6-core GPU
+          dimensions:
+            depth: depth
+            width: width
+            weight: weight
+            height: height
+        tags:
+        - tags
+        - tags
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: PearPhone 16 Pro
+        id: PEAR-PH-2024
+        category: pearphone
+        status: active
+        basePrice:
+          amount: 999.0
+          currency: USD
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: Unique product identifier
+          example: PEAR-PH-2024
+          type: string
+        name:
+          description: Product name
+          example: PearPhone 16 Pro
+          type: string
+        description:
+          description: Product description
+          type: string
+        category:
+          $ref: "#/components/schemas/ProductCategory"
+        status:
+          description: Current availability status of the product
+          enum:
+          - active
+          - discontinued
+          - coming_soon
+          type: string
+        releaseDate:
+          format: date
+          type: string
+        images:
+          items:
+            $ref: "#/components/schemas/ProductImage"
+          type: array
+        basePrice:
+          $ref: "#/components/schemas/Price"
+        variants:
+          items:
+            $ref: "#/components/schemas/ProductVariant"
+          type: array
+        specifications:
+          $ref: "#/components/schemas/ProductSpecifications"
+        tags:
+          items:
+            type: string
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - category
+      - id
+      - name
+      - status
+      type: object
+    ProductVariant:
+      example:
+        price:
+          amount: 999.0
+          currency: USD
+        available: true
+        attributes:
+          memory: 8GB
+          color: Midnight Black
+          connectivity: WiFi + Cellular
+          storage: 256GB
+        id: id
+        sku: PEAR-PH16P-256-BLK
+      properties:
+        id:
+          type: string
+        sku:
+          description: Stock Keeping Unit
+          example: PEAR-PH16P-256-BLK
+          type: string
+        attributes:
+          $ref: "#/components/schemas/VariantAttributes"
+        price:
+          $ref: "#/components/schemas/Price"
+        available:
+          type: boolean
+      required:
+      - attributes
+      - id
+      - sku
+      type: object
+    VariantAttributes:
+      example:
+        memory: 8GB
+        color: Midnight Black
+        connectivity: WiFi + Cellular
+        storage: 256GB
+      properties:
+        color:
+          example: Midnight Black
+          type: string
+        storage:
+          example: 256GB
+          type: string
+        memory:
+          example: 8GB
+          type: string
+        connectivity:
+          example: WiFi + Cellular
+          type: string
+      type: object
+    ProductImage:
+      description: Image asset associated with a product for display purposes
+      example:
+        alt: alt
+        type: hero
+        url: https://openapi-generator.tech
+      properties:
+        url:
+          description: URL to the image file hosted on Pear CDN
+          format: uri
+          type: string
+        alt:
+          description: Alt text for accessibility and SEO purposes
+          type: string
+        type:
+          description: Image type indicating its intended use
+          enum:
+          - hero
+          - gallery
+          - thumbnail
+          - color_swatch
+          type: string
+      type: object
+    ProductSpecifications:
+      example:
+        features:
+        - features
+        - features
+        connectivity:
+        - connectivity
+        - connectivity
+        display:
+          size: 6.7 inches
+          refreshRate: 120Hz ProMotion
+          technology: Super Retina XDR OLED
+          resolution: 2796 x 1290
+        camera:
+          ultrawide: 12MP ultrawide
+          telephoto: 12MP 5x telephoto
+          main: 48MP main
+        battery:
+          capacity: capacity
+          videoPlayback: Up to 29 hours
+        processor:
+          cores: 6-core CPU
+          name: P18 Pro chip
+          gpu: 6-core GPU
+        dimensions:
+          depth: depth
+          width: width
+          weight: weight
+          height: height
+      properties:
+        display:
+          $ref: "#/components/schemas/DisplaySpec"
+        processor:
+          $ref: "#/components/schemas/ProcessorSpec"
+        camera:
+          $ref: "#/components/schemas/CameraSpec"
+        battery:
+          $ref: "#/components/schemas/BatterySpec"
+        dimensions:
+          $ref: "#/components/schemas/DimensionsSpec"
+        connectivity:
+          items:
+            type: string
+          type: array
+        features:
+          items:
+            type: string
+          type: array
+      type: object
+    DisplaySpec:
+      example:
+        size: 6.7 inches
+        refreshRate: 120Hz ProMotion
+        technology: Super Retina XDR OLED
+        resolution: 2796 x 1290
+      properties:
+        size:
+          example: 6.7 inches
+          type: string
+        resolution:
+          example: 2796 x 1290
+          type: string
+        technology:
+          example: Super Retina XDR OLED
+          type: string
+        refreshRate:
+          example: 120Hz ProMotion
+          type: string
+      type: object
+    ProcessorSpec:
+      example:
+        cores: 6-core CPU
+        name: P18 Pro chip
+        gpu: 6-core GPU
+      properties:
+        name:
+          example: P18 Pro chip
+          type: string
+        cores:
+          example: 6-core CPU
+          type: string
+        gpu:
+          example: 6-core GPU
+          type: string
+      type: object
+    CameraSpec:
+      example:
+        ultrawide: 12MP ultrawide
+        telephoto: 12MP 5x telephoto
+        main: 48MP main
+      properties:
+        main:
+          example: 48MP main
+          type: string
+        ultrawide:
+          example: 12MP ultrawide
+          type: string
+        telephoto:
+          example: 12MP 5x telephoto
+          type: string
+      type: object
+    BatterySpec:
+      example:
+        capacity: capacity
+        videoPlayback: Up to 29 hours
+      properties:
+        capacity:
+          type: string
+        videoPlayback:
+          example: Up to 29 hours
+          type: string
+      type: object
+    DimensionsSpec:
+      example:
+        depth: depth
+        width: width
+        weight: weight
+        height: height
+      properties:
+        height:
+          type: string
+        width:
+          type: string
+        depth:
+          type: string
+        weight:
+          type: string
+      type: object
+    ProductPricing:
+      example:
+        promotions:
+        - name: name
+          discountType: percentage
+          id: id
+          validFrom: 2000-01-23T04:56:07.000+00:00
+          conditions: conditions
+          discountValue: 0.8008281904610115
+          validTo: 2000-01-23T04:56:07.000+00:00
+        - name: name
+          discountType: percentage
+          id: id
+          validFrom: 2000-01-23T04:56:07.000+00:00
+          conditions: conditions
+          discountValue: 0.8008281904610115
+          validTo: 2000-01-23T04:56:07.000+00:00
+        financingOptions:
+        - apr: 0.0
+          provider: Pear Card
+          monthlyPayment:
+            amount: 999.0
+            currency: USD
+          term: 24
+        - apr: 0.0
+          provider: Pear Card
+          monthlyPayment:
+            amount: 999.0
+            currency: USD
+          term: 24
+        productId: productId
+        tradeInValue:
+          amount: 999.0
+          currency: USD
+        variants:
+        - price:
+            amount: 999.0
+            currency: USD
+          variantId: variantId
+          sku: sku
+        - price:
+            amount: 999.0
+            currency: USD
+          variantId: variantId
+          sku: sku
+        basePrice:
+          amount: 999.0
+          currency: USD
+      properties:
+        productId:
+          type: string
+        basePrice:
+          $ref: "#/components/schemas/Price"
+        variants:
+          items:
+            $ref: "#/components/schemas/VariantPricing"
+          type: array
+        promotions:
+          items:
+            $ref: "#/components/schemas/Promotion"
+          type: array
+        tradeInValue:
+          $ref: "#/components/schemas/Price"
+        financingOptions:
+          items:
+            $ref: "#/components/schemas/FinancingOption"
+          type: array
+      type: object
+    VariantPricing:
+      example:
+        price:
+          amount: 999.0
+          currency: USD
+        variantId: variantId
+        sku: sku
+      properties:
+        variantId:
+          type: string
+        sku:
+          type: string
+        price:
+          $ref: "#/components/schemas/Price"
+      type: object
+    Price:
+      description: Product price with amount and currency for display and calculations
+      example:
+        amount: 999.0
+        currency: USD
+      properties:
+        amount:
+          description: Numeric price value
+          example: 999.0
+          format: double
+          type: number
+        currency:
+          description: "ISO 4217 currency code (e.g., USD, EUR, GBP)"
+          example: USD
+          type: string
+      type: object
+    Promotion:
+      description: Active promotional offer or discount applicable to a product
+      example:
+        name: name
+        discountType: percentage
+        id: id
+        validFrom: 2000-01-23T04:56:07.000+00:00
+        conditions: conditions
+        discountValue: 0.8008281904610115
+        validTo: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: Unique identifier for the promotion
+          type: string
+        name:
+          description: "Display name of the promotion (e.g., \"Back to School Sale\"\
+            )"
+          type: string
+        discountType:
+          description: Type of discount applied
+          enum:
+          - percentage
+          - fixed
+          - bundle
+          type: string
+        discountValue:
+          description: The discount amount (percentage value or dollar amount depending
+            on discountType)
+          type: number
+        validFrom:
+          description: Start date/time when the promotion becomes active
+          format: date-time
+          type: string
+        validTo:
+          description: End date/time when the promotion expires
+          format: date-time
+          type: string
+        conditions:
+          description: Human-readable description of conditions or restrictions for
+            the promotion
+          type: string
+      type: object
+    FinancingOption:
+      example:
+        apr: 0.0
+        provider: Pear Card
+        monthlyPayment:
+          amount: 999.0
+          currency: USD
+        term: 24
+      properties:
+        provider:
+          example: Pear Card
+          type: string
+        term:
+          description: Months
+          example: 24
+          type: integer
+        monthlyPayment:
+          $ref: "#/components/schemas/Price"
+        apr:
+          example: 0.0
+          type: number
+      type: object
+    Category:
+      example:
+        name: name
+        description: description
+        id: id
+        productCount: 0
+        slug: slug
+        parentId: parentId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        parentId:
+          nullable: true
+          type: string
+        productCount:
+          type: integer
+      type: object
+    ProductListResponse:
+      example:
+        pagination:
+          totalItems: 1
+          limit: 6
+          totalPages: 5
+          hasPrevious: true
+          hasNext: true
+          page: 0
+        products:
+        - images:
+          - alt: alt
+            type: hero
+            url: https://openapi-generator.tech
+          - alt: alt
+            type: hero
+            url: https://openapi-generator.tech
+          releaseDate: 2000-01-23
+          description: description
+          variants:
+          - price:
+              amount: 999.0
+              currency: USD
+            available: true
+            attributes:
+              memory: 8GB
+              color: Midnight Black
+              connectivity: WiFi + Cellular
+              storage: 256GB
+            id: id
+            sku: PEAR-PH16P-256-BLK
+          - price:
+              amount: 999.0
+              currency: USD
+            available: true
+            attributes:
+              memory: 8GB
+              color: Midnight Black
+              connectivity: WiFi + Cellular
+              storage: 256GB
+            id: id
+            sku: PEAR-PH16P-256-BLK
+          specifications:
+            features:
+            - features
+            - features
+            connectivity:
+            - connectivity
+            - connectivity
+            display:
+              size: 6.7 inches
+              refreshRate: 120Hz ProMotion
+              technology: Super Retina XDR OLED
+              resolution: 2796 x 1290
+            camera:
+              ultrawide: 12MP ultrawide
+              telephoto: 12MP 5x telephoto
+              main: 48MP main
+            battery:
+              capacity: capacity
+              videoPlayback: Up to 29 hours
+            processor:
+              cores: 6-core CPU
+              name: P18 Pro chip
+              gpu: 6-core GPU
+            dimensions:
+              depth: depth
+              width: width
+              weight: weight
+              height: height
+          tags:
+          - tags
+          - tags
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: PearPhone 16 Pro
+          id: PEAR-PH-2024
+          category: pearphone
+          status: active
+          basePrice:
+            amount: 999.0
+            currency: USD
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - images:
+          - alt: alt
+            type: hero
+            url: https://openapi-generator.tech
+          - alt: alt
+            type: hero
+            url: https://openapi-generator.tech
+          releaseDate: 2000-01-23
+          description: description
+          variants:
+          - price:
+              amount: 999.0
+              currency: USD
+            available: true
+            attributes:
+              memory: 8GB
+              color: Midnight Black
+              connectivity: WiFi + Cellular
+              storage: 256GB
+            id: id
+            sku: PEAR-PH16P-256-BLK
+          - price:
+              amount: 999.0
+              currency: USD
+            available: true
+            attributes:
+              memory: 8GB
+              color: Midnight Black
+              connectivity: WiFi + Cellular
+              storage: 256GB
+            id: id
+            sku: PEAR-PH16P-256-BLK
+          specifications:
+            features:
+            - features
+            - features
+            connectivity:
+            - connectivity
+            - connectivity
+            display:
+              size: 6.7 inches
+              refreshRate: 120Hz ProMotion
+              technology: Super Retina XDR OLED
+              resolution: 2796 x 1290
+            camera:
+              ultrawide: 12MP ultrawide
+              telephoto: 12MP 5x telephoto
+              main: 48MP main
+            battery:
+              capacity: capacity
+              videoPlayback: Up to 29 hours
+            processor:
+              cores: 6-core CPU
+              name: P18 Pro chip
+              gpu: 6-core GPU
+            dimensions:
+              depth: depth
+              width: width
+              weight: weight
+              height: height
+          tags:
+          - tags
+          - tags
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: PearPhone 16 Pro
+          id: PEAR-PH-2024
+          category: pearphone
+          status: active
+          basePrice:
+            amount: 999.0
+            currency: USD
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        products:
+          items:
+            $ref: "#/components/schemas/Product"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ProductVariantsResponse:
+      example:
+        productId: productId
+        variants:
+        - price:
+            amount: 999.0
+            currency: USD
+          available: true
+          attributes:
+            memory: 8GB
+            color: Midnight Black
+            connectivity: WiFi + Cellular
+            storage: 256GB
+          id: id
+          sku: PEAR-PH16P-256-BLK
+        - price:
+            amount: 999.0
+            currency: USD
+          available: true
+          attributes:
+            memory: 8GB
+            color: Midnight Black
+            connectivity: WiFi + Cellular
+            storage: 256GB
+          id: id
+          sku: PEAR-PH16P-256-BLK
+      properties:
+        productId:
+          type: string
+        variants:
+          items:
+            $ref: "#/components/schemas/ProductVariant"
+          type: array
+      type: object
+    CategoryListResponse:
+      example:
+        categories:
+        - name: name
+          description: description
+          id: id
+          productCount: 0
+          slug: slug
+          parentId: parentId
+        - name: name
+          description: description
+          id: id
+          productCount: 0
+          slug: slug
+          parentId: parentId
+      properties:
+        categories:
+          items:
+            $ref: "#/components/schemas/Category"
+          type: array
+      type: object
+    CompareProductsRequest:
+      example:
+        productIds:
+        - productIds
+        - productIds
+        - productIds
+        - productIds
+        attributes:
+        - attributes
+        - attributes
+      properties:
+        productIds:
+          items:
+            type: string
+          maxItems: 4
+          minItems: 2
+          type: array
+        attributes:
+          description: Specific attributes to compare
+          items:
+            type: string
+          type: array
+      required:
+      - productIds
+      type: object
+    ProductComparison:
+      example:
+        attributes:
+        - values:
+            key: values
+          name: name
+        - values:
+            key: values
+          name: name
+        products:
+        - name: name
+          id: id
+        - name: name
+          id: id
+      properties:
+        products:
+          items:
+            $ref: "#/components/schemas/ComparisonProduct"
+          type: array
+        attributes:
+          items:
+            $ref: "#/components/schemas/ComparisonAttribute"
+          type: array
+      type: object
+    ComparisonProduct:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    ComparisonAttribute:
+      example:
+        values:
+          key: values
+        name: name
+      properties:
+        name:
+          type: string
+        values:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    Pagination:
+      example:
+        totalItems: 1
+        limit: 6
+        totalPages: 5
+        hasPrevious: true
+        hasNext: true
+        page: 0
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+        hasNext:
+          type: boolean
+        hasPrevious:
+          type: boolean
+      type: object
+    Error:
+      example:
+        code: code
+        requestId: requestId
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+        requestId:
+          type: string
+      required:
+      - code
+      - message
+      type: object
+  securitySchemes:
+    apiKey:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    oauth2:
+      flows:
+        clientCredentials:
+          scopes:
+            catalog:read: Read product catalog
+            catalog:write: Modify product catalog
+          tokenUrl: https://auth.pearcomputer.com/oauth/token
+      type: oauth2

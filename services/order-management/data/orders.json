@@ -1,0 +1,1568 @@
+{
+  "metadata": {
+    "version": "2024.1",
+    "lastUpdated": "2024-01-15T12:00:00Z",
+    "totalOrders": 25,
+    "dateRange": {
+      "from": "2024-01-01",
+      "to": "2024-01-15"
+    }
+  },
+  "orders": [
+    {
+      "id": "ORD-2024-0001547",
+      "orderNumber": "W10001547",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00089542",
+      "customer": {
+        "name": "Jennifer Martinez",
+        "email": "jennifer.martinez@email.com",
+        "phone": "+1 (415) 555-0147",
+        "pearId": "jmartinez@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94110",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "742 Evergreen Terrace",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94110",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1601",
+          "sku": "PPH16PM-256-NAT",
+          "name": "pPhone 16 Pro Max 256GB Natural Titanium",
+          "quantity": 1,
+          "unitPrice": 1199.00,
+          "discount": 0,
+          "total": 1199.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-CSE-01",
+          "sku": "CSE-16P-SIL-BLK",
+          "name": "pPhone 16 Pro Silicone Case - Black",
+          "quantity": 1,
+          "unitPrice": 49.00,
+          "discount": 0,
+          "total": 49.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 1248.00,
+      "shipping": 0,
+      "tax": 108.06,
+      "total": 1356.06,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_card",
+        "cardLast4": "4532",
+        "transactionId": "TXN-2024-00156789",
+        "status": "captured",
+        "installments": {
+          "enabled": true,
+          "term": 12,
+          "monthlyAmount": 113.01
+        }
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "UPS",
+        "trackingNumber": "1Z999AA10123456784",
+        "estimatedDelivery": "2024-01-05",
+        "actualDelivery": "2024-01-04T14:32:00Z",
+        "signatureRequired": true,
+        "signedBy": "J. Martinez"
+      },
+      "createdAt": "2024-01-02T10:15:32Z",
+      "updatedAt": "2024-01-04T14:32:00Z",
+      "tags": ["pear_card_financing", "express_shipping"]
+    },
+    {
+      "id": "ORD-2024-0001623",
+      "orderNumber": "W10001623",
+      "type": "online",
+      "status": "shipped",
+      "customerId": "CUST-00112367",
+      "customer": {
+        "name": "Michael Chen",
+        "email": "m.chen@company.com",
+        "phone": "+1 (212) 555-0198",
+        "pearId": "mchen@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "350 Fifth Avenue",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10118",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "350 Fifth Avenue",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10118",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBK-1601",
+          "sku": "PBP16-P4P-36-1TB-SPC",
+          "name": "PearBook Pro 16\" P4 Pro 36GB 1TB Space Black",
+          "quantity": 1,
+          "unitPrice": 3499.00,
+          "discount": 0,
+          "total": 3499.00,
+          "status": "shipped"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-MKB-01",
+          "sku": "MKB-TID-BLK",
+          "name": "Magic Keyboard with Touch ID - Black",
+          "quantity": 1,
+          "unitPrice": 199.00,
+          "discount": 0,
+          "total": 199.00,
+          "status": "shipped"
+        },
+        {
+          "lineId": 3,
+          "productId": "PEAR-ACC-MMS-01",
+          "sku": "MMS-BLK",
+          "name": "Magic Mouse - Black",
+          "quantity": 1,
+          "unitPrice": 99.00,
+          "discount": 0,
+          "total": 99.00,
+          "status": "shipped"
+        }
+      ],
+      "subtotal": 3797.00,
+      "tax": 337.18,
+      "total": 4134.18,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "8921",
+        "transactionId": "TXN-2024-00167234",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "FedEx",
+        "trackingNumber": "794644790123",
+        "estimatedDelivery": "2024-01-16",
+        "signatureRequired": true
+      },
+      "createdAt": "2024-01-10T15:42:18Z",
+      "updatedAt": "2024-01-12T09:15:00Z",
+      "tags": ["business_purchase"]
+    },
+    {
+      "id": "ORD-2024-0001689",
+      "orderNumber": "W10001689",
+      "type": "online",
+      "status": "processing",
+      "customerId": "CUST-00098765",
+      "customer": {
+        "name": "Sarah Thompson",
+        "email": "sarah.t@email.com",
+        "phone": "+1 (512) 555-0234",
+        "pearId": "sthompson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1234 Congress Avenue",
+        "city": "Austin",
+        "state": "TX",
+        "zip": "78701",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1234 Congress Avenue",
+        "city": "Austin",
+        "state": "TX",
+        "zip": "78701",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBA-1501",
+          "sku": "PBA15-16-512-MID",
+          "name": "PearBook Air 15\" 16GB 512GB Midnight",
+          "quantity": 1,
+          "unitPrice": 1499.00,
+          "discount": 0,
+          "total": 1499.00,
+          "status": "processing"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-PPD-0401",
+          "sku": "PPD-4-STD",
+          "name": "PearPods 4",
+          "quantity": 1,
+          "unitPrice": 129.00,
+          "discount": 129.00,
+          "total": 0,
+          "status": "processing",
+          "promotionApplied": "promo-back-to-school-2024"
+        }
+      ],
+      "subtotal": 1499.00,
+      "tax": 123.67,
+      "total": 1622.67,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00178456",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "UPS",
+        "estimatedDelivery": "2024-01-20"
+      },
+      "createdAt": "2024-01-14T11:23:45Z",
+      "updatedAt": "2024-01-14T11:23:45Z",
+      "tags": ["student_discount", "back_to_school"]
+    },
+    {
+      "id": "ORD-2024-0001701",
+      "orderNumber": "W10001701",
+      "type": "store_pickup",
+      "status": "ready_for_pickup",
+      "customerId": "CUST-00145678",
+      "customer": {
+        "name": "David Rodriguez",
+        "email": "d.rodriguez@email.com",
+        "phone": "+1 (310) 555-0567",
+        "pearId": "drodriguez@icloud.pearid.com"
+      },
+      "pickupStore": {
+        "storeId": "STORE-005",
+        "storeName": "Pear The Grove",
+        "address": "189 The Grove Drive, Los Angeles, CA 90036"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1603",
+          "sku": "PPH16-128-ULT",
+          "name": "pPhone 16 128GB Ultramarine",
+          "quantity": 1,
+          "unitPrice": 799.00,
+          "discount": 0,
+          "total": 799.00,
+          "status": "ready_for_pickup"
+        }
+      ],
+      "subtotal": 799.00,
+      "tax": 75.91,
+      "total": 874.91,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "3456",
+        "transactionId": "TXN-2024-00182345",
+        "status": "captured"
+      },
+      "pickup": {
+        "readyDate": "2024-01-15T10:00:00Z",
+        "expiryDate": "2024-01-22T21:00:00Z",
+        "confirmationCode": "PKUP7891",
+        "qrCode": "data:image/png;base64,iVBORw0KGgo..."
+      },
+      "createdAt": "2024-01-14T19:45:12Z",
+      "updatedAt": "2024-01-15T08:30:00Z",
+      "tags": ["store_pickup"]
+    },
+    {
+      "id": "ORD-2024-0001456",
+      "orderNumber": "W10001456",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00067891",
+      "customer": {
+        "name": "Emma Wilson",
+        "email": "emma.wilson@email.com",
+        "phone": "+1 (206) 555-0789",
+        "pearId": "ewilson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "2001 6th Avenue",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98121",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "2001 6th Avenue",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98121",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PWS-1001",
+          "sku": "PWS10-46-ALU-MID-CEL",
+          "name": "Pear Watch Series 10 46mm Aluminum Midnight GPS + Cellular",
+          "quantity": 1,
+          "unitPrice": 529.00,
+          "discount": 0,
+          "total": 529.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-PPD-0301",
+          "sku": "PPD-PRO2-WHT",
+          "name": "PearPods Pro 2",
+          "quantity": 1,
+          "unitPrice": 249.00,
+          "discount": 0,
+          "total": 249.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 778.00,
+      "tax": 78.57,
+      "total": 856.57,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00134567",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "USPS",
+        "trackingNumber": "9400111899223334445566",
+        "estimatedDelivery": "2024-01-08",
+        "actualDelivery": "2024-01-07T11:45:00Z"
+      },
+      "createdAt": "2024-01-01T08:30:22Z",
+      "updatedAt": "2024-01-07T11:45:00Z",
+      "tags": ["repeat_customer"]
+    },
+    {
+      "id": "ORD-2024-0001512",
+      "orderNumber": "W10001512",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00134567",
+      "customer": {
+        "name": "James O'Connor",
+        "email": "joconnor@business.com",
+        "phone": "+1 (617) 555-0321",
+        "pearId": "joconnor@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "100 Federal Street",
+        "city": "Boston",
+        "state": "MA",
+        "zip": "02110",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "100 Federal Street",
+        "city": "Boston",
+        "state": "MA",
+        "zip": "02110",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBK-1401",
+          "sku": "PBP14-P4M-48-2TB-SPC",
+          "name": "PearBook Pro 14\" P4 Max 48GB 2TB Space Black",
+          "quantity": 2,
+          "unitPrice": 3999.00,
+          "discount": 0,
+          "total": 7998.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 7998.00,
+      "tax": 499.88,
+      "total": 8497.88,
+      "currency": "USD",
+      "payment": {
+        "method": "purchase_order",
+        "poNumber": "PO-2024-00789",
+        "transactionId": "TXN-2024-00145678",
+        "status": "captured",
+        "netTerms": 30
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "FedEx",
+        "trackingNumber": "794644791234",
+        "estimatedDelivery": "2024-01-05",
+        "actualDelivery": "2024-01-04T16:22:00Z",
+        "signatureRequired": true,
+        "signedBy": "Reception Desk"
+      },
+      "createdAt": "2024-01-02T14:18:45Z",
+      "updatedAt": "2024-01-04T16:22:00Z",
+      "tags": ["business_purchase", "bulk_order"]
+    },
+    {
+      "id": "ORD-2024-0001578",
+      "orderNumber": "W10001578",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00078912",
+      "customer": {
+        "name": "Lisa Park",
+        "email": "lisa.park@email.com",
+        "phone": "+1 (408) 555-0456",
+        "pearId": "lpark@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "500 El Camino Real",
+        "city": "Santa Clara",
+        "state": "CA",
+        "zip": "95050",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "500 El Camino Real",
+        "city": "Santa Clara",
+        "state": "CA",
+        "zip": "95050",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPT-0601",
+          "sku": "PPT13-512-SPC-WIFI",
+          "name": "PearPad Pro 13\" 512GB Space Black Wi-Fi",
+          "quantity": 1,
+          "unitPrice": 1499.00,
+          "discount": 0,
+          "total": 1499.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-MKB-01",
+          "sku": "MKB-TID-WHT",
+          "name": "Magic Keyboard with Touch ID - White",
+          "quantity": 1,
+          "unitPrice": 199.00,
+          "discount": 0,
+          "total": 199.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 1698.00,
+      "tax": 147.07,
+      "total": 1845.07,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_card",
+        "cardLast4": "6789",
+        "transactionId": "TXN-2024-00156234",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "UPS",
+        "trackingNumber": "1Z999AA10123456790",
+        "estimatedDelivery": "2024-01-10",
+        "actualDelivery": "2024-01-09T13:18:00Z"
+      },
+      "createdAt": "2024-01-05T09:12:33Z",
+      "updatedAt": "2024-01-09T13:18:00Z",
+      "tags": []
+    },
+    {
+      "id": "ORD-2024-0001634",
+      "orderNumber": "W10001634",
+      "type": "online",
+      "status": "partial_return",
+      "customerId": "CUST-00156789",
+      "customer": {
+        "name": "Robert Kim",
+        "email": "rkim@email.com",
+        "phone": "+1 (202) 555-0678",
+        "pearId": "rkim@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1600 Pennsylvania Avenue",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20500",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1600 Pennsylvania Avenue",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20500",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1602",
+          "sku": "PPH16P-256-NAT",
+          "name": "pPhone 16 Pro 256GB Natural Titanium",
+          "quantity": 1,
+          "unitPrice": 1099.00,
+          "discount": 0,
+          "total": 1099.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-CSE-01",
+          "sku": "CSE-16P-SIL-ULT",
+          "name": "pPhone 16 Pro Silicone Case - Ultramarine",
+          "quantity": 1,
+          "unitPrice": 49.00,
+          "discount": 0,
+          "total": 49.00,
+          "status": "returned",
+          "returnReason": "Changed mind - different color preferred"
+        }
+      ],
+      "subtotal": 1148.00,
+      "tax": 68.88,
+      "total": 1216.88,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "2345",
+        "transactionId": "TXN-2024-00167890",
+        "status": "partially_refunded",
+        "refundAmount": 53.43
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "FedEx",
+        "trackingNumber": "794644792345",
+        "estimatedDelivery": "2024-01-12",
+        "actualDelivery": "2024-01-11T10:45:00Z",
+        "signatureRequired": true,
+        "signedBy": "R. Kim"
+      },
+      "returns": [
+        {
+          "returnId": "RET-2024-00234",
+          "lineId": 2,
+          "quantity": 1,
+          "reason": "Changed mind - different color preferred",
+          "status": "completed",
+          "refundAmount": 53.43,
+          "createdAt": "2024-01-13T14:30:00Z",
+          "completedAt": "2024-01-15T09:00:00Z"
+        }
+      ],
+      "createdAt": "2024-01-10T16:55:22Z",
+      "updatedAt": "2024-01-15T09:00:00Z",
+      "tags": ["partial_return"]
+    },
+    {
+      "id": "ORD-2024-0001645",
+      "orderNumber": "W10001645",
+      "type": "store",
+      "status": "completed",
+      "customerId": "CUST-00167890",
+      "customer": {
+        "name": "Amanda Garcia",
+        "email": "agarcia@email.com",
+        "phone": "+1 (312) 555-0890",
+        "pearId": "agarcia@icloud.pearid.com"
+      },
+      "purchaseStore": {
+        "storeId": "STORE-004",
+        "storeName": "Pear Michigan Avenue",
+        "employeeId": "EMP-00234",
+        "employeeName": "Kevin Brooks"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PWU-0201",
+          "sku": "PWU2-TIT-ORP",
+          "name": "Pear Watch Ultra 2 Natural Titanium Orange Alpine Loop",
+          "quantity": 1,
+          "unitPrice": 799.00,
+          "discount": 0,
+          "total": 799.00,
+          "status": "completed"
+        }
+      ],
+      "subtotal": 799.00,
+      "tax": 82.70,
+      "total": 881.70,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00172345",
+        "status": "captured"
+      },
+      "createdAt": "2024-01-11T13:22:45Z",
+      "updatedAt": "2024-01-11T13:25:30Z",
+      "tags": ["in_store_purchase"]
+    },
+    {
+      "id": "ORD-2024-0001667",
+      "orderNumber": "W10001667",
+      "type": "online",
+      "status": "cancelled",
+      "customerId": "CUST-00178901",
+      "customer": {
+        "name": "Daniel Lee",
+        "email": "dlee@email.com",
+        "phone": "+1 (650) 555-0123",
+        "pearId": "dlee@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1 Hacker Way",
+        "city": "Menlo Park",
+        "state": "CA",
+        "zip": "94025",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1 Hacker Way",
+        "city": "Menlo Park",
+        "state": "CA",
+        "zip": "94025",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1601",
+          "sku": "PPH16PM-1TB-BLU",
+          "name": "pPhone 16 Pro Max 1TB Blue Titanium",
+          "quantity": 1,
+          "unitPrice": 1599.00,
+          "discount": 0,
+          "total": 1599.00,
+          "status": "cancelled"
+        }
+      ],
+      "subtotal": 1599.00,
+      "tax": 138.51,
+      "total": 1737.51,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "5678",
+        "transactionId": "TXN-2024-00176543",
+        "status": "voided"
+      },
+      "cancellation": {
+        "reason": "Customer requested cancellation - found in store",
+        "cancelledAt": "2024-01-12T16:30:00Z",
+        "cancelledBy": "customer"
+      },
+      "createdAt": "2024-01-12T10:15:33Z",
+      "updatedAt": "2024-01-12T16:30:00Z",
+      "tags": ["cancelled"]
+    },
+    {
+      "id": "ORD-2024-0001678",
+      "orderNumber": "W10001678",
+      "type": "online",
+      "status": "shipped",
+      "customerId": "CUST-00189012",
+      "customer": {
+        "name": "Michelle Wong",
+        "email": "mwong@email.com",
+        "phone": "+1 (416) 555-0234",
+        "pearId": "mwong@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "100 King Street West",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5X 1A9",
+        "country": "CA"
+      },
+      "billingAddress": {
+        "street": "100 King Street West",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5X 1A9",
+        "country": "CA"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPD-MAX-01",
+          "sku": "PPD-MAX-SLV",
+          "name": "PearPods Max Silver",
+          "quantity": 1,
+          "unitPrice": 549.00,
+          "discount": 0,
+          "total": 549.00,
+          "status": "shipped"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-CBL-01",
+          "sku": "CBL-MS3-2M-SLV",
+          "name": "USB-C to MagSafe 3 Cable (2m) Silver",
+          "quantity": 1,
+          "unitPrice": 49.00,
+          "discount": 0,
+          "total": 49.00,
+          "status": "shipped"
+        }
+      ],
+      "subtotal": 598.00,
+      "tax": 77.74,
+      "total": 675.74,
+      "currency": "CAD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "7890",
+        "transactionId": "TXN-2024-00178901",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "Canada Post",
+        "trackingNumber": "7023210012345678",
+        "estimatedDelivery": "2024-01-17"
+      },
+      "createdAt": "2024-01-13T08:45:12Z",
+      "updatedAt": "2024-01-14T11:20:00Z",
+      "tags": ["international"]
+    },
+    {
+      "id": "ORD-2024-0001690",
+      "orderNumber": "W10001690",
+      "type": "online",
+      "status": "processing",
+      "customerId": "CUST-00190123",
+      "customer": {
+        "name": "Oliver Smith",
+        "email": "osmith@email.co.uk",
+        "phone": "+44 20 7946 0958",
+        "pearId": "osmith@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "10 Downing Street",
+        "city": "London",
+        "state": "",
+        "zip": "SW1A 2AA",
+        "country": "UK"
+      },
+      "billingAddress": {
+        "street": "10 Downing Street",
+        "city": "London",
+        "state": "",
+        "zip": "SW1A 2AA",
+        "country": "UK"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBA-1301",
+          "sku": "PBA13-16-512-MID",
+          "name": "PearBook Air 13\" 16GB 512GB Midnight",
+          "quantity": 1,
+          "unitPrice": 1299.00,
+          "discount": 0,
+          "total": 1299.00,
+          "status": "processing"
+        }
+      ],
+      "subtotal": 1299.00,
+      "tax": 259.80,
+      "total": 1558.80,
+      "currency": "GBP",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "1234",
+        "transactionId": "TXN-2024-00180234",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "Royal Mail",
+        "estimatedDelivery": "2024-01-22"
+      },
+      "createdAt": "2024-01-14T14:33:21Z",
+      "updatedAt": "2024-01-14T14:33:21Z",
+      "tags": ["international"]
+    },
+    {
+      "id": "ORD-2024-0001702",
+      "orderNumber": "W10001702",
+      "type": "online",
+      "status": "pending_payment",
+      "customerId": "CUST-00201234",
+      "customer": {
+        "name": "Patricia Johnson",
+        "email": "pjohnson@company.com",
+        "phone": "+1 (404) 555-0345",
+        "pearId": "pjohnson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "191 Peachtree Street NE",
+        "city": "Atlanta",
+        "state": "GA",
+        "zip": "30303",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "191 Peachtree Street NE",
+        "city": "Atlanta",
+        "state": "GA",
+        "zip": "30303",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBK-1601",
+          "sku": "PBP16-P4M-64-2TB-SPC",
+          "name": "PearBook Pro 16\" P4 Max 64GB 2TB Space Black",
+          "quantity": 3,
+          "unitPrice": 4499.00,
+          "discount": 0,
+          "total": 13497.00,
+          "status": "pending"
+        }
+      ],
+      "subtotal": 13497.00,
+      "tax": 1079.76,
+      "total": 14576.76,
+      "currency": "USD",
+      "payment": {
+        "method": "purchase_order",
+        "poNumber": "PO-2024-00891",
+        "status": "pending_approval",
+        "netTerms": 30
+      },
+      "createdAt": "2024-01-15T09:15:45Z",
+      "updatedAt": "2024-01-15T09:15:45Z",
+      "tags": ["business_purchase", "pending_approval", "bulk_order"]
+    },
+    {
+      "id": "ORD-2024-0001598",
+      "orderNumber": "W10001598",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00112345",
+      "customer": {
+        "name": "Christopher Brown",
+        "email": "cbrown@email.com",
+        "phone": "+1 (303) 555-0456",
+        "pearId": "cbrown@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1144 15th Street",
+        "city": "Denver",
+        "state": "CO",
+        "zip": "80202",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1144 15th Street",
+        "city": "Denver",
+        "state": "CO",
+        "zip": "80202",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PTV-0401",
+          "sku": "PTV4K-128",
+          "name": "PearTV 4K 128GB",
+          "quantity": 1,
+          "unitPrice": 149.00,
+          "discount": 0,
+          "total": 149.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-PPD-0401",
+          "sku": "PPD-4-ANC",
+          "name": "PearPods 4 with ANC",
+          "quantity": 2,
+          "unitPrice": 179.00,
+          "discount": 0,
+          "total": 358.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 507.00,
+      "tax": 36.75,
+      "total": 543.75,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00159876",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "USPS",
+        "trackingNumber": "9400111899223334445577",
+        "estimatedDelivery": "2024-01-12",
+        "actualDelivery": "2024-01-11T15:30:00Z"
+      },
+      "createdAt": "2024-01-07T11:42:18Z",
+      "updatedAt": "2024-01-11T15:30:00Z",
+      "tags": ["gift"]
+    },
+    {
+      "id": "ORD-2024-0001712",
+      "orderNumber": "W10001712",
+      "type": "trade_in",
+      "status": "processing",
+      "customerId": "CUST-00212345",
+      "customer": {
+        "name": "Jessica Taylor",
+        "email": "jtaylor@email.com",
+        "phone": "+1 (713) 555-0567",
+        "pearId": "jtaylor@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1001 McKinney Street",
+        "city": "Houston",
+        "state": "TX",
+        "zip": "77002",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1001 McKinney Street",
+        "city": "Houston",
+        "state": "TX",
+        "zip": "77002",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1601",
+          "sku": "PPH16PM-512-BLK",
+          "name": "pPhone 16 Pro Max 512GB Black Titanium",
+          "quantity": 1,
+          "unitPrice": 1399.00,
+          "discount": 430.00,
+          "total": 969.00,
+          "status": "processing",
+          "tradeInApplied": true
+        }
+      ],
+      "tradeIn": {
+        "id": "TRD-2024-00567",
+        "deviceModel": "pPhone 14 Pro",
+        "deviceCondition": "good",
+        "estimatedValue": 430.00,
+        "status": "pending_inspection",
+        "shippingKit": {
+          "trackingNumber": "1Z999AA10123456999",
+          "sentAt": "2024-01-15T10:00:00Z"
+        }
+      },
+      "subtotal": 969.00,
+      "tax": 79.94,
+      "total": 1048.94,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "9012",
+        "transactionId": "TXN-2024-00185678",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "UPS",
+        "estimatedDelivery": "2024-01-20"
+      },
+      "createdAt": "2024-01-15T10:30:22Z",
+      "updatedAt": "2024-01-15T10:30:22Z",
+      "tags": ["trade_in"]
+    },
+    {
+      "id": "ORD-2024-0001478",
+      "orderNumber": "W10001478",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00089123",
+      "customer": {
+        "name": "Kevin Anderson",
+        "email": "kanderson@email.com",
+        "phone": "+1 (480) 555-0678",
+        "pearId": "kanderson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "2 North Central Avenue",
+        "city": "Phoenix",
+        "state": "AZ",
+        "zip": "85004",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "2 North Central Avenue",
+        "city": "Phoenix",
+        "state": "AZ",
+        "zip": "85004",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-ACC-CHG-01",
+          "sku": "PWR-35W-DUAL",
+          "name": "35W Dual USB-C Compact Power Adapter",
+          "quantity": 2,
+          "unitPrice": 59.00,
+          "discount": 0,
+          "total": 118.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-CBL-01",
+          "sku": "CBL-MS3-2M-SPC",
+          "name": "USB-C to MagSafe 3 Cable (2m) Space Gray",
+          "quantity": 2,
+          "unitPrice": 49.00,
+          "discount": 0,
+          "total": 98.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 216.00,
+      "tax": 18.14,
+      "total": 234.14,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00143567",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "USPS",
+        "trackingNumber": "9400111899223334445588",
+        "estimatedDelivery": "2024-01-08",
+        "actualDelivery": "2024-01-07T09:15:00Z"
+      },
+      "createdAt": "2024-01-03T14:22:11Z",
+      "updatedAt": "2024-01-07T09:15:00Z",
+      "tags": ["accessories_only"]
+    },
+    {
+      "id": "ORD-2024-0001534",
+      "orderNumber": "W10001534",
+      "type": "subscription",
+      "status": "active",
+      "customerId": "CUST-00100234",
+      "customer": {
+        "name": "Rachel Green",
+        "email": "rgreen@email.com",
+        "phone": "+1 (702) 555-0789",
+        "pearId": "rgreen@icloud.pearid.com"
+      },
+      "billingAddress": {
+        "street": "3600 Las Vegas Blvd S",
+        "city": "Las Vegas",
+        "state": "NV",
+        "zip": "89109",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "SUB-PEARCARE-PLUS",
+          "sku": "PEARCARE-PLUS-PPH16PM",
+          "name": "PearCare+ for pPhone 16 Pro Max",
+          "quantity": 1,
+          "unitPrice": 13.49,
+          "total": 13.49,
+          "status": "active",
+          "subscription": {
+            "frequency": "monthly",
+            "startDate": "2024-01-05",
+            "nextBillingDate": "2024-02-05",
+            "deviceSerial": "DNXYZ123456789"
+          }
+        }
+      ],
+      "subtotal": 13.49,
+      "tax": 1.10,
+      "total": 14.59,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_card",
+        "cardLast4": "3456",
+        "status": "recurring",
+        "lastTransactionId": "TXN-2024-00150234"
+      },
+      "createdAt": "2024-01-05T16:45:33Z",
+      "updatedAt": "2024-01-05T16:45:33Z",
+      "tags": ["subscription", "pearcare"]
+    },
+    {
+      "id": "ORD-2024-0001656",
+      "orderNumber": "W10001656",
+      "type": "store",
+      "status": "completed",
+      "customerId": "CUST-00167234",
+      "customer": {
+        "name": "Brian Martinez",
+        "email": "bmartinez@email.com",
+        "phone": "+1 (714) 555-0890",
+        "pearId": "bmartinez@icloud.pearid.com"
+      },
+      "purchaseStore": {
+        "storeId": "STORE-012",
+        "storeName": "Pear South Coast Plaza",
+        "employeeId": "EMP-00498",
+        "employeeName": "Stephanie Lee"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1603",
+          "sku": "PPH16-256-BLK",
+          "name": "pPhone 16 256GB Black",
+          "quantity": 1,
+          "unitPrice": 899.00,
+          "discount": 350.00,
+          "total": 549.00,
+          "status": "completed",
+          "tradeInApplied": true
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-ACC-CSE-01",
+          "sku": "CSE-16P-SIL-PNK",
+          "name": "pPhone 16 Pro Silicone Case - Pink",
+          "quantity": 1,
+          "unitPrice": 49.00,
+          "discount": 0,
+          "total": 49.00,
+          "status": "completed"
+        }
+      ],
+      "tradeIn": {
+        "id": "TRD-2024-00512",
+        "deviceModel": "pPhone 14",
+        "deviceCondition": "good",
+        "estimatedValue": 350.00,
+        "status": "completed",
+        "completedAt": "2024-01-11T15:30:00Z"
+      },
+      "subtotal": 598.00,
+      "tax": 56.81,
+      "total": 654.81,
+      "currency": "USD",
+      "payment": {
+        "method": "debit_card",
+        "cardLast4": "7890",
+        "transactionId": "TXN-2024-00174567",
+        "status": "captured"
+      },
+      "createdAt": "2024-01-11T15:22:45Z",
+      "updatedAt": "2024-01-11T15:30:00Z",
+      "tags": ["in_store_purchase", "trade_in"]
+    },
+    {
+      "id": "ORD-2024-0001687",
+      "orderNumber": "W10001687",
+      "type": "online",
+      "status": "shipped",
+      "customerId": "CUST-00178345",
+      "customer": {
+        "name": "Nicole Davis",
+        "email": "ndavis@email.com",
+        "phone": "+1 (305) 555-0901",
+        "pearId": "ndavis@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "801 Brickell Avenue",
+        "city": "Miami",
+        "state": "FL",
+        "zip": "33131",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "801 Brickell Avenue",
+        "city": "Miami",
+        "state": "FL",
+        "zip": "33131",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PWS-1001",
+          "sku": "PWS10-46-SS-GLD-CEL",
+          "name": "Pear Watch Series 10 46mm Stainless Steel Gold GPS + Cellular",
+          "quantity": 1,
+          "unitPrice": 749.00,
+          "discount": 0,
+          "total": 749.00,
+          "status": "shipped"
+        }
+      ],
+      "subtotal": 749.00,
+      "tax": 52.43,
+      "total": 801.43,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_card",
+        "cardLast4": "4567",
+        "transactionId": "TXN-2024-00178234",
+        "status": "captured",
+        "installments": {
+          "enabled": true,
+          "term": 6,
+          "monthlyAmount": 133.57
+        }
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "FedEx",
+        "trackingNumber": "794644793456",
+        "estimatedDelivery": "2024-01-17",
+        "signatureRequired": true
+      },
+      "createdAt": "2024-01-13T19:12:33Z",
+      "updatedAt": "2024-01-14T16:45:00Z",
+      "tags": ["pear_card_financing"]
+    },
+    {
+      "id": "ORD-2024-0001498",
+      "orderNumber": "W10001498",
+      "type": "gift",
+      "status": "delivered",
+      "customerId": "CUST-00095678",
+      "customer": {
+        "name": "Thomas White",
+        "email": "twhite@email.com",
+        "phone": "+1 (503) 555-0012",
+        "pearId": "twhite@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1000 SW Broadway",
+        "city": "Portland",
+        "state": "OR",
+        "zip": "97205",
+        "country": "US",
+        "recipientName": "Emily White"
+      },
+      "billingAddress": {
+        "street": "500 NE Multnomah Street",
+        "city": "Portland",
+        "state": "OR",
+        "zip": "97232",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PBA-1301",
+          "sku": "PBA13-8-256-STL",
+          "name": "PearBook Air 13\" 8GB 256GB Starlight",
+          "quantity": 1,
+          "unitPrice": 1099.00,
+          "discount": 0,
+          "total": 1099.00,
+          "status": "delivered"
+        }
+      ],
+      "giftOptions": {
+        "isGift": true,
+        "giftMessage": "Happy Birthday! Love, Dad",
+        "giftWrap": true,
+        "giftWrapPrice": 5.00,
+        "hidePrice": true
+      },
+      "subtotal": 1104.00,
+      "tax": 0,
+      "total": 1104.00,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "6789",
+        "transactionId": "TXN-2024-00148765",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "UPS",
+        "trackingNumber": "1Z999AA10123456795",
+        "estimatedDelivery": "2024-01-06",
+        "actualDelivery": "2024-01-05T14:22:00Z",
+        "signatureRequired": true,
+        "signedBy": "E. White"
+      },
+      "createdAt": "2024-01-03T20:15:45Z",
+      "updatedAt": "2024-01-05T14:22:00Z",
+      "tags": ["gift", "gift_wrap"]
+    },
+    {
+      "id": "ORD-2024-0001608",
+      "orderNumber": "W10001608",
+      "type": "online",
+      "status": "delivered",
+      "customerId": "CUST-00123789",
+      "customer": {
+        "name": "Anthony Robinson",
+        "email": "arobinson@email.com",
+        "phone": "+1 (619) 555-0123",
+        "pearId": "arobinson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "600 B Street",
+        "city": "San Diego",
+        "state": "CA",
+        "zip": "92101",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "600 B Street",
+        "city": "San Diego",
+        "state": "CA",
+        "zip": "92101",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPH-1602",
+          "sku": "PPH16P-512-NAT",
+          "name": "pPhone 16 Pro 512GB Natural Titanium",
+          "quantity": 1,
+          "unitPrice": 1299.00,
+          "discount": 0,
+          "total": 1299.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 2,
+          "productId": "PEAR-PWU-0201",
+          "sku": "PWU2-TIT-BLU",
+          "name": "Pear Watch Ultra 2 Natural Titanium Blue Alpine Loop",
+          "quantity": 1,
+          "unitPrice": 799.00,
+          "discount": 0,
+          "total": 799.00,
+          "status": "delivered"
+        },
+        {
+          "lineId": 3,
+          "productId": "PEAR-PPD-0301",
+          "sku": "PPD-PRO2-WHT",
+          "name": "PearPods Pro 2",
+          "quantity": 1,
+          "unitPrice": 249.00,
+          "discount": 0,
+          "total": 249.00,
+          "status": "delivered"
+        }
+      ],
+      "subtotal": 2347.00,
+      "tax": 203.32,
+      "total": 2550.32,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00160987",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "express",
+        "carrier": "FedEx",
+        "trackingNumber": "794644790567",
+        "estimatedDelivery": "2024-01-11",
+        "actualDelivery": "2024-01-10T11:45:00Z",
+        "signatureRequired": true,
+        "signedBy": "A. Robinson"
+      },
+      "createdAt": "2024-01-08T08:30:15Z",
+      "updatedAt": "2024-01-10T11:45:00Z",
+      "tags": ["high_value", "express_shipping"]
+    },
+    {
+      "id": "ORD-2024-0001720",
+      "orderNumber": "W10001720",
+      "type": "store_pickup",
+      "status": "pending",
+      "customerId": "CUST-00223456",
+      "customer": {
+        "name": "Stephanie Clark",
+        "email": "sclark@email.com",
+        "phone": "+1 (425) 555-0234",
+        "pearId": "sclark@icloud.pearid.com"
+      },
+      "pickupStore": {
+        "storeId": "STORE-010",
+        "storeName": "Pear Bellevue Square",
+        "address": "213 Bellevue Square, Bellevue, WA 98004"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPD-0401",
+          "sku": "PPD-4-ANC",
+          "name": "PearPods 4 with ANC",
+          "quantity": 1,
+          "unitPrice": 179.00,
+          "discount": 0,
+          "total": 179.00,
+          "status": "pending"
+        }
+      ],
+      "subtotal": 179.00,
+      "tax": 18.07,
+      "total": 197.07,
+      "currency": "USD",
+      "payment": {
+        "method": "pear_pay",
+        "transactionId": "TXN-2024-00186789",
+        "status": "captured"
+      },
+      "pickup": {
+        "readyDate": "2024-01-16T10:00:00Z",
+        "expiryDate": "2024-01-23T21:00:00Z",
+        "confirmationCode": "PKUP8123"
+      },
+      "createdAt": "2024-01-15T11:45:33Z",
+      "updatedAt": "2024-01-15T11:45:33Z",
+      "tags": ["store_pickup"]
+    },
+    {
+      "id": "ORD-2024-0001562",
+      "orderNumber": "W10001562",
+      "type": "online",
+      "status": "return_requested",
+      "customerId": "CUST-00107654",
+      "customer": {
+        "name": "Mark Thompson",
+        "email": "mthompson@email.com",
+        "phone": "+1 (602) 555-0345",
+        "pearId": "mthompson@icloud.pearid.com"
+      },
+      "shippingAddress": {
+        "street": "1 E Washington Street",
+        "city": "Phoenix",
+        "state": "AZ",
+        "zip": "85004",
+        "country": "US"
+      },
+      "billingAddress": {
+        "street": "1 E Washington Street",
+        "city": "Phoenix",
+        "state": "AZ",
+        "zip": "85004",
+        "country": "US"
+      },
+      "items": [
+        {
+          "lineId": 1,
+          "productId": "PEAR-PPD-MAX-01",
+          "sku": "PPD-MAX-GRN",
+          "name": "PearPods Max Green",
+          "quantity": 1,
+          "unitPrice": 549.00,
+          "discount": 0,
+          "total": 549.00,
+          "status": "return_requested"
+        }
+      ],
+      "subtotal": 549.00,
+      "tax": 46.12,
+      "total": 595.12,
+      "currency": "USD",
+      "payment": {
+        "method": "credit_card",
+        "cardLast4": "2345",
+        "transactionId": "TXN-2024-00153456",
+        "status": "captured"
+      },
+      "shipping": {
+        "method": "standard",
+        "carrier": "USPS",
+        "trackingNumber": "9400111899223334445599",
+        "estimatedDelivery": "2024-01-10",
+        "actualDelivery": "2024-01-09T16:30:00Z"
+      },
+      "returns": [
+        {
+          "returnId": "RET-2024-00289",
+          "lineId": 1,
+          "quantity": 1,
+          "reason": "Defective - intermittent audio cutting out",
+          "status": "requested",
+          "createdAt": "2024-01-14T10:15:00Z"
+        }
+      ],
+      "createdAt": "2024-01-04T17:33:22Z",
+      "updatedAt": "2024-01-14T10:15:00Z",
+      "tags": ["return_requested", "potential_defect"]
+    }
+  ],
+  "orderStatistics": {
+    "period": "2024-01-01 to 2024-01-15",
+    "totalOrders": 25,
+    "totalRevenue": 45987.63,
+    "averageOrderValue": 1839.51,
+    "ordersByStatus": {
+      "delivered": 12,
+      "shipped": 4,
+      "processing": 3,
+      "ready_for_pickup": 1,
+      "pending": 1,
+      "pending_payment": 1,
+      "completed": 2,
+      "cancelled": 1,
+      "partial_return": 1,
+      "return_requested": 1,
+      "active": 1
+    },
+    "ordersByType": {
+      "online": 17,
+      "store": 2,
+      "store_pickup": 2,
+      "trade_in": 1,
+      "subscription": 1,
+      "gift": 1
+    },
+    "topProducts": [
+      { "sku": "PPH16PM-256-NAT", "name": "pPhone 16 Pro Max 256GB Natural Titanium", "unitsSold": 3 },
+      { "sku": "PPD-PRO2-WHT", "name": "PearPods Pro 2", "unitsSold": 3 },
+      { "sku": "MKB-TID-WHT", "name": "Magic Keyboard with Touch ID - White", "unitsSold": 2 }
+    ],
+    "paymentMethods": {
+      "pear_pay": 7,
+      "pear_card": 4,
+      "credit_card": 8,
+      "purchase_order": 2,
+      "debit_card": 1
+    }
+  }
+}

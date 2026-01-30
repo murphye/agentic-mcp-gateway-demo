@@ -1,0 +1,1532 @@
+openapi: 3.0.3
+info:
+  description: |
+    Customer account and profile management service for Pear ID users.
+    Manages user profiles, addresses, registered devices, preferences,
+    and family sharing features.
+  title: Pear Computer - Customer Accounts Service
+  version: 1.0.0
+servers:
+- url: /v1/customer-accounts
+tags:
+- description: User profile management
+  name: Profile
+- description: Address book management
+  name: Addresses
+- description: Registered Pear device management
+  name: Devices
+- description: User preferences and settings
+  name: Preferences
+- description: Pear Family Sharing
+  name: Family
+- description: Internal service operations
+  name: Internal
+paths:
+  /profile:
+    get:
+      operationId: getProfile
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+          description: Successful response
+      summary: Get user profile
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+    patch:
+      operationId: updateProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+          description: Profile updated
+      summary: Update user profile
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+      x-codegen-request-body-name: profileUpdate
+  /profile/photo:
+    delete:
+      operationId: deleteProfilePhoto
+      responses:
+        "204":
+          description: Photo deleted
+      summary: Delete profile photo
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+    put:
+      operationId: uploadProfilePhoto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/uploadProfilePhoto_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/uploadProfilePhoto_200_response"
+          description: Photo uploaded
+      summary: Upload profile photo
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+      x-codegen-request-body-name: photoUpload
+  /profile/verify-email:
+    post:
+      operationId: requestEmailVerification
+      responses:
+        "202":
+          description: Verification email sent
+      summary: Request email verification
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+  /profile/verify-phone:
+    post:
+      operationId: requestPhoneVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/requestPhoneVerification_request"
+        required: true
+      responses:
+        "202":
+          description: Verification code sent
+      summary: Request phone verification
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+      x-codegen-request-body-name: phoneRequest
+    put:
+      operationId: confirmPhoneVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/confirmPhoneVerification_request"
+        required: true
+      responses:
+        "200":
+          description: Phone verified
+      summary: Confirm phone verification
+      tags:
+      - Profile
+      x-eov-operation-handler: controllers/ProfileController
+      x-codegen-request-body-name: phoneConfirm
+  /addresses:
+    get:
+      operationId: listAddresses
+      parameters:
+      - description: Filter by user ID (for internal use)
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listAddresses_200_response"
+          description: Successful response
+      summary: List addresses
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+    post:
+      operationId: createAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddressRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+          description: Address created
+      summary: Add address
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+      x-codegen-request-body-name: addressRequest
+  /addresses/{addressId}:
+    delete:
+      operationId: deleteAddress
+      parameters:
+      - explode: false
+        in: path
+        name: addressId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Address deleted
+      summary: Delete address
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+    get:
+      operationId: getAddress
+      parameters:
+      - explode: false
+        in: path
+        name: addressId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+          description: Successful response
+        "404":
+          description: Address not found
+      summary: Get address
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+    put:
+      operationId: updateAddress
+      parameters:
+      - explode: false
+        in: path
+        name: addressId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddressRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+          description: Address updated
+      summary: Update address
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+      x-codegen-request-body-name: addressRequest
+  /addresses/{addressId}/default:
+    put:
+      operationId: setDefaultAddress
+      parameters:
+      - explode: false
+        in: path
+        name: addressId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/setDefaultAddress_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+          description: Default address updated
+      summary: Set default address
+      tags:
+      - Addresses
+      x-eov-operation-handler: controllers/AddressesController
+      x-codegen-request-body-name: defaultRequest
+  /devices:
+    get:
+      operationId: listDevices
+      parameters:
+      - description: Filter by user ID
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listDevices_200_response"
+          description: Successful response
+      summary: List registered devices
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+  /devices/{deviceId}:
+    delete:
+      operationId: removeDevice
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Device removed
+      summary: Remove device
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+    get:
+      operationId: getDevice
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredDevice"
+          description: Successful response
+        "404":
+          description: Device not found
+      summary: Get device details
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+    patch:
+      operationId: updateDevice
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateDevice_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisteredDevice"
+          description: Device updated
+      summary: Update device
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+      x-codegen-request-body-name: deviceUpdate
+  /devices/{deviceId}/locate:
+    post:
+      operationId: locateDevice
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/locateDevice_200_response"
+          description: Location request sent
+      summary: Locate device
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+  /devices/{deviceId}/actions/play-sound:
+    post:
+      operationId: playDeviceSound
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "202":
+          description: Sound request sent
+      summary: Play sound on device
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+  /devices/{deviceId}/actions/lost-mode:
+    delete:
+      operationId: disableLostMode
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Lost mode disabled
+      summary: Disable lost mode
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+    post:
+      operationId: enableLostMode
+      parameters:
+      - explode: false
+        in: path
+        name: deviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/enableLostMode_request"
+        required: true
+      responses:
+        "202":
+          description: Lost mode enabled
+      summary: Enable lost mode
+      tags:
+      - Devices
+      x-eov-operation-handler: controllers/DevicesController
+      x-codegen-request-body-name: lostModeRequest
+  /preferences:
+    get:
+      operationId: getPreferences
+      parameters:
+      - description: User ID (for internal use)
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPreferences"
+          description: Successful response
+      summary: Get preferences
+      tags:
+      - Preferences
+      x-eov-operation-handler: controllers/PreferencesController
+    patch:
+      operationId: updatePreferences
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPreferences"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPreferences"
+          description: Preferences updated
+      summary: Update preferences
+      tags:
+      - Preferences
+      x-eov-operation-handler: controllers/PreferencesController
+      x-codegen-request-body-name: preferencesUpdate
+  /preferences/notifications/unsubscribe:
+    post:
+      operationId: unsubscribeNotifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/unsubscribeNotifications_request"
+        required: true
+      responses:
+        "200":
+          description: Unsubscribed successfully
+      summary: Unsubscribe from notifications
+      tags:
+      - Preferences
+      x-eov-operation-handler: controllers/PreferencesController
+      x-codegen-request-body-name: unsubscribeRequest
+  /family:
+    delete:
+      operationId: leaveFamilyGroup
+      responses:
+        "204":
+          description: Left family group
+      summary: Leave family group
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+    get:
+      operationId: getFamilyGroup
+      parameters:
+      - description: User ID (for internal use)
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyGroup"
+          description: Successful response
+        "404":
+          description: User is not part of a family group
+      summary: Get family group
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+    post:
+      operationId: createFamilyGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createFamilyGroup_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyGroup"
+          description: Family group created
+      summary: Create family group
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+      x-codegen-request-body-name: familyRequest
+  /family/invitations:
+    get:
+      operationId: listFamilyInvitations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listFamilyInvitations_200_response"
+          description: Successful response
+      summary: List family invitations
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+    post:
+      operationId: inviteToFamily
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/inviteToFamily_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyInvitation"
+          description: Invitation sent
+      summary: Invite to family
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+      x-codegen-request-body-name: inviteRequest
+  /family/invitations/{invitationId}:
+    delete:
+      operationId: cancelFamilyInvitation
+      parameters:
+      - explode: false
+        in: path
+        name: invitationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Invitation cancelled
+      summary: Cancel invitation
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+  /family/invitations/{invitationId}/accept:
+    post:
+      operationId: acceptFamilyInvitation
+      parameters:
+      - explode: false
+        in: path
+        name: invitationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyGroup"
+          description: Invitation accepted
+      summary: Accept invitation
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+  /family/invitations/{invitationId}/decline:
+    post:
+      operationId: declineFamilyInvitation
+      parameters:
+      - explode: false
+        in: path
+        name: invitationId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Invitation declined
+      summary: Decline invitation
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+  /family/members/{memberId}:
+    delete:
+      operationId: removeFamilyMember
+      parameters:
+      - explode: false
+        in: path
+        name: memberId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Member removed
+      summary: Remove family member
+      tags:
+      - Family
+      x-eov-operation-handler: controllers/FamilyController
+  /internal/users/{userId}:
+    get:
+      operationId: getUser
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+          description: Successful response
+        "404":
+          description: User not found
+      summary: Get user by ID (internal)
+      tags:
+      - Internal
+      x-eov-operation-handler: controllers/InternalController
+  /internal/users/{userId}/addresses:
+    get:
+      operationId: getUserAddresses
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listAddresses_200_response"
+          description: Successful response
+      summary: Get user addresses (internal)
+      tags:
+      - Internal
+      x-eov-operation-handler: controllers/InternalController
+  /internal/users/lookup:
+    get:
+      operationId: lookupUsers
+      parameters:
+      - description: Comma-separated email addresses
+        explode: true
+        in: query
+        name: emails
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Comma-separated user IDs
+        explode: true
+        in: query
+        name: ids
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lookupUsers_200_response"
+          description: Successful response
+      summary: Lookup users (internal)
+      tags:
+      - Internal
+      x-eov-operation-handler: controllers/InternalController
+components:
+  schemas:
+    UserProfile:
+      example:
+        lastName: lastName
+        displayName: displayName
+        phoneVerified: true
+        timezone: timezone
+        dateOfBirth: dateOfBirth
+        locale: locale
+        firstName: firstName
+        emailVerified: true
+        photoUrl: photoUrl
+        createdAt: createdAt
+        phoneNumber: phoneNumber
+        pearId: pearId
+        id: id
+        email: email
+        updatedAt: updatedAt
+      properties:
+        id:
+          type: string
+        pearId:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        displayName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        phoneNumber:
+          type: string
+        phoneVerified:
+          type: boolean
+        photoUrl:
+          type: string
+        dateOfBirth:
+          type: string
+        locale:
+          type: string
+        timezone:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      type: object
+    ProfileUpdateRequest:
+      example:
+        firstName: firstName
+        lastName: lastName
+        phoneNumber: phoneNumber
+        displayName: displayName
+        timezone: timezone
+        dateOfBirth: dateOfBirth
+        locale: locale
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        displayName:
+          type: string
+        phoneNumber:
+          type: string
+        dateOfBirth:
+          type: string
+        locale:
+          type: string
+        timezone:
+          type: string
+      type: object
+    Address:
+      example:
+        lastName: lastName
+        country: country
+        city: city
+        postalCode: postalCode
+        label: label
+        isDefaultBilling: true
+        firstName: firstName
+        createdAt: createdAt
+        validated: true
+        phone: phone
+        company: company
+        street1: street1
+        id: id
+        street2: street2
+        state: state
+        isDefaultShipping: true
+        updatedAt: updatedAt
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+        isDefaultShipping:
+          type: boolean
+        isDefaultBilling:
+          type: boolean
+        validated:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      type: object
+    AddressRequest:
+      example:
+        lastName: lastName
+        country: country
+        city: city
+        postalCode: postalCode
+        label: label
+        isDefaultBilling: true
+        firstName: firstName
+        phone: phone
+        company: company
+        street1: street1
+        street2: street2
+        state: state
+        isDefaultShipping: true
+      properties:
+        label:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+        isDefaultShipping:
+          type: boolean
+        isDefaultBilling:
+          type: boolean
+      required:
+      - city
+      - country
+      - firstName
+      - lastName
+      - postalCode
+      - state
+      - street1
+      type: object
+    RegisteredDevice:
+      example:
+        serialNumber: serialNumber
+        registeredAt: registeredAt
+        lastLocation:
+          address: address
+          latitude: 0.8008281904610115
+          accuracy: 1.4658129805029452
+          longitude: 6.027456183070403
+          timestamp: timestamp
+        activationLockEnabled: true
+        type: pearphone
+        userId: userId
+        findMyEnabled: true
+        lostMode: true
+        lastSeen: lastSeen
+        osVersion: osVersion
+        name: name
+        model: model
+        id: id
+        batteryLevel: 5
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - pearphone
+          - pearpad
+          - pearbook
+          - pearwatch
+          - peartv
+          - pearpods
+          - pearhome
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+        osVersion:
+          type: string
+        registeredAt:
+          type: string
+        lastSeen:
+          type: string
+        lastLocation:
+          $ref: "#/components/schemas/DeviceLocation"
+        findMyEnabled:
+          type: boolean
+        activationLockEnabled:
+          type: boolean
+        lostMode:
+          type: boolean
+        batteryLevel:
+          type: integer
+      type: object
+    DeviceLocation:
+      example:
+        address: address
+        latitude: 0.8008281904610115
+        accuracy: 1.4658129805029452
+        longitude: 6.027456183070403
+        timestamp: timestamp
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+        accuracy:
+          type: number
+        address:
+          type: string
+        timestamp:
+          type: string
+      type: object
+    UserPreferences:
+      example:
+        accessibility:
+          reduceMotion: true
+          highContrast: true
+          fontSize: fontSize
+        privacy:
+          shareAnalytics: true
+          shareWithPartners: true
+          personalizedAds: true
+        language: language
+        currency: currency
+        measurementSystem: measurementSystem
+        userId: userId
+        notifications:
+          sms:
+            security: true
+            orderUpdates: true
+          email:
+            productAnnouncements: true
+            marketing: true
+            security: true
+            newsletters: true
+            orderUpdates: true
+          push:
+            reminders: true
+            promotions: true
+            orderUpdates: true
+      properties:
+        userId:
+          type: string
+        language:
+          type: string
+        currency:
+          type: string
+        measurementSystem:
+          type: string
+        notifications:
+          $ref: "#/components/schemas/UserPreferences_notifications"
+        privacy:
+          $ref: "#/components/schemas/UserPreferences_privacy"
+        accessibility:
+          $ref: "#/components/schemas/UserPreferences_accessibility"
+      type: object
+    FamilyGroup:
+      example:
+        createdAt: createdAt
+        storageUsed: 0
+        organizer:
+          photoUrl: photoUrl
+          role: organizer
+          joinedAt: joinedAt
+          name: name
+          id: id
+          email: email
+        sharedSubscriptions:
+        - name: name
+          type: type
+        - name: name
+          type: type
+        members:
+        - photoUrl: photoUrl
+          role: organizer
+          joinedAt: joinedAt
+          name: name
+          id: id
+          email: email
+        - photoUrl: photoUrl
+          role: organizer
+          joinedAt: joinedAt
+          name: name
+          id: id
+          email: email
+        name: name
+        id: id
+        storageLimit: 6
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        organizer:
+          $ref: "#/components/schemas/FamilyMember"
+        members:
+          items:
+            $ref: "#/components/schemas/FamilyMember"
+          type: array
+        sharedSubscriptions:
+          items:
+            $ref: "#/components/schemas/FamilyGroup_sharedSubscriptions_inner"
+          type: array
+        storageUsed:
+          type: integer
+        storageLimit:
+          type: integer
+        createdAt:
+          type: string
+      type: object
+    FamilyMember:
+      example:
+        photoUrl: photoUrl
+        role: organizer
+        joinedAt: joinedAt
+        name: name
+        id: id
+        email: email
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          enum:
+          - organizer
+          - adult
+          - child
+          type: string
+        photoUrl:
+          type: string
+        joinedAt:
+          type: string
+      type: object
+    FamilyInvitation:
+      example:
+        createdAt: createdAt
+        role: adult
+        invitedBy: invitedBy
+        familyName: familyName
+        id: id
+        email: email
+        expiresAt: expiresAt
+        status: pending
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        role:
+          enum:
+          - adult
+          - child
+          type: string
+        familyName:
+          type: string
+        invitedBy:
+          type: string
+        status:
+          enum:
+          - pending
+          - accepted
+          - declined
+          - expired
+          type: string
+        createdAt:
+          type: string
+        expiresAt:
+          type: string
+      type: object
+    uploadProfilePhoto_request:
+      properties:
+        photoData:
+          description: Base64 encoded image data
+          type: string
+      type: object
+    uploadProfilePhoto_200_response:
+      example:
+        photoUrl: photoUrl
+      properties:
+        photoUrl:
+          type: string
+      type: object
+    confirmPhoneVerification_request:
+      properties:
+        code:
+          type: string
+      required:
+      - code
+      type: object
+    requestPhoneVerification_request:
+      properties:
+        phoneNumber:
+          type: string
+      required:
+      - phoneNumber
+      type: object
+    listAddresses_200_response:
+      example:
+        addresses:
+        - lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          label: label
+          isDefaultBilling: true
+          firstName: firstName
+          createdAt: createdAt
+          validated: true
+          phone: phone
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+          isDefaultShipping: true
+          updatedAt: updatedAt
+        - lastName: lastName
+          country: country
+          city: city
+          postalCode: postalCode
+          label: label
+          isDefaultBilling: true
+          firstName: firstName
+          createdAt: createdAt
+          validated: true
+          phone: phone
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+          isDefaultShipping: true
+          updatedAt: updatedAt
+      properties:
+        addresses:
+          items:
+            $ref: "#/components/schemas/Address"
+          type: array
+      type: object
+    setDefaultAddress_request:
+      properties:
+        defaultShipping:
+          type: boolean
+        defaultBilling:
+          type: boolean
+      type: object
+    listDevices_200_response:
+      example:
+        devices:
+        - serialNumber: serialNumber
+          registeredAt: registeredAt
+          lastLocation:
+            address: address
+            latitude: 0.8008281904610115
+            accuracy: 1.4658129805029452
+            longitude: 6.027456183070403
+            timestamp: timestamp
+          activationLockEnabled: true
+          type: pearphone
+          userId: userId
+          findMyEnabled: true
+          lostMode: true
+          lastSeen: lastSeen
+          osVersion: osVersion
+          name: name
+          model: model
+          id: id
+          batteryLevel: 5
+        - serialNumber: serialNumber
+          registeredAt: registeredAt
+          lastLocation:
+            address: address
+            latitude: 0.8008281904610115
+            accuracy: 1.4658129805029452
+            longitude: 6.027456183070403
+            timestamp: timestamp
+          activationLockEnabled: true
+          type: pearphone
+          userId: userId
+          findMyEnabled: true
+          lostMode: true
+          lastSeen: lastSeen
+          osVersion: osVersion
+          name: name
+          model: model
+          id: id
+          batteryLevel: 5
+      properties:
+        devices:
+          items:
+            $ref: "#/components/schemas/RegisteredDevice"
+          type: array
+      type: object
+    updateDevice_request:
+      properties:
+        name:
+          type: string
+        findMyEnabled:
+          type: boolean
+      type: object
+    locateDevice_200_response:
+      example:
+        lastLocation:
+          address: address
+          latitude: 0.8008281904610115
+          accuracy: 1.4658129805029452
+          longitude: 6.027456183070403
+          timestamp: timestamp
+        locationPending: true
+      properties:
+        lastLocation:
+          $ref: "#/components/schemas/DeviceLocation"
+        locationPending:
+          type: boolean
+      type: object
+    enableLostMode_request:
+      properties:
+        message:
+          type: string
+        contactPhone:
+          type: string
+      type: object
+    unsubscribeNotifications_request:
+      properties:
+        channels:
+          items:
+            type: string
+          type: array
+      required:
+      - channels
+      type: object
+    createFamilyGroup_request:
+      properties:
+        name:
+          type: string
+      type: object
+    listFamilyInvitations_200_response:
+      example:
+        received:
+        - createdAt: createdAt
+          role: adult
+          invitedBy: invitedBy
+          familyName: familyName
+          id: id
+          email: email
+          expiresAt: expiresAt
+          status: pending
+        - createdAt: createdAt
+          role: adult
+          invitedBy: invitedBy
+          familyName: familyName
+          id: id
+          email: email
+          expiresAt: expiresAt
+          status: pending
+        sent:
+        - createdAt: createdAt
+          role: adult
+          invitedBy: invitedBy
+          familyName: familyName
+          id: id
+          email: email
+          expiresAt: expiresAt
+          status: pending
+        - createdAt: createdAt
+          role: adult
+          invitedBy: invitedBy
+          familyName: familyName
+          id: id
+          email: email
+          expiresAt: expiresAt
+          status: pending
+      properties:
+        sent:
+          items:
+            $ref: "#/components/schemas/FamilyInvitation"
+          type: array
+        received:
+          items:
+            $ref: "#/components/schemas/FamilyInvitation"
+          type: array
+      type: object
+    inviteToFamily_request:
+      properties:
+        email:
+          type: string
+        role:
+          enum:
+          - adult
+          - child
+          type: string
+      required:
+      - email
+      type: object
+    lookupUsers_200_response:
+      example:
+        users:
+        - lastName: lastName
+          displayName: displayName
+          phoneVerified: true
+          timezone: timezone
+          dateOfBirth: dateOfBirth
+          locale: locale
+          firstName: firstName
+          emailVerified: true
+          photoUrl: photoUrl
+          createdAt: createdAt
+          phoneNumber: phoneNumber
+          pearId: pearId
+          id: id
+          email: email
+          updatedAt: updatedAt
+        - lastName: lastName
+          displayName: displayName
+          phoneVerified: true
+          timezone: timezone
+          dateOfBirth: dateOfBirth
+          locale: locale
+          firstName: firstName
+          emailVerified: true
+          photoUrl: photoUrl
+          createdAt: createdAt
+          phoneNumber: phoneNumber
+          pearId: pearId
+          id: id
+          email: email
+          updatedAt: updatedAt
+      properties:
+        users:
+          items:
+            $ref: "#/components/schemas/UserProfile"
+          type: array
+      type: object
+    UserPreferences_notifications_email:
+      example:
+        productAnnouncements: true
+        marketing: true
+        security: true
+        newsletters: true
+        orderUpdates: true
+      properties:
+        marketing:
+          type: boolean
+        orderUpdates:
+          type: boolean
+        security:
+          type: boolean
+        newsletters:
+          type: boolean
+        productAnnouncements:
+          type: boolean
+      type: object
+    UserPreferences_notifications_push:
+      example:
+        reminders: true
+        promotions: true
+        orderUpdates: true
+      properties:
+        orderUpdates:
+          type: boolean
+        promotions:
+          type: boolean
+        reminders:
+          type: boolean
+      type: object
+    UserPreferences_notifications_sms:
+      example:
+        security: true
+        orderUpdates: true
+      properties:
+        orderUpdates:
+          type: boolean
+        security:
+          type: boolean
+      type: object
+    UserPreferences_notifications:
+      example:
+        sms:
+          security: true
+          orderUpdates: true
+        email:
+          productAnnouncements: true
+          marketing: true
+          security: true
+          newsletters: true
+          orderUpdates: true
+        push:
+          reminders: true
+          promotions: true
+          orderUpdates: true
+      properties:
+        email:
+          $ref: "#/components/schemas/UserPreferences_notifications_email"
+        push:
+          $ref: "#/components/schemas/UserPreferences_notifications_push"
+        sms:
+          $ref: "#/components/schemas/UserPreferences_notifications_sms"
+      type: object
+    UserPreferences_privacy:
+      example:
+        shareAnalytics: true
+        shareWithPartners: true
+        personalizedAds: true
+      properties:
+        shareAnalytics:
+          type: boolean
+        personalizedAds:
+          type: boolean
+        shareWithPartners:
+          type: boolean
+      type: object
+    UserPreferences_accessibility:
+      example:
+        reduceMotion: true
+        highContrast: true
+        fontSize: fontSize
+      properties:
+        reduceMotion:
+          type: boolean
+        highContrast:
+          type: boolean
+        fontSize:
+          type: string
+      type: object
+    FamilyGroup_sharedSubscriptions_inner:
+      example:
+        name: name
+        type: type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+      type: object

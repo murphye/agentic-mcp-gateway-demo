@@ -1,0 +1,2135 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: ecommerce@pearcomputer.com
+    name: Pear E-Commerce Team
+  description: |
+    E-commerce service powering the Pear Computer online store. Handles shopping
+    cart management, checkout flow, order placement, and customer purchasing
+    experience on pearcomputer.com.
+  title: Pear Computer - Online Store Service
+  version: 1.0.0
+servers:
+- url: /v1/online-store
+tags:
+- description: Shopping cart operations
+  name: Cart
+- description: Checkout flow
+  name: Checkout
+- description: Customer wishlists
+  name: Wishlist
+- description: Product reviews and ratings
+  name: Reviews
+- description: Product recommendations
+  name: Recommendations
+paths:
+  /cart:
+    delete:
+      description: Remove all items from the shopping cart
+      operationId: clearCart
+      responses:
+        "204":
+          description: Cart cleared
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - bearerAuth: []
+      summary: Clear shopping cart
+      tags:
+      - Cart
+      x-eov-operation-handler: controllers/CartController
+    get:
+      description: Retrieve the current user's shopping cart
+      operationId: getCart
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Successful response
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+      security:
+      - bearerAuth: []
+      - sessionToken: []
+      summary: Get shopping cart
+      tags:
+      - Cart
+      x-eov-operation-handler: controllers/CartController
+  /cart/items:
+    post:
+      description: Add a product to the shopping cart
+      operationId: addToCart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Item added
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          description: Product not found
+      security:
+      - bearerAuth: []
+      - sessionToken: []
+      summary: Add item to cart
+      tags:
+      - Cart
+      x-codegen-request-body-name: cartItemRequest
+      x-eov-operation-handler: controllers/CartController
+  /cart/items/{itemId}:
+    delete:
+      description: Remove a specific item from the shopping cart
+      operationId: removeCartItem
+      parameters:
+      - explode: false
+        in: path
+        name: itemId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Item removed
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Remove item from cart
+      tags:
+      - Cart
+      x-eov-operation-handler: controllers/CartController
+    patch:
+      description: Update quantity or options for a cart item
+      operationId: updateCartItem
+      parameters:
+      - explode: false
+        in: path
+        name: itemId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemUpdate"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Item updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Update cart item
+      tags:
+      - Cart
+      x-codegen-request-body-name: cartItemUpdate
+      x-eov-operation-handler: controllers/CartController
+  /cart/promo-code:
+    delete:
+      description: Remove applied promotional code from cart
+      operationId: removePromoCode
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Promo code removed
+      security:
+      - bearerAuth: []
+      summary: Remove promo code
+      tags:
+      - Cart
+      x-eov-operation-handler: controllers/CartController
+    post:
+      description: Apply a promotional code to the cart
+      operationId: applyPromoCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromoCodeRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+          description: Promo code applied
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromoCodeError"
+          description: Invalid or expired promo code
+      security:
+      - bearerAuth: []
+      summary: Apply promo code
+      tags:
+      - Cart
+      x-codegen-request-body-name: promoCodeRequest
+      x-eov-operation-handler: controllers/CartController
+  /cart/trade-in:
+    post:
+      description: Add a device for trade-in credit
+      operationId: addTradeIn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TradeInRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TradeInEstimate"
+          description: Trade-in added
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Add trade-in device
+      tags:
+      - Cart
+      x-codegen-request-body-name: tradeInRequest
+      x-eov-operation-handler: controllers/CartController
+  /checkout:
+    post:
+      description: Start the checkout process
+      operationId: initiateCheckout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckoutInitRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSession"
+          description: Checkout initiated
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Initiate checkout
+      tags:
+      - Checkout
+      x-codegen-request-body-name: checkoutInitRequest
+      x-eov-operation-handler: controllers/CheckoutController
+  /checkout/{sessionId}:
+    get:
+      description: Retrieve current checkout session details
+      operationId: getCheckoutSession
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSession"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get checkout session
+      tags:
+      - Checkout
+      x-eov-operation-handler: controllers/CheckoutController
+  /checkout/{sessionId}/shipping:
+    put:
+      description: Select shipping method for the order
+      operationId: setShippingOption
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShippingOptionRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSession"
+          description: Shipping option set
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Set shipping option
+      tags:
+      - Checkout
+      x-codegen-request-body-name: shippingOptionRequest
+      x-eov-operation-handler: controllers/CheckoutController
+  /checkout/{sessionId}/payment:
+    put:
+      description: Select payment method for the order
+      operationId: setPaymentMethod
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentMethodRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckoutSession"
+          description: Payment method set
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Set payment method
+      tags:
+      - Checkout
+      x-codegen-request-body-name: paymentMethodRequest
+      x-eov-operation-handler: controllers/CheckoutController
+  /checkout/{sessionId}/place-order:
+    post:
+      description: Complete the checkout and place the order
+      operationId: placeOrder
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaceOrderRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderConfirmation"
+          description: Order placed
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "402":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentError"
+          description: Payment failed
+        "409":
+          description: Inventory no longer available
+      security:
+      - bearerAuth: []
+      summary: Place order
+      tags:
+      - Checkout
+      x-codegen-request-body-name: placeOrderRequest
+      x-eov-operation-handler: controllers/CheckoutController
+  /checkout/shipping-options:
+    post:
+      description: Get available shipping options for an address
+      operationId: getShippingOptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShippingOptionsRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShippingOptionsResponse"
+          description: Shipping options
+      security:
+      - bearerAuth: []
+      summary: Get shipping options
+      tags:
+      - Checkout
+      x-codegen-request-body-name: shippingOptionsRequest
+      x-eov-operation-handler: controllers/CheckoutController
+  /wishlists:
+    get:
+      description: Retrieve all wishlists for the current user
+      operationId: getWishlists
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WishlistsResponse"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get user wishlists
+      tags:
+      - Wishlist
+      x-eov-operation-handler: controllers/WishlistController
+    post:
+      description: Create a new wishlist
+      operationId: createWishlist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WishlistRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wishlist"
+          description: Wishlist created
+      security:
+      - bearerAuth: []
+      summary: Create wishlist
+      tags:
+      - Wishlist
+      x-codegen-request-body-name: wishlistRequest
+      x-eov-operation-handler: controllers/WishlistController
+  /wishlists/{wishlistId}:
+    delete:
+      description: Delete a wishlist
+      operationId: deleteWishlist
+      parameters:
+      - explode: false
+        in: path
+        name: wishlistId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Wishlist deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Delete wishlist
+      tags:
+      - Wishlist
+      x-eov-operation-handler: controllers/WishlistController
+    get:
+      description: Retrieve a specific wishlist
+      operationId: getWishlist
+      parameters:
+      - explode: false
+        in: path
+        name: wishlistId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wishlist"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get wishlist
+      tags:
+      - Wishlist
+      x-eov-operation-handler: controllers/WishlistController
+  /wishlists/{wishlistId}/items:
+    post:
+      description: Add a product to a wishlist
+      operationId: addToWishlist
+      parameters:
+      - explode: false
+        in: path
+        name: wishlistId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WishlistItemRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wishlist"
+          description: Item added
+      security:
+      - bearerAuth: []
+      summary: Add item to wishlist
+      tags:
+      - Wishlist
+      x-codegen-request-body-name: wishlistItemRequest
+      x-eov-operation-handler: controllers/WishlistController
+  /products/{productId}/reviews:
+    get:
+      description: Retrieve reviews for a product
+      operationId: getProductReviews
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Filter by star rating
+        explode: true
+        in: query
+        name: rating
+        required: false
+        schema:
+          maximum: 5
+          minimum: 1
+          type: integer
+        style: form
+      - description: Only verified purchases
+        explode: true
+        in: query
+        name: verified
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          default: helpful
+          enum:
+          - newest
+          - oldest
+          - highest
+          - lowest
+          - helpful
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewListResponse"
+          description: Successful response
+      summary: Get product reviews
+      tags:
+      - Reviews
+      x-eov-operation-handler: controllers/ReviewsController
+    post:
+      description: Submit a review for a purchased product
+      operationId: createReview
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+          description: Review created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          description: Must purchase product to review
+      security:
+      - bearerAuth: []
+      summary: Create product review
+      tags:
+      - Reviews
+      x-codegen-request-body-name: reviewRequest
+      x-eov-operation-handler: controllers/ReviewsController
+  /recommendations:
+    get:
+      description: Get product recommendations for the current user
+      operationId: getRecommendations
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          default: for_you
+          enum:
+          - for_you
+          - trending
+          - new_arrivals
+          - based_on_cart
+          - based_on_history
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 20
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecommendationsResponse"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      - sessionToken: []
+      summary: Get personalized recommendations
+      tags:
+      - Recommendations
+      x-eov-operation-handler: controllers/RecommendationsController
+  /products/{productId}/related:
+    get:
+      description: Get products related to a specific product
+      operationId: getRelatedProducts
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          enum:
+          - accessories
+          - similar
+          - frequently_bought_together
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 8
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelatedProductsResponse"
+          description: Successful response
+      summary: Get related products
+      tags:
+      - Recommendations
+      x-eov-operation-handler: controllers/RecommendationsController
+components:
+  parameters:
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Unauthorized
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    Cart:
+      example:
+        tradeIn:
+          deviceType: deviceType
+          condition: condition
+          estimatedValue:
+            amount: 6.027456183070403
+            currency: USD
+          validUntil: 2000-01-23T04:56:07.000+00:00
+          model: model
+          id: id
+        discount:
+          amount: 6.027456183070403
+          currency: USD
+        tax:
+          amount: 6.027456183070403
+          currency: USD
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        itemCount: 5
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        total:
+          amount: 6.027456183070403
+          currency: USD
+        subtotal:
+          amount: 6.027456183070403
+          currency: USD
+        customerId: customerId
+        promoCode:
+          code: code
+          description: description
+          discount:
+            amount: 6.027456183070403
+            currency: USD
+        id: id
+        items:
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: https://openapi-generator.tech
+          quantity: 0
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          maxQuantity: 1
+          name: name
+          options:
+            key: options
+          available: true
+          id: id
+          variantId: variantId
+          sku: sku
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: https://openapi-generator.tech
+          quantity: 0
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          maxQuantity: 1
+          name: name
+          options:
+            key: options
+          available: true
+          id: id
+          variantId: variantId
+          sku: sku
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CartItem"
+          type: array
+        subtotal:
+          $ref: "#/components/schemas/Money"
+        discount:
+          $ref: "#/components/schemas/Money"
+        tax:
+          $ref: "#/components/schemas/Money"
+        total:
+          $ref: "#/components/schemas/Money"
+        promoCode:
+          $ref: "#/components/schemas/AppliedPromoCode"
+        tradeIn:
+          $ref: "#/components/schemas/TradeInEstimate"
+        itemCount:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    AppliedPromoCode:
+      example:
+        code: code
+        description: description
+        discount:
+          amount: 6.027456183070403
+          currency: USD
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        discount:
+          $ref: "#/components/schemas/Money"
+      type: object
+    CartItem:
+      example:
+        unitPrice:
+          amount: 6.027456183070403
+          currency: USD
+        image: https://openapi-generator.tech
+        quantity: 0
+        productId: productId
+        totalPrice:
+          amount: 6.027456183070403
+          currency: USD
+        maxQuantity: 1
+        name: name
+        options:
+          key: options
+        available: true
+        id: id
+        variantId: variantId
+        sku: sku
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        variantId:
+          type: string
+        sku:
+          type: string
+        name:
+          type: string
+        image:
+          format: uri
+          type: string
+        options:
+          additionalProperties:
+            type: string
+          type: object
+        quantity:
+          type: integer
+        unitPrice:
+          $ref: "#/components/schemas/Money"
+        totalPrice:
+          $ref: "#/components/schemas/Money"
+        available:
+          type: boolean
+        maxQuantity:
+          type: integer
+      type: object
+    CartItemRequest:
+      example:
+        quantity: 1
+        productId: productId
+        options:
+          key: options
+        variantId: variantId
+      properties:
+        productId:
+          type: string
+        variantId:
+          type: string
+        quantity:
+          maximum: 10
+          minimum: 1
+          type: integer
+        options:
+          additionalProperties:
+            type: string
+          type: object
+      required:
+      - productId
+      - quantity
+      type: object
+    CartItemUpdate:
+      example:
+        quantity: 1
+        options:
+          key: options
+      properties:
+        quantity:
+          maximum: 10
+          minimum: 1
+          type: integer
+        options:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    PromoCodeRequest:
+      example:
+        code: code
+      properties:
+        code:
+          maxLength: 50
+          type: string
+      required:
+      - code
+      type: object
+    TradeInRequest:
+      example:
+        deviceType: pearphone
+        condition: excellent
+        functionalIssues:
+        - functionalIssues
+        - functionalIssues
+        storageSize: storageSize
+        model: model
+        hasOriginalBox: true
+      properties:
+        deviceType:
+          enum:
+          - pearphone
+          - pearpad
+          - pearbook
+          - pearwatch
+          type: string
+        model:
+          type: string
+        storageSize:
+          type: string
+        condition:
+          enum:
+          - excellent
+          - good
+          - fair
+          - poor
+          type: string
+        hasOriginalBox:
+          type: boolean
+        functionalIssues:
+          items:
+            type: string
+          type: array
+      required:
+      - condition
+      - deviceType
+      - model
+      type: object
+    TradeInEstimate:
+      example:
+        deviceType: deviceType
+        condition: condition
+        estimatedValue:
+          amount: 6.027456183070403
+          currency: USD
+        validUntil: 2000-01-23T04:56:07.000+00:00
+        model: model
+        id: id
+      properties:
+        id:
+          type: string
+        deviceType:
+          type: string
+        model:
+          type: string
+        condition:
+          type: string
+        estimatedValue:
+          $ref: "#/components/schemas/Money"
+        validUntil:
+          format: date-time
+          type: string
+      type: object
+    CheckoutInitRequest:
+      example:
+        shippingAddressId: shippingAddressId
+        billingAddressId: billingAddressId
+      properties:
+        shippingAddressId:
+          type: string
+        billingAddressId:
+          type: string
+      type: object
+    CheckoutSession:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        shippingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+        paymentMethod:
+          last4: last4
+          expiryMonth: 1
+          expiryYear: 5
+          type: type
+          brand: brand
+        id: id
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+        cart:
+          tradeIn:
+            deviceType: deviceType
+            condition: condition
+            estimatedValue:
+              amount: 6.027456183070403
+              currency: USD
+            validUntil: 2000-01-23T04:56:07.000+00:00
+            model: model
+            id: id
+          discount:
+            amount: 6.027456183070403
+            currency: USD
+          tax:
+            amount: 6.027456183070403
+            currency: USD
+          expiresAt: 2000-01-23T04:56:07.000+00:00
+          itemCount: 5
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          total:
+            amount: 6.027456183070403
+            currency: USD
+          subtotal:
+            amount: 6.027456183070403
+            currency: USD
+          customerId: customerId
+          promoCode:
+            code: code
+            description: description
+            discount:
+              amount: 6.027456183070403
+              currency: USD
+          id: id
+          items:
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: https://openapi-generator.tech
+            quantity: 0
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            maxQuantity: 1
+            name: name
+            options:
+              key: options
+            available: true
+            id: id
+            variantId: variantId
+            sku: sku
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: https://openapi-generator.tech
+            quantity: 0
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            maxQuantity: 1
+            name: name
+            options:
+              key: options
+            available: true
+            id: id
+            variantId: variantId
+            sku: sku
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        pricing:
+          tradeInCredit:
+            amount: 6.027456183070403
+            currency: USD
+          total:
+            amount: 6.027456183070403
+            currency: USD
+          shipping:
+            amount: 6.027456183070403
+            currency: USD
+          subtotal:
+            amount: 6.027456183070403
+            currency: USD
+          discount:
+            amount: 6.027456183070403
+            currency: USD
+          tax:
+            amount: 6.027456183070403
+            currency: USD
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: active
+        shippingOption:
+          carrier: carrier
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          description: description
+          id: id
+          estimatedDelivery:
+            date: 2000-01-23
+            maxDays: 6
+            minDays: 0
+      properties:
+        id:
+          type: string
+        status:
+          enum:
+          - active
+          - completed
+          - expired
+          - abandoned
+          type: string
+        cart:
+          $ref: "#/components/schemas/Cart"
+        shippingAddress:
+          $ref: "#/components/schemas/Address"
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        shippingOption:
+          $ref: "#/components/schemas/ShippingOption"
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethod"
+        pricing:
+          $ref: "#/components/schemas/CheckoutPricing"
+        createdAt:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    CheckoutPricing:
+      example:
+        tradeInCredit:
+          amount: 6.027456183070403
+          currency: USD
+        total:
+          amount: 6.027456183070403
+          currency: USD
+        shipping:
+          amount: 6.027456183070403
+          currency: USD
+        subtotal:
+          amount: 6.027456183070403
+          currency: USD
+        discount:
+          amount: 6.027456183070403
+          currency: USD
+        tax:
+          amount: 6.027456183070403
+          currency: USD
+      properties:
+        subtotal:
+          $ref: "#/components/schemas/Money"
+        shipping:
+          $ref: "#/components/schemas/Money"
+        tax:
+          $ref: "#/components/schemas/Money"
+        discount:
+          $ref: "#/components/schemas/Money"
+        tradeInCredit:
+          $ref: "#/components/schemas/Money"
+        total:
+          $ref: "#/components/schemas/Money"
+      type: object
+    ShippingOptionRequest:
+      example:
+        shippingOptionId: shippingOptionId
+        deliveryInstructions: deliveryInstructions
+      properties:
+        shippingOptionId:
+          type: string
+        deliveryInstructions:
+          maxLength: 500
+          type: string
+      required:
+      - shippingOptionId
+      type: object
+    ShippingOption:
+      example:
+        carrier: carrier
+        price:
+          amount: 6.027456183070403
+          currency: USD
+        name: name
+        description: description
+        id: id
+        estimatedDelivery:
+          date: 2000-01-23
+          maxDays: 6
+          minDays: 0
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        carrier:
+          type: string
+        price:
+          $ref: "#/components/schemas/Money"
+        estimatedDelivery:
+          $ref: "#/components/schemas/DeliveryEstimate"
+      type: object
+    DeliveryEstimate:
+      example:
+        date: 2000-01-23
+        maxDays: 6
+        minDays: 0
+      properties:
+        minDays:
+          type: integer
+        maxDays:
+          type: integer
+        date:
+          format: date
+          type: string
+      type: object
+    ShippingOptionsRequest:
+      example:
+        address:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+        items:
+        - quantity: 0
+          sku: sku
+        - quantity: 0
+          sku: sku
+      properties:
+        address:
+          $ref: "#/components/schemas/Address"
+        items:
+          items:
+            $ref: "#/components/schemas/ShippingItem"
+          type: array
+      required:
+      - address
+      type: object
+    ShippingItem:
+      example:
+        quantity: 0
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+      type: object
+    ShippingOptionsResponse:
+      example:
+        options:
+        - carrier: carrier
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          description: description
+          id: id
+          estimatedDelivery:
+            date: 2000-01-23
+            maxDays: 6
+            minDays: 0
+        - carrier: carrier
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          description: description
+          id: id
+          estimatedDelivery:
+            date: 2000-01-23
+            maxDays: 6
+            minDays: 0
+      properties:
+        options:
+          items:
+            $ref: "#/components/schemas/ShippingOption"
+          type: array
+      type: object
+    PaymentMethodRequest:
+      example:
+        saveCard: true
+        type: credit_card
+        cardToken: cardToken
+        financingTerm: 0
+      properties:
+        type:
+          enum:
+          - credit_card
+          - pear_card
+          - pear_pay
+          - paypal
+          - financing
+          type: string
+        cardToken:
+          type: string
+        saveCard:
+          type: boolean
+        financingTerm:
+          type: integer
+      required:
+      - type
+      type: object
+    PaymentMethod:
+      example:
+        last4: last4
+        expiryMonth: 1
+        expiryYear: 5
+        type: type
+        brand: brand
+      properties:
+        type:
+          type: string
+        last4:
+          type: string
+        brand:
+          type: string
+        expiryMonth:
+          type: integer
+        expiryYear:
+          type: integer
+      type: object
+    PlaceOrderRequest:
+      example:
+        acceptTerms: true
+        subscribeToUpdates: true
+      properties:
+        acceptTerms:
+          type: boolean
+        subscribeToUpdates:
+          type: boolean
+      type: object
+    OrderConfirmation:
+      example:
+        total:
+          amount: 6.027456183070403
+          currency: USD
+        orderNumber: orderNumber
+        orderId: orderId
+        trackingUrl: https://openapi-generator.tech
+        paymentMethod:
+          last4: last4
+          expiryMonth: 1
+          expiryYear: 5
+          type: type
+          brand: brand
+        shippingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          id: id
+          street2: street2
+          state: state
+        receiptUrl: https://openapi-generator.tech
+        items:
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: https://openapi-generator.tech
+          quantity: 0
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          maxQuantity: 1
+          name: name
+          options:
+            key: options
+          available: true
+          id: id
+          variantId: variantId
+          sku: sku
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: https://openapi-generator.tech
+          quantity: 0
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          maxQuantity: 1
+          name: name
+          options:
+            key: options
+          available: true
+          id: id
+          variantId: variantId
+          sku: sku
+        estimatedDelivery: 2000-01-23
+        status: status
+      properties:
+        orderId:
+          type: string
+        orderNumber:
+          type: string
+        status:
+          type: string
+        estimatedDelivery:
+          format: date
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CartItem"
+          type: array
+        total:
+          $ref: "#/components/schemas/Money"
+        paymentMethod:
+          $ref: "#/components/schemas/PaymentMethod"
+        shippingAddress:
+          $ref: "#/components/schemas/Address"
+        trackingUrl:
+          format: uri
+          type: string
+        receiptUrl:
+          format: uri
+          type: string
+      type: object
+    WishlistsResponse:
+      example:
+        wishlists:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          isPublic: true
+          shareUrl: https://openapi-generator.tech
+          id: id
+          items:
+          - image: https://openapi-generator.tech
+            addedAt: 2000-01-23T04:56:07.000+00:00
+            notes: notes
+            productId: productId
+            price:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            available: true
+            id: id
+            variantId: variantId
+          - image: https://openapi-generator.tech
+            addedAt: 2000-01-23T04:56:07.000+00:00
+            notes: notes
+            productId: productId
+            price:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            available: true
+            id: id
+            variantId: variantId
+          itemCount: 0
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          isPublic: true
+          shareUrl: https://openapi-generator.tech
+          id: id
+          items:
+          - image: https://openapi-generator.tech
+            addedAt: 2000-01-23T04:56:07.000+00:00
+            notes: notes
+            productId: productId
+            price:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            available: true
+            id: id
+            variantId: variantId
+          - image: https://openapi-generator.tech
+            addedAt: 2000-01-23T04:56:07.000+00:00
+            notes: notes
+            productId: productId
+            price:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            available: true
+            id: id
+            variantId: variantId
+          itemCount: 0
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        wishlists:
+          items:
+            $ref: "#/components/schemas/Wishlist"
+          type: array
+      type: object
+    WishlistRequest:
+      example:
+        name: name
+        isPublic: false
+      properties:
+        name:
+          maxLength: 100
+          type: string
+        isPublic:
+          default: false
+          type: boolean
+      required:
+      - name
+      type: object
+    Wishlist:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        isPublic: true
+        shareUrl: https://openapi-generator.tech
+        id: id
+        items:
+        - image: https://openapi-generator.tech
+          addedAt: 2000-01-23T04:56:07.000+00:00
+          notes: notes
+          productId: productId
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          available: true
+          id: id
+          variantId: variantId
+        - image: https://openapi-generator.tech
+          addedAt: 2000-01-23T04:56:07.000+00:00
+          notes: notes
+          productId: productId
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          available: true
+          id: id
+          variantId: variantId
+        itemCount: 0
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        isPublic:
+          type: boolean
+        shareUrl:
+          format: uri
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/WishlistItem"
+          type: array
+        itemCount:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    WishlistItemRequest:
+      example:
+        notes: notes
+        productId: productId
+        variantId: variantId
+      properties:
+        productId:
+          type: string
+        variantId:
+          type: string
+        notes:
+          type: string
+      required:
+      - productId
+      type: object
+    WishlistItem:
+      example:
+        image: https://openapi-generator.tech
+        addedAt: 2000-01-23T04:56:07.000+00:00
+        notes: notes
+        productId: productId
+        price:
+          amount: 6.027456183070403
+          currency: USD
+        name: name
+        available: true
+        id: id
+        variantId: variantId
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        variantId:
+          type: string
+        name:
+          type: string
+        image:
+          format: uri
+          type: string
+        price:
+          $ref: "#/components/schemas/Money"
+        available:
+          type: boolean
+        notes:
+          type: string
+        addedAt:
+          format: date-time
+          type: string
+      type: object
+    ReviewListResponse:
+      example:
+        totalReviews: 6
+        ratingDistribution:
+          four: 5
+          one: 7
+          five: 1
+          three: 5
+          two: 2
+        pagination:
+          totalItems: 7
+          limit: 4
+          totalPages: 1
+          page: 2
+        productId: productId
+        reviews:
+        - helpfulCount: 3
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          pros:
+          - pros
+          - pros
+          images:
+          - https://openapi-generator.tech
+          - https://openapi-generator.tech
+          productId: productId
+          author:
+            verifiedPurchase: true
+            displayName: displayName
+            id: id
+          response:
+            respondedAt: 2000-01-23T04:56:07.000+00:00
+            body: body
+          rating: 4
+          id: id
+          title: title
+          body: body
+          cons:
+          - cons
+          - cons
+        - helpfulCount: 3
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          pros:
+          - pros
+          - pros
+          images:
+          - https://openapi-generator.tech
+          - https://openapi-generator.tech
+          productId: productId
+          author:
+            verifiedPurchase: true
+            displayName: displayName
+            id: id
+          response:
+            respondedAt: 2000-01-23T04:56:07.000+00:00
+            body: body
+          rating: 4
+          id: id
+          title: title
+          body: body
+          cons:
+          - cons
+          - cons
+        averageRating: 0.8008281904610115
+      properties:
+        productId:
+          type: string
+        averageRating:
+          type: number
+        totalReviews:
+          type: integer
+        ratingDistribution:
+          $ref: "#/components/schemas/RatingDistribution"
+        reviews:
+          items:
+            $ref: "#/components/schemas/Review"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    RatingDistribution:
+      example:
+        four: 5
+        one: 7
+        five: 1
+        three: 5
+        two: 2
+      properties:
+        five:
+          type: integer
+        four:
+          type: integer
+        three:
+          type: integer
+        two:
+          type: integer
+        one:
+          type: integer
+      type: object
+    ReviewRequest:
+      example:
+        pros:
+        - pros
+        - pros
+        - pros
+        - pros
+        - pros
+        rating: 1
+        title: title
+        body: body
+        cons:
+        - cons
+        - cons
+        - cons
+        - cons
+        - cons
+      properties:
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+        title:
+          maxLength: 150
+          type: string
+        body:
+          maxLength: 5000
+          type: string
+        pros:
+          items:
+            type: string
+          maxItems: 5
+          type: array
+        cons:
+          items:
+            type: string
+          maxItems: 5
+          type: array
+      required:
+      - body
+      - rating
+      - title
+      type: object
+    Review:
+      example:
+        helpfulCount: 3
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        pros:
+        - pros
+        - pros
+        images:
+        - https://openapi-generator.tech
+        - https://openapi-generator.tech
+        productId: productId
+        author:
+          verifiedPurchase: true
+          displayName: displayName
+          id: id
+        response:
+          respondedAt: 2000-01-23T04:56:07.000+00:00
+          body: body
+        rating: 4
+        id: id
+        title: title
+        body: body
+        cons:
+        - cons
+        - cons
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        author:
+          $ref: "#/components/schemas/ReviewAuthor"
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        pros:
+          items:
+            type: string
+          type: array
+        cons:
+          items:
+            type: string
+          type: array
+        images:
+          items:
+            format: uri
+            type: string
+          type: array
+        helpfulCount:
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        response:
+          $ref: "#/components/schemas/ReviewResponse"
+      type: object
+    ReviewAuthor:
+      example:
+        verifiedPurchase: true
+        displayName: displayName
+        id: id
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        verifiedPurchase:
+          type: boolean
+      type: object
+    ReviewResponse:
+      example:
+        respondedAt: 2000-01-23T04:56:07.000+00:00
+        body: body
+      properties:
+        body:
+          type: string
+        respondedAt:
+          format: date-time
+          type: string
+      type: object
+    RecommendationsResponse:
+      example:
+        recommendations:
+        - image: https://openapi-generator.tech
+          reason: reason
+          productId: productId
+          reviewCount: 6
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          rating: 0.8008281904610115
+        - image: https://openapi-generator.tech
+          reason: reason
+          productId: productId
+          reviewCount: 6
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          rating: 0.8008281904610115
+      properties:
+        recommendations:
+          items:
+            $ref: "#/components/schemas/ProductRecommendation"
+          type: array
+      type: object
+    RelatedProductsResponse:
+      example:
+        products:
+        - image: https://openapi-generator.tech
+          reason: reason
+          productId: productId
+          reviewCount: 6
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          rating: 0.8008281904610115
+        - image: https://openapi-generator.tech
+          reason: reason
+          productId: productId
+          reviewCount: 6
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          rating: 0.8008281904610115
+      properties:
+        products:
+          items:
+            $ref: "#/components/schemas/ProductRecommendation"
+          type: array
+      type: object
+    ProductRecommendation:
+      example:
+        image: https://openapi-generator.tech
+        reason: reason
+        productId: productId
+        reviewCount: 6
+        price:
+          amount: 6.027456183070403
+          currency: USD
+        name: name
+        rating: 0.8008281904610115
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        image:
+          format: uri
+          type: string
+        price:
+          $ref: "#/components/schemas/Money"
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+        reason:
+          type: string
+      type: object
+    Address:
+      example:
+        firstName: firstName
+        lastName: lastName
+        country: country
+        city: city
+        phone: phone
+        postalCode: postalCode
+        company: company
+        street1: street1
+        id: id
+        street2: street2
+        state: state
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+      type: object
+    Money:
+      example:
+        amount: 6.027456183070403
+        currency: USD
+      properties:
+        amount:
+          type: number
+        currency:
+          default: USD
+          type: string
+      type: object
+    Pagination:
+      example:
+        totalItems: 7
+        limit: 4
+        totalPages: 1
+        page: 2
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    PromoCodeError:
+      example:
+        reason: invalid
+        code: code
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        reason:
+          enum:
+          - invalid
+          - expired
+          - minimum_not_met
+          - already_used
+          - not_applicable
+          type: string
+      type: object
+    PaymentError:
+      example:
+        code: code
+        message: message
+        declineReason: declineReason
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        declineReason:
+          type: string
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+    sessionToken:
+      in: cookie
+      name: pear_session
+      type: apiKey

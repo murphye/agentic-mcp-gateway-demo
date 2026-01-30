@@ -1,0 +1,2691 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: analytics@pearcomputer.com
+    name: Pear Business Intelligence Team
+  description: |
+    Internal analytics and business intelligence service for Pear Computer.
+    Provides real-time dashboards, sales metrics, inventory analytics, and
+    operational reporting across all business units.
+  title: Pear Computer - Analytics & Reporting Service
+  version: 1.0.0
+servers:
+- url: /v1/analytics
+tags:
+- description: Sales analytics and metrics
+  name: Sales
+- description: Product performance analytics
+  name: Products
+- description: Customer analytics and segmentation
+  name: Customers
+- description: Inventory analytics
+  name: Inventory
+- description: Operational metrics
+  name: Operations
+- description: Scheduled and custom reports
+  name: Reports
+- description: Dashboard management
+  name: Dashboards
+paths:
+  /sales/summary:
+    get:
+      description: Get high-level sales metrics and KPIs
+      operationId: getSalesSummary
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: channel
+        required: false
+        schema:
+          enum:
+          - all
+          - online
+          - retail
+          - business
+          - education
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: region
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: compareWith
+        required: false
+        schema:
+          enum:
+          - previous_period
+          - previous_year
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesSummary"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get sales summary
+      tags:
+      - Sales
+      x-eov-operation-handler: controllers/SalesController
+  /sales/trends:
+    get:
+      description: Get sales data over time for trend analysis
+      operationId: getSalesTrends
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: granularity
+        required: false
+        schema:
+          default: daily
+          enum:
+          - hourly
+          - daily
+          - weekly
+          - monthly
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: metrics
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: dimensions
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesTrends"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get sales trends
+      tags:
+      - Sales
+      x-eov-operation-handler: controllers/SalesController
+  /sales/by-region:
+    get:
+      description: Geographic breakdown of sales performance
+      operationId: getSalesByRegion
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: level
+        required: false
+        schema:
+          default: country
+          enum:
+          - country
+          - state
+          - city
+          - store
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionalSales"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get sales by region
+      tags:
+      - Sales
+      x-eov-operation-handler: controllers/SalesController
+  /sales/forecast:
+    get:
+      description: AI-powered sales forecast
+      operationId: getSalesForecast
+      parameters:
+      - explode: true
+        in: query
+        name: horizon
+        required: false
+        schema:
+          default: 30
+          maximum: 365
+          minimum: 7
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: confidence
+        required: false
+        schema:
+          default: 0.95
+          type: number
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SalesForecast"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get sales forecast
+      tags:
+      - Sales
+      x-eov-operation-handler: controllers/SalesController
+  /products/performance:
+    get:
+      description: Product-level performance metrics
+      operationId: getProductPerformance
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sortBy
+        required: false
+        schema:
+          default: revenue
+          enum:
+          - revenue
+          - units
+          - growth
+          - margin
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sortOrder
+        required: false
+        schema:
+          default: desc
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductPerformance"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get product performance
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /products/{productId}/analytics:
+    get:
+      description: Detailed analytics for a specific product
+      operationId: getProductAnalytics
+      parameters:
+      - explode: false
+        in: path
+        name: productId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductAnalytics"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get product analytics
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /products/categories:
+    get:
+      description: Performance metrics by product category
+      operationId: getCategoryPerformance
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getCategoryPerformance_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get category performance
+      tags:
+      - Products
+      x-eov-operation-handler: controllers/ProductsController
+  /customers/overview:
+    get:
+      description: High-level customer metrics and trends
+      operationId: getCustomerOverview
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerOverview"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get customer overview
+      tags:
+      - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /customers/segments:
+    get:
+      description: Customer segmentation analysis
+      operationId: getCustomerSegments
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getCustomerSegments_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get customer segments
+      tags:
+      - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /customers/cohort:
+    get:
+      description: Customer cohort retention analysis
+      operationId: getCohortAnalysis
+      parameters:
+      - explode: true
+        in: query
+        name: cohortType
+        required: false
+        schema:
+          default: acquisition_month
+          enum:
+          - acquisition_month
+          - first_purchase_category
+          - acquisition_channel
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: metric
+        required: false
+        schema:
+          default: retention
+          enum:
+          - retention
+          - revenue
+          - orders
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: periods
+        required: false
+        schema:
+          default: 12
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CohortAnalysis"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get cohort analysis
+      tags:
+      - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /customers/lifetime-value:
+    get:
+      description: Customer lifetime value analysis
+      operationId: getCustomerLTV
+      parameters:
+      - explode: true
+        in: query
+        name: segment
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LTVAnalysis"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get customer lifetime value
+      tags:
+      - Customers
+      x-eov-operation-handler: controllers/CustomersController
+  /inventory/health:
+    get:
+      description: Inventory health metrics and alerts
+      operationId: getInventoryHealth
+      parameters:
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: location
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryHealth"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get inventory health
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+  /inventory/turnover:
+    get:
+      description: Inventory turnover analysis
+      operationId: getInventoryTurnover
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: groupBy
+        required: false
+        schema:
+          default: category
+          enum:
+          - category
+          - product
+          - location
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InventoryTurnover"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get inventory turnover
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+  /inventory/stockout-risk:
+    get:
+      description: Products at risk of stockout
+      operationId: getStockoutRisk
+      parameters:
+      - explode: true
+        in: query
+        name: threshold
+        required: false
+        schema:
+          default: 14
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getStockoutRisk_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get stockout risk
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+  /operations/fulfillment:
+    get:
+      description: Order fulfillment performance metrics
+      operationId: getFulfillmentMetrics
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: location
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FulfillmentMetrics"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get fulfillment metrics
+      tags:
+      - Operations
+      x-eov-operation-handler: controllers/OperationsController
+  /operations/support:
+    get:
+      description: Customer support performance metrics
+      operationId: getSupportMetrics
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SupportMetrics"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get support metrics
+      tags:
+      - Operations
+      x-eov-operation-handler: controllers/OperationsController
+  /operations/returns:
+    get:
+      description: Returns and refunds analysis
+      operationId: getReturnMetrics
+      parameters:
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnMetrics"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get return metrics
+      tags:
+      - Operations
+      x-eov-operation-handler: controllers/OperationsController
+  /reports:
+    get:
+      description: Get available reports and schedules
+      operationId: listReports
+      parameters:
+      - explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          enum:
+          - scheduled
+          - ad_hoc
+          - system
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listReports_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: List reports
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+    post:
+      description: Create a new scheduled or ad-hoc report
+      operationId: createReport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+          description: Report created
+      security:
+      - bearerAuth: []
+      summary: Create report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+      x-codegen-request-body-name: createReportRequest
+  /reports/{reportId}:
+    delete:
+      description: Delete a report and its schedule
+      operationId: deleteReport
+      parameters:
+      - explode: false
+        in: path
+        name: reportId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Report deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Delete report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+    get:
+      description: Get report details and latest run
+      operationId: getReport
+      parameters:
+      - explode: false
+        in: path
+        name: reportId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+  /reports/{reportId}/run:
+    post:
+      description: Execute report immediately
+      operationId: runReport
+      parameters:
+      - explode: false
+        in: path
+        name: reportId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/runReport_request"
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/runReport_202_response"
+          description: Report execution started
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Run report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+      x-codegen-request-body-name: runReportRequest
+  /reports/{reportId}/download:
+    get:
+      description: Download the latest report output
+      operationId: downloadReport
+      parameters:
+      - explode: false
+        in: path
+        name: reportId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: format
+        required: false
+        schema:
+          default: csv
+          enum:
+          - csv
+          - xlsx
+          - pdf
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            text/csv:
+              schema:
+                type: string
+          description: Report file
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Download report
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+  /dashboards:
+    get:
+      description: Get available dashboards
+      operationId: listDashboards
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listDashboards_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: List dashboards
+      tags:
+      - Dashboards
+      x-eov-operation-handler: controllers/DashboardsController
+  /dashboards/{dashboardId}:
+    get:
+      description: Get dashboard configuration and data
+      operationId: getDashboard
+      parameters:
+      - explode: false
+        in: path
+        name: dashboardId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardData"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get dashboard
+      tags:
+      - Dashboards
+      x-eov-operation-handler: controllers/DashboardsController
+  /query:
+    post:
+      description: Execute a custom analytics query
+      operationId: executeQuery
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalyticsQuery"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResult"
+          description: Query results
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Execute custom query
+      tags:
+      - Reports
+      x-eov-operation-handler: controllers/ReportsController
+      x-codegen-request-body-name: analyticsQuery
+components:
+  parameters:
+    StartDateParam:
+      explode: true
+      in: query
+      name: startDate
+      required: true
+      schema:
+        format: date
+        type: string
+      style: form
+    EndDateParam:
+      explode: true
+      in: query
+      name: endDate
+      required: true
+      schema:
+        format: date
+        type: string
+      style: form
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 50
+        maximum: 500
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    SalesSummary:
+      example:
+        period:
+          endDate: 2000-01-23
+          startDate: 2000-01-23
+        byChannel: "{}"
+        metrics:
+          returningCustomerRevenue:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          newCustomers:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          averageOrderValue:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          totalRevenue:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          totalOrders:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          conversionRate:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+          totalUnits:
+            trend: up
+            change: 1.4658129805029452
+            changePercent: 5.962133916683182
+            value: 0.8008281904610115
+            previousValue: 6.027456183070403
+      properties:
+        period:
+          $ref: "#/components/schemas/SalesSummary_period"
+        metrics:
+          $ref: "#/components/schemas/SalesSummary_metrics"
+        byChannel:
+          type: object
+      type: object
+    MetricWithChange:
+      example:
+        trend: up
+        change: 1.4658129805029452
+        changePercent: 5.962133916683182
+        value: 0.8008281904610115
+        previousValue: 6.027456183070403
+      properties:
+        value:
+          type: number
+        previousValue:
+          type: number
+        change:
+          type: number
+        changePercent:
+          type: number
+        trend:
+          enum:
+          - up
+          - down
+          - stable
+          type: string
+      type: object
+    SalesTrends:
+      example:
+        granularity: granularity
+        dataPoints:
+        - date: 2000-01-23
+          revenue: 0.8008281904610115
+          aov: 5.962133916683182
+          orders: 6
+          units: 1
+          conversionRate: 5.637376656633329
+        - date: 2000-01-23
+          revenue: 0.8008281904610115
+          aov: 5.962133916683182
+          orders: 6
+          units: 1
+          conversionRate: 5.637376656633329
+        dimensions: "{}"
+      properties:
+        granularity:
+          type: string
+        dataPoints:
+          items:
+            $ref: "#/components/schemas/SalesTrends_dataPoints_inner"
+          type: array
+        dimensions:
+          type: object
+      type: object
+    RegionalSales:
+      example:
+        regions:
+        - revenue: 0.8008281904610115
+          subRegions:
+          - "{}"
+          - "{}"
+          code: code
+          percentOfTotal: 1.4658129805029452
+          name: name
+          orders: 6
+          growth: 5.962133916683182
+        - revenue: 0.8008281904610115
+          subRegions:
+          - "{}"
+          - "{}"
+          code: code
+          percentOfTotal: 1.4658129805029452
+          name: name
+          orders: 6
+          growth: 5.962133916683182
+      properties:
+        regions:
+          items:
+            $ref: "#/components/schemas/RegionalSales_regions_inner"
+          type: array
+      type: object
+    SalesForecast:
+      example:
+        summary:
+          trend: trend
+          averageDaily: 7.061401241503109
+          totalPredicted: 2.3021358869347655
+        horizon: 0
+        confidence: 6.027456183070403
+        generatedAt: 2000-01-23T04:56:07.000+00:00
+        forecast:
+        - date: 2000-01-23
+          upperBound: 5.637376656633329
+          lowerBound: 5.962133916683182
+          predicted: 1.4658129805029452
+        - date: 2000-01-23
+          upperBound: 5.637376656633329
+          lowerBound: 5.962133916683182
+          predicted: 1.4658129805029452
+      properties:
+        generatedAt:
+          format: date-time
+          type: string
+        horizon:
+          type: integer
+        confidence:
+          type: number
+        forecast:
+          items:
+            $ref: "#/components/schemas/SalesForecast_forecast_inner"
+          type: array
+        summary:
+          $ref: "#/components/schemas/SalesForecast_summary"
+      type: object
+    ProductPerformance:
+      example:
+        pagination:
+          totalItems: 2
+          limit: 3
+          totalPages: 4
+          page: 9
+        products:
+        - revenue: 0.8008281904610115
+          margin: 5.637376656633329
+          productId: productId
+          name: name
+          rank: 7
+          orders: 1
+          growth: 2.3021358869347655
+          units: 6
+          averagePrice: 5.962133916683182
+          category: category
+        - revenue: 0.8008281904610115
+          margin: 5.637376656633329
+          productId: productId
+          name: name
+          rank: 7
+          orders: 1
+          growth: 2.3021358869347655
+          units: 6
+          averagePrice: 5.962133916683182
+          category: category
+      properties:
+        products:
+          items:
+            $ref: "#/components/schemas/ProductPerformance_products_inner"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ProductAnalytics:
+      example:
+        summary:
+          returnRate: 5.962133916683182
+          reviewCount: 2
+          rating: 5.637376656633329
+          totalRevenue: 0.8008281904610115
+          averagePrice: 1.4658129805029452
+          totalUnits: 6
+        salesTrend:
+        - date: 2000-01-23
+          revenue: 7.061401241503109
+          units: 9
+        - date: 2000-01-23
+          revenue: 7.061401241503109
+          units: 9
+        productId: productId
+        relatedProducts:
+        - productId: productId
+          correlation: 4.145608029883936
+          name: name
+        - productId: productId
+          correlation: 4.145608029883936
+          name: name
+        name: name
+        byVariant:
+        - revenue: 3.616076749251911
+          name: name
+          variantId: variantId
+          units: 2
+        - revenue: 3.616076749251911
+          name: name
+          variantId: variantId
+          units: 2
+        customerDemographics: "{}"
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        summary:
+          $ref: "#/components/schemas/ProductAnalytics_summary"
+        salesTrend:
+          items:
+            $ref: "#/components/schemas/ProductAnalytics_salesTrend_inner"
+          type: array
+        byVariant:
+          items:
+            $ref: "#/components/schemas/ProductAnalytics_byVariant_inner"
+          type: array
+        customerDemographics:
+          type: object
+        relatedProducts:
+          items:
+            $ref: "#/components/schemas/ProductAnalytics_relatedProducts_inner"
+          type: array
+      type: object
+    CategoryMetrics:
+      example:
+        revenue: 0.8008281904610115
+        percentOfTotal: 5.637376656633329
+        topProducts:
+        - revenue: 2.3021358869347655
+          productId: productId
+          name: name
+        - revenue: 2.3021358869347655
+          productId: productId
+          name: name
+        orders: 1
+        growth: 5.962133916683182
+        units: 6
+        category: category
+      properties:
+        category:
+          type: string
+        revenue:
+          type: number
+        units:
+          type: integer
+        orders:
+          type: integer
+        growth:
+          type: number
+        percentOfTotal:
+          type: number
+        topProducts:
+          items:
+            $ref: "#/components/schemas/CategoryMetrics_topProducts_inner"
+          type: array
+      type: object
+    CustomerOverview:
+      example:
+        nps:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        totalCustomers:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        newCustomers:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        activeCustomers:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        customersByAcquisitionChannel: "{}"
+        churnRate:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        averageLTV:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+      properties:
+        totalCustomers:
+          $ref: "#/components/schemas/MetricWithChange"
+        newCustomers:
+          $ref: "#/components/schemas/MetricWithChange"
+        activeCustomers:
+          $ref: "#/components/schemas/MetricWithChange"
+        averageLTV:
+          $ref: "#/components/schemas/MetricWithChange"
+        churnRate:
+          $ref: "#/components/schemas/MetricWithChange"
+        nps:
+          $ref: "#/components/schemas/MetricWithChange"
+        customersByAcquisitionChannel:
+          type: object
+      type: object
+    CustomerSegment:
+      example:
+        purchaseFrequency: 5.637376656633329
+        percentOfTotal: 6.027456183070403
+        averageOrderValue: 5.962133916683182
+        name: name
+        description: description
+        averageLTV: 1.4658129805029452
+        topCategories:
+        - topCategories
+        - topCategories
+        customerCount: 0
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        customerCount:
+          type: integer
+        percentOfTotal:
+          type: number
+        averageLTV:
+          type: number
+        averageOrderValue:
+          type: number
+        purchaseFrequency:
+          type: number
+        topCategories:
+          items:
+            type: string
+          type: array
+      type: object
+    CohortAnalysis:
+      example:
+        metric: metric
+        cohortType: cohortType
+        cohorts:
+        - size: 0
+          name: name
+          periods:
+          - period: 6
+            percentOfInitial: 5.962133916683182
+            value: 1.4658129805029452
+          - period: 6
+            percentOfInitial: 5.962133916683182
+            value: 1.4658129805029452
+          startDate: 2000-01-23
+        - size: 0
+          name: name
+          periods:
+          - period: 6
+            percentOfInitial: 5.962133916683182
+            value: 1.4658129805029452
+          - period: 6
+            percentOfInitial: 5.962133916683182
+            value: 1.4658129805029452
+          startDate: 2000-01-23
+      properties:
+        cohortType:
+          type: string
+        metric:
+          type: string
+        cohorts:
+          items:
+            $ref: "#/components/schemas/CohortAnalysis_cohorts_inner"
+          type: array
+      type: object
+    LTVAnalysis:
+      example:
+        bySegment:
+        - segment: segment
+          averageLTV: 5.637376656633329
+          customerCount: 2
+        - segment: segment
+          averageLTV: 5.637376656633329
+          customerCount: 2
+        medianLTV: 6.027456183070403
+        distribution:
+        - percentOfTotal: 5.962133916683182
+          count: 1
+          range: range
+        - percentOfTotal: 5.962133916683182
+          count: 1
+          range: range
+        averageLTV: 0.8008281904610115
+      properties:
+        averageLTV:
+          type: number
+        medianLTV:
+          type: number
+        distribution:
+          items:
+            $ref: "#/components/schemas/LTVAnalysis_distribution_inner"
+          type: array
+        bySegment:
+          items:
+            $ref: "#/components/schemas/LTVAnalysis_bySegment_inner"
+          type: array
+      type: object
+    InventoryHealth:
+      example:
+        summary:
+          totalValue: 1.4658129805029452
+          healthyStock: 5
+          outOfStock: 2
+          lowStock: 5
+          totalSKUs: 0
+          overstock: 7
+          totalUnits: 6
+        alerts:
+        - severity: severity
+          affectedSKUs: 9
+          type: type
+          message: message
+        - severity: severity
+          affectedSKUs: 9
+          type: type
+          message: message
+      properties:
+        summary:
+          $ref: "#/components/schemas/InventoryHealth_summary"
+        alerts:
+          items:
+            $ref: "#/components/schemas/InventoryHealth_alerts_inner"
+          type: array
+      type: object
+    InventoryTurnover:
+      example:
+        byGroup:
+        - trend: trend
+          name: name
+          turnover: 6.027456183070403
+          daysOfSupply: 1.4658129805029452
+        - trend: trend
+          name: name
+          turnover: 6.027456183070403
+          daysOfSupply: 1.4658129805029452
+        averageTurnover: 0.8008281904610115
+      properties:
+        averageTurnover:
+          type: number
+        byGroup:
+          items:
+            $ref: "#/components/schemas/InventoryTurnover_byGroup_inner"
+          type: array
+      type: object
+    StockoutRiskItem:
+      example:
+        reorderPoint: 5
+        incomingStock: 5
+        currentStock: 0
+        expectedStockoutDate: 2000-01-23
+        sku: sku
+        daysOfSupply: 6.027456183070403
+        dailySalesRate: 1.4658129805029452
+        productName: productName
+      properties:
+        sku:
+          type: string
+        productName:
+          type: string
+        currentStock:
+          type: integer
+        daysOfSupply:
+          type: number
+        dailySalesRate:
+          type: number
+        reorderPoint:
+          type: integer
+        incomingStock:
+          type: integer
+        expectedStockoutDate:
+          format: date
+          type: string
+      type: object
+    FulfillmentMetrics:
+      example:
+        averageShipTime: 5.962133916683182
+        byLocation:
+        - location: location
+          orders: 2
+          fulfillmentRate: 7.061401241503109
+          averageProcessingTime: 9.301444243932576
+        - location: location
+          orders: 2
+          fulfillmentRate: 7.061401241503109
+          averageProcessingTime: 9.301444243932576
+        onTimeDeliveryRate: 5.637376656633329
+        totalOrders: 0
+        fulfillmentRate: 6.027456183070403
+        averageProcessingTime: 1.4658129805029452
+      properties:
+        totalOrders:
+          type: integer
+        fulfillmentRate:
+          type: number
+        averageProcessingTime:
+          type: number
+        averageShipTime:
+          type: number
+        onTimeDeliveryRate:
+          type: number
+        byLocation:
+          items:
+            $ref: "#/components/schemas/FulfillmentMetrics_byLocation_inner"
+          type: array
+      type: object
+    SupportMetrics:
+      example:
+        averageResponseTime: 1.4658129805029452
+        averageResolutionTime: 5.962133916683182
+        openTickets: 6
+        firstContactResolutionRate: 5.637376656633329
+        byCategory:
+        - tickets: 7
+          percentOfTotal: 9.301444243932576
+          category: category
+        - tickets: 7
+          percentOfTotal: 9.301444243932576
+          category: category
+        totalTickets: 0
+        customerSatisfaction: 2.3021358869347655
+      properties:
+        totalTickets:
+          type: integer
+        openTickets:
+          type: integer
+        averageResponseTime:
+          type: number
+        averageResolutionTime:
+          type: number
+        firstContactResolutionRate:
+          type: number
+        customerSatisfaction:
+          type: number
+        byCategory:
+          items:
+            $ref: "#/components/schemas/SupportMetrics_byCategory_inner"
+          type: array
+      type: object
+    ReturnMetrics:
+      example:
+        totalReturns: 0
+        returnRate: 6.027456183070403
+        byReason:
+        - reason: reason
+          percentOfTotal: 5.637376656633329
+          count: 5
+        - reason: reason
+          percentOfTotal: 5.637376656633329
+          count: 5
+        byCategory:
+        - returnRate: 2.3021358869347655
+          count: 7
+          category: category
+        - returnRate: 2.3021358869347655
+          count: 7
+          category: category
+        totalRefunded: 1.4658129805029452
+      properties:
+        totalReturns:
+          type: integer
+        returnRate:
+          type: number
+        totalRefunded:
+          type: number
+        byReason:
+          items:
+            $ref: "#/components/schemas/ReturnMetrics_byReason_inner"
+          type: array
+        byCategory:
+          items:
+            $ref: "#/components/schemas/ReturnMetrics_byCategory_inner"
+          type: array
+      type: object
+    Report:
+      example:
+        schedule:
+          dayOfWeek: 0
+          dayOfMonth: 6
+          time: time
+          frequency: daily
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        lastRun: 2000-01-23T04:56:07.000+00:00
+        createdBy: createdBy
+        recipients:
+        - recipients
+        - recipients
+        name: name
+        description: description
+        id: id
+        type: scheduled
+        category: category
+        nextRun: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          enum:
+          - scheduled
+          - ad_hoc
+          - system
+          type: string
+        category:
+          type: string
+        schedule:
+          $ref: "#/components/schemas/Report_schedule"
+        recipients:
+          items:
+            type: string
+          type: array
+        lastRun:
+          format: date-time
+          type: string
+        nextRun:
+          format: date-time
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    CreateReportRequest:
+      example:
+        schedule:
+          dayOfWeek: 0
+          dayOfMonth: 6
+          time: time
+          frequency: daily
+        recipients:
+        - recipients
+        - recipients
+        query:
+          dateRange:
+            start: 2000-01-23
+            end: 2000-01-23
+          limit: 0
+          orderBy:
+          - field: field
+            direction: asc
+          - field: field
+            direction: asc
+          metrics:
+          - metrics
+          - metrics
+          filters:
+          - field: field
+            value: value
+            operator: eq
+          - field: field
+            value: value
+            operator: eq
+          dimensions:
+          - dimensions
+          - dimensions
+        name: name
+        description: description
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        query:
+          $ref: "#/components/schemas/AnalyticsQuery"
+        schedule:
+          $ref: "#/components/schemas/Report_schedule"
+        recipients:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - query
+      type: object
+    Dashboard:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        description: description
+        id: id
+        category: category
+        widgets:
+        - id: id
+          position: "{}"
+          type: type
+          title: title
+        - id: id
+          position: "{}"
+          type: type
+          title: title
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        widgets:
+          items:
+            $ref: "#/components/schemas/Dashboard_widgets_inner"
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    DashboardData:
+      example:
+        data: "{}"
+        generatedAt: 2000-01-23T04:56:07.000+00:00
+        dashboard:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          description: description
+          id: id
+          category: category
+          widgets:
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        dashboard:
+          $ref: "#/components/schemas/Dashboard"
+        data:
+          type: object
+        generatedAt:
+          format: date-time
+          type: string
+      type: object
+    AnalyticsQuery:
+      example:
+        dateRange:
+          start: 2000-01-23
+          end: 2000-01-23
+        limit: 0
+        orderBy:
+        - field: field
+          direction: asc
+        - field: field
+          direction: asc
+        metrics:
+        - metrics
+        - metrics
+        filters:
+        - field: field
+          value: value
+          operator: eq
+        - field: field
+          value: value
+          operator: eq
+        dimensions:
+        - dimensions
+        - dimensions
+      properties:
+        metrics:
+          items:
+            type: string
+          type: array
+        dimensions:
+          items:
+            type: string
+          type: array
+        dateRange:
+          $ref: "#/components/schemas/AnalyticsQuery_dateRange"
+        filters:
+          items:
+            $ref: "#/components/schemas/AnalyticsQuery_filters_inner"
+          type: array
+        orderBy:
+          items:
+            $ref: "#/components/schemas/AnalyticsQuery_orderBy_inner"
+          type: array
+        limit:
+          type: integer
+      required:
+      - dateRange
+      - metrics
+      type: object
+    QueryResult:
+      example:
+        metadata:
+          executionTime: 6.027456183070403
+          truncated: true
+          rowCount: 0
+        columns:
+        - name: name
+          type: type
+        - name: name
+          type: type
+        rows:
+        - - rows
+          - rows
+        - - rows
+          - rows
+      properties:
+        columns:
+          items:
+            $ref: "#/components/schemas/QueryResult_columns_inner"
+          type: array
+        rows:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+        metadata:
+          $ref: "#/components/schemas/QueryResult_metadata"
+      type: object
+    Pagination:
+      example:
+        totalItems: 2
+        limit: 3
+        totalPages: 4
+        page: 9
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+    getCategoryPerformance_200_response:
+      example:
+        categories:
+        - revenue: 0.8008281904610115
+          percentOfTotal: 5.637376656633329
+          topProducts:
+          - revenue: 2.3021358869347655
+            productId: productId
+            name: name
+          - revenue: 2.3021358869347655
+            productId: productId
+            name: name
+          orders: 1
+          growth: 5.962133916683182
+          units: 6
+          category: category
+        - revenue: 0.8008281904610115
+          percentOfTotal: 5.637376656633329
+          topProducts:
+          - revenue: 2.3021358869347655
+            productId: productId
+            name: name
+          - revenue: 2.3021358869347655
+            productId: productId
+            name: name
+          orders: 1
+          growth: 5.962133916683182
+          units: 6
+          category: category
+      properties:
+        categories:
+          items:
+            $ref: "#/components/schemas/CategoryMetrics"
+          type: array
+      type: object
+    getCustomerSegments_200_response:
+      example:
+        segments:
+        - purchaseFrequency: 5.637376656633329
+          percentOfTotal: 6.027456183070403
+          averageOrderValue: 5.962133916683182
+          name: name
+          description: description
+          averageLTV: 1.4658129805029452
+          topCategories:
+          - topCategories
+          - topCategories
+          customerCount: 0
+        - purchaseFrequency: 5.637376656633329
+          percentOfTotal: 6.027456183070403
+          averageOrderValue: 5.962133916683182
+          name: name
+          description: description
+          averageLTV: 1.4658129805029452
+          topCategories:
+          - topCategories
+          - topCategories
+          customerCount: 0
+      properties:
+        segments:
+          items:
+            $ref: "#/components/schemas/CustomerSegment"
+          type: array
+      type: object
+    getStockoutRisk_200_response:
+      example:
+        atRisk:
+        - reorderPoint: 5
+          incomingStock: 5
+          currentStock: 0
+          expectedStockoutDate: 2000-01-23
+          sku: sku
+          daysOfSupply: 6.027456183070403
+          dailySalesRate: 1.4658129805029452
+          productName: productName
+        - reorderPoint: 5
+          incomingStock: 5
+          currentStock: 0
+          expectedStockoutDate: 2000-01-23
+          sku: sku
+          daysOfSupply: 6.027456183070403
+          dailySalesRate: 1.4658129805029452
+          productName: productName
+      properties:
+        atRisk:
+          items:
+            $ref: "#/components/schemas/StockoutRiskItem"
+          type: array
+      type: object
+    listReports_200_response:
+      example:
+        reports:
+        - schedule:
+            dayOfWeek: 0
+            dayOfMonth: 6
+            time: time
+            frequency: daily
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          lastRun: 2000-01-23T04:56:07.000+00:00
+          createdBy: createdBy
+          recipients:
+          - recipients
+          - recipients
+          name: name
+          description: description
+          id: id
+          type: scheduled
+          category: category
+          nextRun: 2000-01-23T04:56:07.000+00:00
+        - schedule:
+            dayOfWeek: 0
+            dayOfMonth: 6
+            time: time
+            frequency: daily
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          lastRun: 2000-01-23T04:56:07.000+00:00
+          createdBy: createdBy
+          recipients:
+          - recipients
+          - recipients
+          name: name
+          description: description
+          id: id
+          type: scheduled
+          category: category
+          nextRun: 2000-01-23T04:56:07.000+00:00
+      properties:
+        reports:
+          items:
+            $ref: "#/components/schemas/Report"
+          type: array
+      type: object
+    runReport_request:
+      properties:
+        parameters:
+          type: object
+        format:
+          default: json
+          enum:
+          - json
+          - csv
+          - xlsx
+          - pdf
+          type: string
+      type: object
+    runReport_202_response:
+      example:
+        executionId: executionId
+        status: status
+      properties:
+        executionId:
+          type: string
+        status:
+          type: string
+      type: object
+    listDashboards_200_response:
+      example:
+        dashboards:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          description: description
+          id: id
+          category: category
+          widgets:
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          description: description
+          id: id
+          category: category
+          widgets:
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          - id: id
+            position: "{}"
+            type: type
+            title: title
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        dashboards:
+          items:
+            $ref: "#/components/schemas/Dashboard"
+          type: array
+      type: object
+    SalesSummary_period:
+      example:
+        endDate: 2000-01-23
+        startDate: 2000-01-23
+      properties:
+        startDate:
+          format: date
+          type: string
+        endDate:
+          format: date
+          type: string
+      type: object
+    SalesSummary_metrics:
+      example:
+        returningCustomerRevenue:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        newCustomers:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        averageOrderValue:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        totalRevenue:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        totalOrders:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        conversionRate:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+        totalUnits:
+          trend: up
+          change: 1.4658129805029452
+          changePercent: 5.962133916683182
+          value: 0.8008281904610115
+          previousValue: 6.027456183070403
+      properties:
+        totalRevenue:
+          $ref: "#/components/schemas/MetricWithChange"
+        totalOrders:
+          $ref: "#/components/schemas/MetricWithChange"
+        totalUnits:
+          $ref: "#/components/schemas/MetricWithChange"
+        averageOrderValue:
+          $ref: "#/components/schemas/MetricWithChange"
+        conversionRate:
+          $ref: "#/components/schemas/MetricWithChange"
+        newCustomers:
+          $ref: "#/components/schemas/MetricWithChange"
+        returningCustomerRevenue:
+          $ref: "#/components/schemas/MetricWithChange"
+      type: object
+    SalesTrends_dataPoints_inner:
+      example:
+        date: 2000-01-23
+        revenue: 0.8008281904610115
+        aov: 5.962133916683182
+        orders: 6
+        units: 1
+        conversionRate: 5.637376656633329
+      properties:
+        date:
+          format: date
+          type: string
+        revenue:
+          type: number
+        orders:
+          type: integer
+        units:
+          type: integer
+        aov:
+          type: number
+        conversionRate:
+          type: number
+      type: object
+    RegionalSales_regions_inner:
+      example:
+        revenue: 0.8008281904610115
+        subRegions:
+        - "{}"
+        - "{}"
+        code: code
+        percentOfTotal: 1.4658129805029452
+        name: name
+        orders: 6
+        growth: 5.962133916683182
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        revenue:
+          type: number
+        orders:
+          type: integer
+        percentOfTotal:
+          type: number
+        growth:
+          type: number
+        subRegions:
+          items:
+            type: object
+          type: array
+      type: object
+    SalesForecast_forecast_inner:
+      example:
+        date: 2000-01-23
+        upperBound: 5.637376656633329
+        lowerBound: 5.962133916683182
+        predicted: 1.4658129805029452
+      properties:
+        date:
+          format: date
+          type: string
+        predicted:
+          type: number
+        lowerBound:
+          type: number
+        upperBound:
+          type: number
+      type: object
+    SalesForecast_summary:
+      example:
+        trend: trend
+        averageDaily: 7.061401241503109
+        totalPredicted: 2.3021358869347655
+      properties:
+        totalPredicted:
+          type: number
+        averageDaily:
+          type: number
+        trend:
+          type: string
+      type: object
+    ProductPerformance_products_inner:
+      example:
+        revenue: 0.8008281904610115
+        margin: 5.637376656633329
+        productId: productId
+        name: name
+        rank: 7
+        orders: 1
+        growth: 2.3021358869347655
+        units: 6
+        averagePrice: 5.962133916683182
+        category: category
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        revenue:
+          type: number
+        units:
+          type: integer
+        orders:
+          type: integer
+        averagePrice:
+          type: number
+        margin:
+          type: number
+        growth:
+          type: number
+        rank:
+          type: integer
+      type: object
+    ProductAnalytics_summary:
+      example:
+        returnRate: 5.962133916683182
+        reviewCount: 2
+        rating: 5.637376656633329
+        totalRevenue: 0.8008281904610115
+        averagePrice: 1.4658129805029452
+        totalUnits: 6
+      properties:
+        totalRevenue:
+          type: number
+        totalUnits:
+          type: integer
+        averagePrice:
+          type: number
+        returnRate:
+          type: number
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+      type: object
+    ProductAnalytics_salesTrend_inner:
+      example:
+        date: 2000-01-23
+        revenue: 7.061401241503109
+        units: 9
+      properties:
+        date:
+          format: date
+          type: string
+        revenue:
+          type: number
+        units:
+          type: integer
+      type: object
+    ProductAnalytics_byVariant_inner:
+      example:
+        revenue: 3.616076749251911
+        name: name
+        variantId: variantId
+        units: 2
+      properties:
+        variantId:
+          type: string
+        name:
+          type: string
+        revenue:
+          type: number
+        units:
+          type: integer
+      type: object
+    ProductAnalytics_relatedProducts_inner:
+      example:
+        productId: productId
+        correlation: 4.145608029883936
+        name: name
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        correlation:
+          type: number
+      type: object
+    CategoryMetrics_topProducts_inner:
+      example:
+        revenue: 2.3021358869347655
+        productId: productId
+        name: name
+      properties:
+        productId:
+          type: string
+        name:
+          type: string
+        revenue:
+          type: number
+      type: object
+    CohortAnalysis_cohorts_inner_periods_inner:
+      example:
+        period: 6
+        percentOfInitial: 5.962133916683182
+        value: 1.4658129805029452
+      properties:
+        period:
+          type: integer
+        value:
+          type: number
+        percentOfInitial:
+          type: number
+      type: object
+    CohortAnalysis_cohorts_inner:
+      example:
+        size: 0
+        name: name
+        periods:
+        - period: 6
+          percentOfInitial: 5.962133916683182
+          value: 1.4658129805029452
+        - period: 6
+          percentOfInitial: 5.962133916683182
+          value: 1.4658129805029452
+        startDate: 2000-01-23
+      properties:
+        name:
+          type: string
+        startDate:
+          format: date
+          type: string
+        size:
+          type: integer
+        periods:
+          items:
+            $ref: "#/components/schemas/CohortAnalysis_cohorts_inner_periods_inner"
+          type: array
+      type: object
+    LTVAnalysis_distribution_inner:
+      example:
+        percentOfTotal: 5.962133916683182
+        count: 1
+        range: range
+      properties:
+        range:
+          type: string
+        count:
+          type: integer
+        percentOfTotal:
+          type: number
+      type: object
+    LTVAnalysis_bySegment_inner:
+      example:
+        segment: segment
+        averageLTV: 5.637376656633329
+        customerCount: 2
+      properties:
+        segment:
+          type: string
+        averageLTV:
+          type: number
+        customerCount:
+          type: integer
+      type: object
+    InventoryHealth_summary:
+      example:
+        totalValue: 1.4658129805029452
+        healthyStock: 5
+        outOfStock: 2
+        lowStock: 5
+        totalSKUs: 0
+        overstock: 7
+        totalUnits: 6
+      properties:
+        totalSKUs:
+          type: integer
+        totalUnits:
+          type: integer
+        totalValue:
+          type: number
+        healthyStock:
+          type: integer
+        lowStock:
+          type: integer
+        outOfStock:
+          type: integer
+        overstock:
+          type: integer
+      type: object
+    InventoryHealth_alerts_inner:
+      example:
+        severity: severity
+        affectedSKUs: 9
+        type: type
+        message: message
+      properties:
+        type:
+          type: string
+        severity:
+          type: string
+        message:
+          type: string
+        affectedSKUs:
+          type: integer
+      type: object
+    InventoryTurnover_byGroup_inner:
+      example:
+        trend: trend
+        name: name
+        turnover: 6.027456183070403
+        daysOfSupply: 1.4658129805029452
+      properties:
+        name:
+          type: string
+        turnover:
+          type: number
+        daysOfSupply:
+          type: number
+        trend:
+          type: string
+      type: object
+    FulfillmentMetrics_byLocation_inner:
+      example:
+        location: location
+        orders: 2
+        fulfillmentRate: 7.061401241503109
+        averageProcessingTime: 9.301444243932576
+      properties:
+        location:
+          type: string
+        orders:
+          type: integer
+        fulfillmentRate:
+          type: number
+        averageProcessingTime:
+          type: number
+      type: object
+    SupportMetrics_byCategory_inner:
+      example:
+        tickets: 7
+        percentOfTotal: 9.301444243932576
+        category: category
+      properties:
+        category:
+          type: string
+        tickets:
+          type: integer
+        percentOfTotal:
+          type: number
+      type: object
+    ReturnMetrics_byReason_inner:
+      example:
+        reason: reason
+        percentOfTotal: 5.637376656633329
+        count: 5
+      properties:
+        reason:
+          type: string
+        count:
+          type: integer
+        percentOfTotal:
+          type: number
+      type: object
+    ReturnMetrics_byCategory_inner:
+      example:
+        returnRate: 2.3021358869347655
+        count: 7
+        category: category
+      properties:
+        category:
+          type: string
+        returnRate:
+          type: number
+        count:
+          type: integer
+      type: object
+    Report_schedule:
+      example:
+        dayOfWeek: 0
+        dayOfMonth: 6
+        time: time
+        frequency: daily
+      properties:
+        frequency:
+          enum:
+          - daily
+          - weekly
+          - monthly
+          - quarterly
+          type: string
+        dayOfWeek:
+          type: integer
+        dayOfMonth:
+          type: integer
+        time:
+          type: string
+      type: object
+    Dashboard_widgets_inner:
+      example:
+        id: id
+        position: "{}"
+        type: type
+        title: title
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        position:
+          type: object
+      type: object
+    AnalyticsQuery_dateRange:
+      example:
+        start: 2000-01-23
+        end: 2000-01-23
+      properties:
+        start:
+          format: date
+          type: string
+        end:
+          format: date
+          type: string
+      type: object
+    AnalyticsQuery_filters_inner:
+      example:
+        field: field
+        value: value
+        operator: eq
+      properties:
+        field:
+          type: string
+        operator:
+          enum:
+          - eq
+          - neq
+          - gt
+          - gte
+          - lt
+          - lte
+          - in
+          - contains
+          type: string
+        value:
+          type: string
+      type: object
+    AnalyticsQuery_orderBy_inner:
+      example:
+        field: field
+        direction: asc
+      properties:
+        field:
+          type: string
+        direction:
+          enum:
+          - asc
+          - desc
+          type: string
+      type: object
+    QueryResult_columns_inner:
+      example:
+        name: name
+        type: type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+      type: object
+    QueryResult_metadata:
+      example:
+        executionTime: 6.027456183070403
+        truncated: true
+        rowCount: 0
+      properties:
+        rowCount:
+          type: integer
+        executionTime:
+          type: number
+        truncated:
+          type: boolean
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

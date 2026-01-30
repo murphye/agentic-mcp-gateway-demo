@@ -1,0 +1,1395 @@
+{
+  "metadata": {
+    "version": "2024.1",
+    "lastUpdated": "2024-01-15T00:00:00Z",
+    "totalStores": 25,
+    "countries": ["US", "CA", "UK"]
+  },
+  "stores": [
+    {
+      "id": "STORE-001",
+      "name": "Pear Infinite Loop",
+      "slug": "infinite-loop",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "1 Infinite Loop",
+        "city": "Cupertino",
+        "state": "CA",
+        "zip": "95014",
+        "country": "US"
+      },
+      "coordinates": { "lat": 37.3318, "lng": -122.0312 },
+      "phone": "+1 (408) 996-1010",
+      "email": "infiniteloop@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 12,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Sarah Chen",
+        "employeeId": "EMP-00142"
+      },
+      "employeeCount": 85,
+      "squareFootage": 15000,
+      "openedDate": "2015-05-19"
+    },
+    {
+      "id": "STORE-002",
+      "name": "Pear Fifth Avenue",
+      "slug": "fifth-avenue",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "767 Fifth Avenue",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10153",
+        "country": "US"
+      },
+      "coordinates": { "lat": 40.7640, "lng": -73.9729 },
+      "phone": "+1 (212) 336-1440",
+      "email": "fifthavenue@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "08:00", "close": "22:00" },
+        "tuesday": { "open": "08:00", "close": "22:00" },
+        "wednesday": { "open": "08:00", "close": "22:00" },
+        "thursday": { "open": "08:00", "close": "22:00" },
+        "friday": { "open": "08:00", "close": "22:00" },
+        "saturday": { "open": "08:00", "close": "22:00" },
+        "sunday": { "open": "08:00", "close": "22:00" }
+      },
+      "timezone": "America/New_York",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in", "carrier_activation", "24_hour"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 20,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup", "business_consulting"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping", "concierge"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Central Parking at 61st Street"
+      },
+      "manager": {
+        "name": "Michael Rodriguez",
+        "employeeId": "EMP-00089"
+      },
+      "employeeCount": 150,
+      "squareFootage": 32000,
+      "openedDate": "2006-05-19"
+    },
+    {
+      "id": "STORE-003",
+      "name": "Pear Union Square",
+      "slug": "union-square-sf",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "300 Post Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94108",
+        "country": "US"
+      },
+      "coordinates": { "lat": 37.7889, "lng": -122.4074 },
+      "phone": "+1 (415) 392-0202",
+      "email": "unionsquare@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 14,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Union Square Garage"
+      },
+      "manager": {
+        "name": "Jennifer Park",
+        "employeeId": "EMP-00201"
+      },
+      "employeeCount": 95,
+      "squareFootage": 18500,
+      "openedDate": "2010-09-25"
+    },
+    {
+      "id": "STORE-004",
+      "name": "Pear Michigan Avenue",
+      "slug": "michigan-avenue",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "401 N Michigan Avenue",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60611",
+        "country": "US"
+      },
+      "coordinates": { "lat": 41.8902, "lng": -87.6244 },
+      "phone": "+1 (312) 529-9500",
+      "email": "michiganave@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Chicago",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 16,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Millennium Park Garage"
+      },
+      "manager": {
+        "name": "David Thompson",
+        "employeeId": "EMP-00156"
+      },
+      "employeeCount": 110,
+      "squareFootage": 20000,
+      "openedDate": "2017-10-20"
+    },
+    {
+      "id": "STORE-005",
+      "name": "Pear The Grove",
+      "slug": "the-grove",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "189 The Grove Drive",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zip": "90036",
+        "country": "US"
+      },
+      "coordinates": { "lat": 34.0722, "lng": -118.3578 },
+      "phone": "+1 (323) 900-0123",
+      "email": "thegrove@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "22:00" },
+        "saturday": { "open": "10:00", "close": "22:00" },
+        "sunday": { "open": "11:00", "close": "19:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "lot",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Amanda Wilson",
+        "employeeId": "EMP-00289"
+      },
+      "employeeCount": 65,
+      "squareFootage": 10000,
+      "openedDate": "2012-03-15"
+    },
+    {
+      "id": "STORE-006",
+      "name": "Pear Georgetown",
+      "slug": "georgetown",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "1229 Wisconsin Avenue NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20007",
+        "country": "US"
+      },
+      "coordinates": { "lat": 38.9057, "lng": -77.0631 },
+      "phone": "+1 (202) 572-1460",
+      "email": "georgetown@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "20:00" },
+        "tuesday": { "open": "10:00", "close": "20:00" },
+        "wednesday": { "open": "10:00", "close": "20:00" },
+        "thursday": { "open": "10:00", "close": "20:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/New_York",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 6,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Georgetown Park Garage"
+      },
+      "manager": {
+        "name": "Robert Kim",
+        "employeeId": "EMP-00312"
+      },
+      "employeeCount": 45,
+      "squareFootage": 7500,
+      "openedDate": "2014-06-21"
+    },
+    {
+      "id": "STORE-007",
+      "name": "Pear Lincoln Park",
+      "slug": "lincoln-park",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "801 W North Avenue",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60642",
+        "country": "US"
+      },
+      "coordinates": { "lat": 41.9108, "lng": -87.6505 },
+      "phone": "+1 (312) 777-4400",
+      "email": "lincolnpark@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "20:00" },
+        "tuesday": { "open": "10:00", "close": "20:00" },
+        "wednesday": { "open": "10:00", "close": "20:00" },
+        "thursday": { "open": "10:00", "close": "20:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Chicago",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 6,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "lot",
+        "freeHours": 1
+      },
+      "manager": {
+        "name": "Lisa Martinez",
+        "employeeId": "EMP-00345"
+      },
+      "employeeCount": 42,
+      "squareFootage": 6800,
+      "openedDate": "2016-08-12"
+    },
+    {
+      "id": "STORE-008",
+      "name": "Pear Houston Galleria",
+      "slug": "houston-galleria",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "5085 Westheimer Road",
+        "city": "Houston",
+        "state": "TX",
+        "zip": "77056",
+        "country": "US"
+      },
+      "coordinates": { "lat": 29.7379, "lng": -95.4617 },
+      "phone": "+1 (713) 979-0700",
+      "email": "houstongalleria@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "America/Chicago",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Carlos Gonzalez",
+        "employeeId": "EMP-00378"
+      },
+      "employeeCount": 72,
+      "squareFootage": 12000,
+      "openedDate": "2013-11-08"
+    },
+    {
+      "id": "STORE-009",
+      "name": "Pear Domain NORTHSIDE",
+      "slug": "domain-austin",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "3121 Palm Way",
+        "city": "Austin",
+        "state": "TX",
+        "zip": "78758",
+        "country": "US"
+      },
+      "coordinates": { "lat": 30.4019, "lng": -97.7256 },
+      "phone": "+1 (512) 691-3500",
+      "email": "domainaustin@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "America/Chicago",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Emily Watson",
+        "employeeId": "EMP-00401"
+      },
+      "employeeCount": 58,
+      "squareFootage": 9500,
+      "openedDate": "2018-04-28"
+    },
+    {
+      "id": "STORE-010",
+      "name": "Pear Bellevue Square",
+      "slug": "bellevue-square",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "213 Bellevue Square",
+        "city": "Bellevue",
+        "state": "WA",
+        "zip": "98004",
+        "country": "US"
+      },
+      "coordinates": { "lat": 47.6175, "lng": -122.2034 },
+      "phone": "+1 (425) 519-0080",
+      "email": "bellevuesquare@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "19:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 4
+      },
+      "manager": {
+        "name": "Steven Chang",
+        "employeeId": "EMP-00423"
+      },
+      "employeeCount": 55,
+      "squareFootage": 8500,
+      "openedDate": "2015-09-19"
+    },
+    {
+      "id": "STORE-011",
+      "name": "Pear University Village",
+      "slug": "university-village",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "2656 NE University Village Street",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98105",
+        "country": "US"
+      },
+      "coordinates": { "lat": 47.6614, "lng": -122.2979 },
+      "phone": "+1 (206) 892-0433",
+      "email": "universityvillage@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "20:00" },
+        "tuesday": { "open": "10:00", "close": "20:00" },
+        "wednesday": { "open": "10:00", "close": "20:00" },
+        "thursday": { "open": "10:00", "close": "20:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 6,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "lot",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Megan Lewis",
+        "employeeId": "EMP-00456"
+      },
+      "employeeCount": 48,
+      "squareFootage": 7200,
+      "openedDate": "2017-06-30"
+    },
+    {
+      "id": "STORE-012",
+      "name": "Pear South Coast Plaza",
+      "slug": "south-coast-plaza",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "3333 Bristol Street",
+        "city": "Costa Mesa",
+        "state": "CA",
+        "zip": "92626",
+        "country": "US"
+      },
+      "coordinates": { "lat": 33.6910, "lng": -117.8845 },
+      "phone": "+1 (714) 434-2787",
+      "email": "southcoastplaza@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "19:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Brian Nguyen",
+        "employeeId": "EMP-00478"
+      },
+      "employeeCount": 68,
+      "squareFootage": 11000,
+      "openedDate": "2011-12-03"
+    },
+    {
+      "id": "STORE-013",
+      "name": "Pear Stanford",
+      "slug": "stanford",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "379 Stanford Shopping Center",
+        "city": "Palo Alto",
+        "state": "CA",
+        "zip": "94304",
+        "country": "US"
+      },
+      "coordinates": { "lat": 37.4436, "lng": -122.1713 },
+      "phone": "+1 (650) 384-3400",
+      "email": "stanford@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup", "business_consulting"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "lot",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Katherine Brooks",
+        "employeeId": "EMP-00501"
+      },
+      "employeeCount": 60,
+      "squareFootage": 9800,
+      "openedDate": "2009-08-01"
+    },
+    {
+      "id": "STORE-014",
+      "name": "Pear Miami",
+      "slug": "miami",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "701 Lincoln Road",
+        "city": "Miami Beach",
+        "state": "FL",
+        "zip": "33139",
+        "country": "US"
+      },
+      "coordinates": { "lat": 25.7906, "lng": -80.1340 },
+      "phone": "+1 (305) 421-0400",
+      "email": "miami@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "22:00" },
+        "tuesday": { "open": "10:00", "close": "22:00" },
+        "wednesday": { "open": "10:00", "close": "22:00" },
+        "thursday": { "open": "10:00", "close": "22:00" },
+        "friday": { "open": "10:00", "close": "23:00" },
+        "saturday": { "open": "10:00", "close": "23:00" },
+        "sunday": { "open": "11:00", "close": "21:00" }
+      },
+      "timezone": "America/New_York",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Diego Fernandez",
+        "employeeId": "EMP-00534"
+      },
+      "employeeCount": 75,
+      "squareFootage": 12500,
+      "openedDate": "2016-02-20"
+    },
+    {
+      "id": "STORE-015",
+      "name": "Pear Boston",
+      "slug": "boston",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "815 Boylston Street",
+        "city": "Boston",
+        "state": "MA",
+        "zip": "02116",
+        "country": "US"
+      },
+      "coordinates": { "lat": 42.3489, "lng": -71.0804 },
+      "phone": "+1 (617) 385-9400",
+      "email": "boston@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/New_York",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Prudential Center Garage"
+      },
+      "manager": {
+        "name": "James O'Brien",
+        "employeeId": "EMP-00567"
+      },
+      "employeeCount": 70,
+      "squareFootage": 11500,
+      "openedDate": "2008-05-31"
+    },
+    {
+      "id": "STORE-016",
+      "name": "Pear Denver",
+      "slug": "denver",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "1545 Larimer Street",
+        "city": "Denver",
+        "state": "CO",
+        "zip": "80202",
+        "country": "US"
+      },
+      "coordinates": { "lat": 39.7478, "lng": -104.9997 },
+      "phone": "+1 (720) 889-0500",
+      "email": "denver@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Denver",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Larimer Square Parking"
+      },
+      "manager": {
+        "name": "Rachel Anderson",
+        "employeeId": "EMP-00589"
+      },
+      "employeeCount": 52,
+      "squareFootage": 8000,
+      "openedDate": "2019-07-13"
+    },
+    {
+      "id": "STORE-017",
+      "name": "Pear Atlanta Lenox",
+      "slug": "atlanta-lenox",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "3393 Peachtree Road NE",
+        "city": "Atlanta",
+        "state": "GA",
+        "zip": "30326",
+        "country": "US"
+      },
+      "coordinates": { "lat": 33.8479, "lng": -84.3611 },
+      "phone": "+1 (404) 460-0500",
+      "email": "atlantalenox@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "America/New_York",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Marcus Johnson",
+        "employeeId": "EMP-00612"
+      },
+      "employeeCount": 65,
+      "squareFootage": 10500,
+      "openedDate": "2014-10-11"
+    },
+    {
+      "id": "STORE-018",
+      "name": "Pear Phoenix Scottsdale",
+      "slug": "scottsdale",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "7014 E Camelback Road",
+        "city": "Scottsdale",
+        "state": "AZ",
+        "zip": "85251",
+        "country": "US"
+      },
+      "coordinates": { "lat": 33.5009, "lng": -111.9275 },
+      "phone": "+1 (480) 522-8400",
+      "email": "scottsdale@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "18:00" }
+      },
+      "timezone": "America/Phoenix",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "lot",
+        "freeHours": 3
+      },
+      "manager": {
+        "name": "Nicole Davis",
+        "employeeId": "EMP-00634"
+      },
+      "employeeCount": 50,
+      "squareFootage": 8200,
+      "openedDate": "2017-03-18"
+    },
+    {
+      "id": "STORE-019",
+      "name": "Pear Las Vegas",
+      "slug": "las-vegas",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "3200 Las Vegas Blvd S",
+        "city": "Las Vegas",
+        "state": "NV",
+        "zip": "89109",
+        "country": "US"
+      },
+      "coordinates": { "lat": 36.1261, "lng": -115.1693 },
+      "phone": "+1 (702) 650-9550",
+      "email": "lasvegas@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "22:00" },
+        "tuesday": { "open": "10:00", "close": "22:00" },
+        "wednesday": { "open": "10:00", "close": "22:00" },
+        "thursday": { "open": "10:00", "close": "22:00" },
+        "friday": { "open": "10:00", "close": "23:00" },
+        "saturday": { "open": "10:00", "close": "23:00" },
+        "sunday": { "open": "11:00", "close": "21:00" }
+      },
+      "timezone": "America/Los_Angeles",
+      "features": ["genius_grove", "personal_setup", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": false,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Jason Miller",
+        "employeeId": "EMP-00656"
+      },
+      "employeeCount": 55,
+      "squareFootage": 9000,
+      "openedDate": "2016-11-05"
+    },
+    {
+      "id": "STORE-020",
+      "name": "Pear Toronto Eaton Centre",
+      "slug": "toronto-eaton-centre",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "220 Yonge Street",
+        "city": "Toronto",
+        "state": "ON",
+        "zip": "M5B 2H1",
+        "country": "CA"
+      },
+      "coordinates": { "lat": 43.6544, "lng": -79.3807 },
+      "phone": "+1 (416) 367-0077",
+      "email": "toronto@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "19:00" }
+      },
+      "timezone": "America/Toronto",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 14,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup", "business_consulting"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Michelle Wong",
+        "employeeId": "EMP-00678"
+      },
+      "employeeCount": 90,
+      "squareFootage": 16000,
+      "openedDate": "2012-09-22"
+    },
+    {
+      "id": "STORE-021",
+      "name": "Pear Vancouver Pacific Centre",
+      "slug": "vancouver-pacific-centre",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "701 W Georgia Street",
+        "city": "Vancouver",
+        "state": "BC",
+        "zip": "V7Y 1G5",
+        "country": "CA"
+      },
+      "coordinates": { "lat": 49.2831, "lng": -123.1185 },
+      "phone": "+1 (604) 482-2900",
+      "email": "vancouver@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "11:00", "close": "19:00" }
+      },
+      "timezone": "America/Vancouver",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 2
+      },
+      "manager": {
+        "name": "Christopher Lee",
+        "employeeId": "EMP-00701"
+      },
+      "employeeCount": 65,
+      "squareFootage": 11000,
+      "openedDate": "2014-08-09"
+    },
+    {
+      "id": "STORE-022",
+      "name": "Pear London Regent Street",
+      "slug": "london-regent-street",
+      "type": "flagship",
+      "status": "open",
+      "address": {
+        "street": "235 Regent Street",
+        "city": "London",
+        "state": "",
+        "zip": "W1B 2EL",
+        "country": "UK"
+      },
+      "coordinates": { "lat": 51.5138, "lng": -0.1404 },
+      "phone": "+44 20 7153 9000",
+      "email": "regentstreet@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "Europe/London",
+      "features": ["genius_grove", "personal_setup", "workshops", "business", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 18,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup", "business_consulting"]
+      },
+      "services": ["pickup", "delivery", "express_checkout", "personal_shopping", "concierge"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": true
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Q-Park Oxford Street"
+      },
+      "manager": {
+        "name": "Emma Richards",
+        "employeeId": "EMP-00723"
+      },
+      "employeeCount": 120,
+      "squareFootage": 25000,
+      "openedDate": "2004-11-20"
+    },
+    {
+      "id": "STORE-023",
+      "name": "Pear London Covent Garden",
+      "slug": "london-covent-garden",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "1-7 The Piazza",
+        "city": "London",
+        "state": "",
+        "zip": "WC2E 8HB",
+        "country": "UK"
+      },
+      "coordinates": { "lat": 51.5117, "lng": -0.1228 },
+      "phone": "+44 20 7447 1400",
+      "email": "coventgarden@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "20:00" },
+        "tuesday": { "open": "10:00", "close": "20:00" },
+        "wednesday": { "open": "10:00", "close": "20:00" },
+        "thursday": { "open": "10:00", "close": "20:00" },
+        "friday": { "open": "10:00", "close": "20:00" },
+        "saturday": { "open": "10:00", "close": "20:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "Europe/London",
+      "features": ["genius_grove", "personal_setup", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "NCP Covent Garden"
+      },
+      "manager": {
+        "name": "Oliver Hughes",
+        "employeeId": "EMP-00745"
+      },
+      "employeeCount": 75,
+      "squareFootage": 14000,
+      "openedDate": "2010-08-07"
+    },
+    {
+      "id": "STORE-024",
+      "name": "Pear Westfield Stratford",
+      "slug": "westfield-stratford",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "Westfield Stratford City",
+        "city": "London",
+        "state": "",
+        "zip": "E20 1EJ",
+        "country": "UK"
+      },
+      "coordinates": { "lat": 51.5432, "lng": -0.0048 },
+      "phone": "+44 20 8555 4500",
+      "email": "stratford@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "21:00" },
+        "tuesday": { "open": "10:00", "close": "21:00" },
+        "wednesday": { "open": "10:00", "close": "21:00" },
+        "thursday": { "open": "10:00", "close": "21:00" },
+        "friday": { "open": "10:00", "close": "21:00" },
+        "saturday": { "open": "10:00", "close": "21:00" },
+        "sunday": { "open": "12:00", "close": "18:00" }
+      },
+      "timezone": "Europe/London",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in", "carrier_activation"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 10,
+        "services": ["hardware_repair", "software_support", "one_on_one_training", "device_setup"]
+      },
+      "services": ["pickup", "delivery", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": true,
+        "type": "garage",
+        "freeHours": 4
+      },
+      "manager": {
+        "name": "Sophia Patel",
+        "employeeId": "EMP-00767"
+      },
+      "employeeCount": 65,
+      "squareFootage": 10500,
+      "openedDate": "2011-09-13"
+    },
+    {
+      "id": "STORE-025",
+      "name": "Pear Manchester",
+      "slug": "manchester",
+      "type": "retail",
+      "status": "open",
+      "address": {
+        "street": "22 Market Street",
+        "city": "Manchester",
+        "state": "",
+        "zip": "M1 1PT",
+        "country": "UK"
+      },
+      "coordinates": { "lat": 53.4815, "lng": -2.2419 },
+      "phone": "+44 161 200 1800",
+      "email": "manchester@pearcomputer.com",
+      "hours": {
+        "monday": { "open": "10:00", "close": "20:00" },
+        "tuesday": { "open": "10:00", "close": "20:00" },
+        "wednesday": { "open": "10:00", "close": "20:00" },
+        "thursday": { "open": "10:00", "close": "20:00" },
+        "friday": { "open": "10:00", "close": "20:00" },
+        "saturday": { "open": "10:00", "close": "20:00" },
+        "sunday": { "open": "11:00", "close": "17:00" }
+      },
+      "timezone": "Europe/London",
+      "features": ["genius_grove", "personal_setup", "workshops", "trade_in"],
+      "geniusGrove": {
+        "available": true,
+        "desks": 8,
+        "services": ["hardware_repair", "software_support", "device_setup"]
+      },
+      "services": ["pickup", "express_checkout"],
+      "accessibility": {
+        "wheelchairAccessible": true,
+        "hearingLoop": true,
+        "signLanguageAvailable": false
+      },
+      "parking": {
+        "available": false,
+        "nearbyParking": "Arndale Car Park"
+      },
+      "manager": {
+        "name": "Thomas Wright",
+        "employeeId": "EMP-00789"
+      },
+      "employeeCount": 55,
+      "squareFootage": 9000,
+      "openedDate": "2015-02-28"
+    }
+  ],
+  "upcomingEvents": [
+    {
+      "id": "EVT-2024-00156",
+      "storeId": "STORE-001",
+      "title": "Today at Pear: Photo Walk with pPhone 16",
+      "description": "Join us for a creative photo walk around Infinite Loop campus using the advanced camera features of pPhone 16 Pro.",
+      "type": "workshop",
+      "date": "2024-01-20",
+      "startTime": "10:00",
+      "endTime": "12:00",
+      "capacity": 20,
+      "registered": 18,
+      "instructor": "Alex Rivera",
+      "level": "beginner",
+      "requirements": ["pPhone 16 or later"],
+      "status": "open"
+    },
+    {
+      "id": "EVT-2024-00157",
+      "storeId": "STORE-002",
+      "title": "Getting Started with PearBook",
+      "description": "Learn the basics of your new PearBook including system preferences, file management, and built-in apps.",
+      "type": "workshop",
+      "date": "2024-01-21",
+      "startTime": "14:00",
+      "endTime": "15:30",
+      "capacity": 15,
+      "registered": 12,
+      "instructor": "Maria Santos",
+      "level": "beginner",
+      "requirements": ["Any PearBook"],
+      "status": "open"
+    },
+    {
+      "id": "EVT-2024-00158",
+      "storeId": "STORE-003",
+      "title": "Music Creation on PearPad Pro",
+      "description": "Discover how to create music using GarageBand and Logic Pro on your PearPad Pro.",
+      "type": "workshop",
+      "date": "2024-01-22",
+      "startTime": "16:00",
+      "endTime": "18:00",
+      "capacity": 12,
+      "registered": 12,
+      "instructor": "Jordan Kim",
+      "level": "intermediate",
+      "requirements": ["PearPad Pro", "Pear Pencil (optional)"],
+      "status": "full"
+    },
+    {
+      "id": "EVT-2024-00159",
+      "storeId": "STORE-020",
+      "title": "Pear Watch Health Features Deep Dive",
+      "description": "Explore the health and fitness features of Pear Watch including heart monitoring, sleep tracking, and workout detection.",
+      "type": "workshop",
+      "date": "2024-01-23",
+      "startTime": "11:00",
+      "endTime": "12:30",
+      "capacity": 20,
+      "registered": 15,
+      "instructor": "Sarah Thompson",
+      "level": "all_levels",
+      "requirements": ["Any Pear Watch"],
+      "status": "open"
+    },
+    {
+      "id": "EVT-2024-00160",
+      "storeId": "STORE-022",
+      "title": "Pro Video Editing with Final Cut Pro",
+      "description": "Advanced video editing techniques using Final Cut Pro on PearBook Pro.",
+      "type": "workshop",
+      "date": "2024-01-25",
+      "startTime": "10:00",
+      "endTime": "13:00",
+      "capacity": 10,
+      "registered": 8,
+      "instructor": "James Mitchell",
+      "level": "advanced",
+      "requirements": ["PearBook Pro with Final Cut Pro installed"],
+      "status": "open"
+    }
+  ],
+  "geniusGroveServices": {
+    "hardware_repair": {
+      "name": "Hardware Repair",
+      "description": "Screen replacements, battery service, and other hardware repairs",
+      "averageTime": "1-3 hours (walk-in) or same-day (appointment)",
+      "requiresAppointment": false,
+      "pricing": "Varies by device and repair type"
+    },
+    "software_support": {
+      "name": "Software Support",
+      "description": "Help with software issues, updates, and troubleshooting",
+      "averageTime": "30-60 minutes",
+      "requiresAppointment": false,
+      "pricing": "Free"
+    },
+    "one_on_one_training": {
+      "name": "One-on-One Training",
+      "description": "Personalized training sessions on any Pear product or service",
+      "averageTime": "30-60 minutes",
+      "requiresAppointment": true,
+      "pricing": "Free with Pear device purchase (first 90 days) or $99/session"
+    },
+    "device_setup": {
+      "name": "Device Setup",
+      "description": "Help setting up new devices including data transfer",
+      "averageTime": "30-90 minutes",
+      "requiresAppointment": false,
+      "pricing": "Free"
+    },
+    "business_consulting": {
+      "name": "Business Consulting",
+      "description": "Consultation for business customers on Pear solutions",
+      "averageTime": "60 minutes",
+      "requiresAppointment": true,
+      "pricing": "Free"
+    }
+  }
+}

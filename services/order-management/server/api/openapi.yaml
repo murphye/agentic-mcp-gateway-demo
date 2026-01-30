@@ -1,0 +1,2401 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: commerce@pearcomputer.com
+    name: Pear Commerce Team
+  description: |
+    Central order processing and management service handling the complete order
+    lifecycle from placement to fulfillment. Manages order status, modifications,
+    returns, and refunds for all Pear Computer sales channels.
+  title: Pear Computer - Order Management Service
+  version: 1.0.0
+servers:
+- url: /v1/order-management
+tags:
+- description: Order retrieval and management
+  name: Orders
+- description: Order fulfillment operations
+  name: Fulfillment
+- description: Returns and refunds
+  name: Returns
+- description: Subscription order management
+  name: Subscriptions
+paths:
+  /orders:
+    get:
+      operationId: listOrders
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - pending
+          - confirmed
+          - processing
+          - shipped
+          - out_for_delivery
+          - delivered
+          - cancelled
+          - returned
+          - partially_returned
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: channel
+        required: false
+        schema:
+          enum:
+          - online
+          - retail_store
+          - phone
+          - business
+          - education
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: customerId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderListResponse"
+          description: Successful response
+      summary: List orders
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+    post:
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrderRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Order created
+        "400":
+          description: Bad request
+      summary: Create order
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+      x-codegen-request-body-name: orderRequest
+  /orders/lookup:
+    get:
+      operationId: lookupOrder
+      parameters:
+      - explode: true
+        in: query
+        name: orderNumber
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          format: email
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Order found
+        "404":
+          description: Order not found
+      summary: Lookup order by number
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+  /orders/{orderId}:
+    get:
+      operationId: getOrder
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get order details
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+  /orders/{orderId}/cancel:
+    post:
+      operationId: cancelOrder
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cancelOrder_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CancellationResponse"
+          description: Cancellation processed
+        "400":
+          description: Order cannot be cancelled
+        "404":
+          description: Not found
+      summary: Cancel order
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+      x-codegen-request-body-name: cancelRequest
+  /orders/{orderId}/items/{itemId}/cancel:
+    post:
+      operationId: cancelOrderItem
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: itemId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cancelOrderItem_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Item cancellation processed
+        "400":
+          description: Item cannot be cancelled
+        "404":
+          description: Not found
+      summary: Cancel order item
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+      x-codegen-request-body-name: cancelItemRequest
+  /orders/{orderId}/tracking:
+    get:
+      operationId: getOrderTracking
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrackingInfo"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get order tracking
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+  /orders/{orderId}/receipt:
+    get:
+      operationId: getOrderReceipt
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: format
+        required: false
+        schema:
+          default: json
+          enum:
+          - pdf
+          - html
+          - json
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderReceipt"
+          description: Receipt generated
+        "404":
+          description: Not found
+      summary: Get order receipt
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+  /orders/{orderId}/gift-receipt:
+    get:
+      operationId: getGiftReceipt
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GiftReceipt"
+          description: Gift receipt generated
+        "404":
+          description: Not found
+      summary: Get gift receipt
+      tags:
+      - Orders
+      x-eov-operation-handler: controllers/OrdersController
+  /fulfillment/{orderId}/status:
+    patch:
+      operationId: updateFulfillmentStatus
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FulfillmentStatusUpdate"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: Status updated
+        "404":
+          description: Not found
+      summary: Update fulfillment status
+      tags:
+      - Fulfillment
+      x-eov-operation-handler: controllers/FulfillmentController
+      x-codegen-request-body-name: statusUpdate
+  /fulfillment/{orderId}/shipment:
+    post:
+      operationId: createShipment
+      parameters:
+      - explode: false
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateShipmentRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+          description: Shipment created
+      summary: Create shipment
+      tags:
+      - Fulfillment
+      x-eov-operation-handler: controllers/FulfillmentController
+      x-codegen-request-body-name: shipmentRequest
+  /returns:
+    get:
+      operationId: listReturns
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - pending
+          - approved
+          - shipped
+          - received
+          - inspecting
+          - completed
+          - rejected
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: customerId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnListResponse"
+          description: Successful response
+      summary: List returns
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+    post:
+      operationId: createReturn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReturnRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Return"
+          description: Return initiated
+        "400":
+          description: Item not eligible for return
+      summary: Initiate return
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+      x-codegen-request-body-name: returnRequest
+  /returns/eligibility:
+    post:
+      operationId: checkReturnEligibility
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReturnEligibilityRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnEligibility"
+          description: Eligibility checked
+      summary: Check return eligibility
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+      x-codegen-request-body-name: eligibilityRequest
+  /returns/{returnId}:
+    get:
+      operationId: getReturn
+      parameters:
+      - explode: false
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Return"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get return details
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+  /returns/{returnId}/label:
+    get:
+      operationId: getReturnLabel
+      parameters:
+      - explode: false
+        in: path
+        name: returnId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnLabel"
+          description: Label info
+        "404":
+          description: Not found
+      summary: Get return shipping label
+      tags:
+      - Returns
+      x-eov-operation-handler: controllers/ReturnsController
+  /subscriptions:
+    get:
+      operationId: listSubscriptions
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - active
+          - paused
+          - cancelled
+          - expired
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: customerId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubscriptionListResponse"
+          description: Successful response
+      summary: List subscriptions
+      tags:
+      - Subscriptions
+      x-eov-operation-handler: controllers/SubscriptionsController
+  /subscriptions/{subscriptionId}:
+    get:
+      operationId: getSubscription
+      parameters:
+      - explode: false
+        in: path
+        name: subscriptionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+          description: Successful response
+        "404":
+          description: Not found
+      summary: Get subscription details
+      tags:
+      - Subscriptions
+      x-eov-operation-handler: controllers/SubscriptionsController
+    patch:
+      operationId: updateSubscription
+      parameters:
+      - explode: false
+        in: path
+        name: subscriptionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+          description: Subscription updated
+      summary: Update subscription
+      tags:
+      - Subscriptions
+      x-eov-operation-handler: controllers/SubscriptionsController
+      x-codegen-request-body-name: subscriptionUpdate
+  /subscriptions/{subscriptionId}/cancel:
+    post:
+      operationId: cancelSubscription
+      parameters:
+      - explode: false
+        in: path
+        name: subscriptionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cancelSubscription_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+          description: Subscription cancelled
+      summary: Cancel subscription
+      tags:
+      - Subscriptions
+      x-eov-operation-handler: controllers/SubscriptionsController
+      x-codegen-request-body-name: cancelRequest
+components:
+  schemas:
+    Order:
+      example:
+        orderNumber: orderNumber
+        notes: notes
+        giftMessage: giftMessage
+        channel: online
+        shipments:
+        - carrier: carrier
+          trackingUrl: trackingUrl
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - itemId: itemId
+            quantity: 1
+          - itemId: itemId
+            quantity: 1
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+        - carrier: carrier
+          trackingUrl: trackingUrl
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - itemId: itemId
+            quantity: 1
+          - itemId: itemId
+            quantity: 1
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+        deliveredAt: 2000-01-23T04:56:07.000+00:00
+        shipping:
+          instructions: instructions
+          carrier: carrier
+          method: method
+          estimatedDelivery:
+            minDate: 2000-01-23
+            maxDate: 2000-01-23
+        shippingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+        isGift: true
+        payment:
+          last4: last4
+          method: method
+          brand: brand
+          transactionId: transactionId
+          status: pending
+        id: id
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+        items:
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: image
+          quantity: 0
+          serialNumber: serialNumber
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          options:
+            key: options
+          warranty:
+            type: type
+            expiresAt: 2000-01-23
+          id: id
+          variantId: variantId
+          sku: sku
+          status: pending
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: image
+          quantity: 0
+          serialNumber: serialNumber
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          options:
+            key: options
+          warranty:
+            type: type
+            expiresAt: 2000-01-23
+          id: id
+          variantId: variantId
+          sku: sku
+          status: pending
+        placedAt: 2000-01-23T04:56:07.000+00:00
+        pricing:
+          tradeInCredit:
+            amount: 6.027456183070403
+            currency: USD
+          total:
+            amount: 6.027456183070403
+            currency: USD
+          shipping:
+            amount: 6.027456183070403
+            currency: USD
+          subtotal:
+            amount: 6.027456183070403
+            currency: USD
+          discount:
+            amount: 6.027456183070403
+            currency: USD
+          tax:
+            amount: 6.027456183070403
+            currency: USD
+        estimatedDelivery: 2000-01-23
+        status: pending
+        customer:
+          name: name
+          id: id
+          email: email
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        orderNumber:
+          type: string
+        status:
+          enum:
+          - pending
+          - confirmed
+          - processing
+          - shipped
+          - out_for_delivery
+          - delivered
+          - cancelled
+          - returned
+          - partially_returned
+          type: string
+        channel:
+          enum:
+          - online
+          - retail_store
+          - phone
+          - business
+          - education
+          type: string
+        customer:
+          $ref: "#/components/schemas/Customer"
+        items:
+          items:
+            $ref: "#/components/schemas/OrderItem"
+          type: array
+        shippingAddress:
+          $ref: "#/components/schemas/Address"
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        shipping:
+          $ref: "#/components/schemas/ShippingInfo"
+        payment:
+          $ref: "#/components/schemas/PaymentInfo"
+        pricing:
+          $ref: "#/components/schemas/OrderPricing"
+        shipments:
+          items:
+            $ref: "#/components/schemas/Shipment"
+          type: array
+        isGift:
+          type: boolean
+        giftMessage:
+          type: string
+        notes:
+          type: string
+        placedAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        estimatedDelivery:
+          format: date
+          type: string
+        deliveredAt:
+          format: date-time
+          type: string
+      type: object
+    Customer:
+      example:
+        name: name
+        id: id
+        email: email
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+      type: object
+    OrderItem:
+      example:
+        unitPrice:
+          amount: 6.027456183070403
+          currency: USD
+        image: image
+        quantity: 0
+        serialNumber: serialNumber
+        productId: productId
+        totalPrice:
+          amount: 6.027456183070403
+          currency: USD
+        name: name
+        options:
+          key: options
+        warranty:
+          type: type
+          expiresAt: 2000-01-23
+        id: id
+        variantId: variantId
+        sku: sku
+        status: pending
+      properties:
+        id:
+          type: string
+        productId:
+          type: string
+        variantId:
+          type: string
+        sku:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        options:
+          additionalProperties:
+            type: string
+          type: object
+        quantity:
+          type: integer
+        unitPrice:
+          $ref: "#/components/schemas/Money"
+        totalPrice:
+          $ref: "#/components/schemas/Money"
+        status:
+          enum:
+          - pending
+          - confirmed
+          - shipped
+          - delivered
+          - cancelled
+          - returned
+          type: string
+        serialNumber:
+          type: string
+        warranty:
+          $ref: "#/components/schemas/WarrantyInfo"
+      type: object
+    WarrantyInfo:
+      example:
+        type: type
+        expiresAt: 2000-01-23
+      properties:
+        type:
+          type: string
+        expiresAt:
+          format: date
+          type: string
+      type: object
+    OrderPricing:
+      example:
+        tradeInCredit:
+          amount: 6.027456183070403
+          currency: USD
+        total:
+          amount: 6.027456183070403
+          currency: USD
+        shipping:
+          amount: 6.027456183070403
+          currency: USD
+        subtotal:
+          amount: 6.027456183070403
+          currency: USD
+        discount:
+          amount: 6.027456183070403
+          currency: USD
+        tax:
+          amount: 6.027456183070403
+          currency: USD
+      properties:
+        subtotal:
+          $ref: "#/components/schemas/Money"
+        shipping:
+          $ref: "#/components/schemas/Money"
+        tax:
+          $ref: "#/components/schemas/Money"
+        discount:
+          $ref: "#/components/schemas/Money"
+        tradeInCredit:
+          $ref: "#/components/schemas/Money"
+        total:
+          $ref: "#/components/schemas/Money"
+      type: object
+    ShippingInfo:
+      example:
+        instructions: instructions
+        carrier: carrier
+        method: method
+        estimatedDelivery:
+          minDate: 2000-01-23
+          maxDate: 2000-01-23
+      properties:
+        method:
+          type: string
+        carrier:
+          type: string
+        estimatedDelivery:
+          $ref: "#/components/schemas/ShippingInfo_estimatedDelivery"
+        instructions:
+          type: string
+      type: object
+    PaymentInfo:
+      example:
+        last4: last4
+        method: method
+        brand: brand
+        transactionId: transactionId
+        status: pending
+      properties:
+        method:
+          type: string
+        last4:
+          type: string
+        brand:
+          type: string
+        status:
+          enum:
+          - pending
+          - authorized
+          - captured
+          - refunded
+          - partially_refunded
+          - failed
+          type: string
+        transactionId:
+          type: string
+      type: object
+    Shipment:
+      example:
+        carrier: carrier
+        trackingUrl: trackingUrl
+        shippedAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        trackingNumber: trackingNumber
+        items:
+        - itemId: itemId
+          quantity: 1
+        - itemId: itemId
+          quantity: 1
+        estimatedDelivery: 2000-01-23
+        events:
+        - description: description
+          location: location
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - description: description
+          location: location
+          status: status
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        status: pending
+        deliveredAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        carrier:
+          type: string
+        trackingNumber:
+          type: string
+        trackingUrl:
+          type: string
+        status:
+          enum:
+          - pending
+          - in_transit
+          - out_for_delivery
+          - delivered
+          - exception
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/Shipment_items_inner"
+          type: array
+        shippedAt:
+          format: date-time
+          type: string
+        estimatedDelivery:
+          format: date
+          type: string
+        deliveredAt:
+          format: date-time
+          type: string
+        events:
+          items:
+            $ref: "#/components/schemas/TrackingEvent"
+          type: array
+      type: object
+    TrackingEvent:
+      example:
+        description: description
+        location: location
+        status: status
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        status:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    TrackingInfo:
+      example:
+        orderNumber: orderNumber
+        orderId: orderId
+        shipments:
+        - carrier: carrier
+          trackingUrl: trackingUrl
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - itemId: itemId
+            quantity: 1
+          - itemId: itemId
+            quantity: 1
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+        - carrier: carrier
+          trackingUrl: trackingUrl
+          shippedAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          trackingNumber: trackingNumber
+          items:
+          - itemId: itemId
+            quantity: 1
+          - itemId: itemId
+            quantity: 1
+          estimatedDelivery: 2000-01-23
+          events:
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          - description: description
+            location: location
+            status: status
+            timestamp: 2000-01-23T04:56:07.000+00:00
+          status: pending
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+        status: status
+      properties:
+        orderId:
+          type: string
+        orderNumber:
+          type: string
+        status:
+          type: string
+        shipments:
+          items:
+            $ref: "#/components/schemas/Shipment"
+          type: array
+      type: object
+    Return:
+      example:
+        reason: reason
+        refundMethod: original_payment
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        orderNumber: orderNumber
+        orderId: orderId
+        returnNumber: returnNumber
+        receivedAt: 2000-01-23T04:56:07.000+00:00
+        returnLabel:
+          carrier: carrier
+          labelUrl: labelUrl
+          trackingNumber: trackingNumber
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        items:
+        - itemId: itemId
+          reason: reason
+          condition: condition
+          quantity: 0
+          productName: productName
+        - itemId: itemId
+          reason: reason
+          condition: condition
+          quantity: 0
+          productName: productName
+        status: pending
+        refundAmount:
+          amount: 6.027456183070403
+          currency: USD
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        returnNumber:
+          type: string
+        orderId:
+          type: string
+        orderNumber:
+          type: string
+        status:
+          enum:
+          - pending
+          - approved
+          - shipped
+          - received
+          - inspecting
+          - completed
+          - rejected
+          type: string
+        reason:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/ReturnItem"
+          type: array
+        refundMethod:
+          enum:
+          - original_payment
+          - store_credit
+          - exchange
+          type: string
+        refundAmount:
+          $ref: "#/components/schemas/Money"
+        returnLabel:
+          $ref: "#/components/schemas/ReturnLabel"
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        receivedAt:
+          format: date-time
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+      type: object
+    ReturnItem:
+      example:
+        itemId: itemId
+        reason: reason
+        condition: condition
+        quantity: 0
+        productName: productName
+      properties:
+        itemId:
+          type: string
+        productName:
+          type: string
+        quantity:
+          type: integer
+        reason:
+          type: string
+        condition:
+          type: string
+      type: object
+    ReturnLabel:
+      example:
+        carrier: carrier
+        labelUrl: labelUrl
+        trackingNumber: trackingNumber
+      properties:
+        carrier:
+          type: string
+        trackingNumber:
+          type: string
+        labelUrl:
+          type: string
+      type: object
+    Subscription:
+      example:
+        product: product
+        nextBillingDate: 2000-01-23
+        usage:
+          storage:
+            limit: 6
+            used: 0
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        features:
+        - features
+        - features
+        billingCycle: monthly
+        price:
+          amount: 6.027456183070403
+          currency: USD
+        name: name
+        autoRenew: true
+        id: id
+        plan: plan
+        endsAt: 2000-01-23T04:56:07.000+00:00
+        status: active
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        product:
+          type: string
+        plan:
+          type: string
+        status:
+          enum:
+          - active
+          - paused
+          - cancelled
+          - expired
+          type: string
+        billingCycle:
+          enum:
+          - monthly
+          - annual
+          type: string
+        price:
+          $ref: "#/components/schemas/Money"
+        nextBillingDate:
+          format: date
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        autoRenew:
+          type: boolean
+        features:
+          items:
+            type: string
+          type: array
+        usage:
+          $ref: "#/components/schemas/Subscription_usage"
+      type: object
+    CancellationResponse:
+      example:
+        refundMethod: refundMethod
+        cancelledItems:
+        - cancelledItems
+        - cancelledItems
+        orderId: orderId
+        message: message
+        status: cancelled
+        refundAmount:
+          amount: 6.027456183070403
+          currency: USD
+      properties:
+        orderId:
+          type: string
+        status:
+          enum:
+          - cancelled
+          - cancellation_pending
+          - partial_cancellation
+          type: string
+        cancelledItems:
+          items:
+            type: string
+          type: array
+        refundAmount:
+          $ref: "#/components/schemas/Money"
+        refundMethod:
+          type: string
+        message:
+          type: string
+      type: object
+    ReturnEligibility:
+      example:
+        orderId: orderId
+        items:
+        - itemId: itemId
+          reason: reason
+          maxQuantity: 0
+          eligible: true
+          productName: productName
+          returnWindowEnds: 2000-01-23
+        - itemId: itemId
+          reason: reason
+          maxQuantity: 0
+          eligible: true
+          productName: productName
+          returnWindowEnds: 2000-01-23
+        returnWindowEnds: 2000-01-23
+      properties:
+        orderId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/ReturnEligibility_items_inner"
+          type: array
+        returnWindowEnds:
+          format: date
+          type: string
+      type: object
+    OrderReceipt:
+      example:
+        orderNumber: orderNumber
+        orderId: orderId
+        payment:
+          last4: last4
+          method: method
+          brand: brand
+          transactionId: transactionId
+          status: pending
+        items:
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: image
+          quantity: 0
+          serialNumber: serialNumber
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          options:
+            key: options
+          warranty:
+            type: type
+            expiresAt: 2000-01-23
+          id: id
+          variantId: variantId
+          sku: sku
+          status: pending
+        - unitPrice:
+            amount: 6.027456183070403
+            currency: USD
+          image: image
+          quantity: 0
+          serialNumber: serialNumber
+          productId: productId
+          totalPrice:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          options:
+            key: options
+          warranty:
+            type: type
+            expiresAt: 2000-01-23
+          id: id
+          variantId: variantId
+          sku: sku
+          status: pending
+        placedAt: 2000-01-23T04:56:07.000+00:00
+        receiptNumber: receiptNumber
+        pricing:
+          tradeInCredit:
+            amount: 6.027456183070403
+            currency: USD
+          total:
+            amount: 6.027456183070403
+            currency: USD
+          shipping:
+            amount: 6.027456183070403
+            currency: USD
+          subtotal:
+            amount: 6.027456183070403
+            currency: USD
+          discount:
+            amount: 6.027456183070403
+            currency: USD
+          tax:
+            amount: 6.027456183070403
+            currency: USD
+        customer:
+          name: name
+          id: id
+          email: email
+      properties:
+        orderId:
+          type: string
+        orderNumber:
+          type: string
+        receiptNumber:
+          type: string
+        customer:
+          $ref: "#/components/schemas/Customer"
+        items:
+          items:
+            $ref: "#/components/schemas/OrderItem"
+          type: array
+        pricing:
+          $ref: "#/components/schemas/OrderPricing"
+        payment:
+          $ref: "#/components/schemas/PaymentInfo"
+        placedAt:
+          format: date-time
+          type: string
+      type: object
+    GiftReceipt:
+      example:
+        orderNumber: orderNumber
+        giftMessage: giftMessage
+        orderId: orderId
+        purchasedAt: 2000-01-23
+        items:
+        - quantity: 0
+          name: name
+        - quantity: 0
+          name: name
+      properties:
+        orderId:
+          type: string
+        orderNumber:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/GiftReceipt_items_inner"
+          type: array
+        giftMessage:
+          type: string
+        purchasedAt:
+          format: date
+          type: string
+      type: object
+    CreateOrderRequest:
+      example:
+        giftMessage: giftMessage
+        shippingMethod: shippingMethod
+        customerId: customerId
+        channel: online
+        shippingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+        isGift: true
+        billingAddress:
+          firstName: firstName
+          lastName: lastName
+          country: country
+          city: city
+          phone: phone
+          postalCode: postalCode
+          company: company
+          street1: street1
+          street2: street2
+          state: state
+        items:
+        - unitPrice: 6.027456183070403
+          quantity: 0
+          productId: productId
+          name: name
+          sku: sku
+        - unitPrice: 6.027456183070403
+          quantity: 0
+          productId: productId
+          name: name
+          sku: sku
+        paymentInfo:
+          method: method
+          transactionId: transactionId
+      properties:
+        customerId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CreateOrderRequest_items_inner"
+          type: array
+        shippingAddress:
+          $ref: "#/components/schemas/Address"
+        billingAddress:
+          $ref: "#/components/schemas/Address"
+        shippingMethod:
+          type: string
+        paymentInfo:
+          $ref: "#/components/schemas/CreateOrderRequest_paymentInfo"
+        channel:
+          enum:
+          - online
+          - retail_store
+          - phone
+          - business
+          - education
+          type: string
+        isGift:
+          type: boolean
+        giftMessage:
+          type: string
+      required:
+      - billingAddress
+      - customerId
+      - items
+      - shippingAddress
+      type: object
+    CreateReturnRequest:
+      example:
+        refundMethod: original_payment
+        orderId: orderId
+        items:
+        - itemId: itemId
+          reason: defective
+          quantity: 0
+          comments: comments
+        - itemId: itemId
+          reason: defective
+          quantity: 0
+          comments: comments
+      properties:
+        orderId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CreateReturnRequest_items_inner"
+          type: array
+        refundMethod:
+          default: original_payment
+          enum:
+          - original_payment
+          - store_credit
+          type: string
+      required:
+      - items
+      - orderId
+      type: object
+    ReturnEligibilityRequest:
+      example:
+        orderId: orderId
+        items:
+        - itemId: itemId
+          quantity: 1
+        - itemId: itemId
+          quantity: 1
+      properties:
+        orderId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/Shipment_items_inner"
+          type: array
+      required:
+      - items
+      - orderId
+      type: object
+    FulfillmentStatusUpdate:
+      example:
+        notes: notes
+        status: processing
+      properties:
+        status:
+          enum:
+          - processing
+          - shipped
+          - out_for_delivery
+          - delivered
+          type: string
+        notes:
+          type: string
+      required:
+      - status
+      type: object
+    CreateShipmentRequest:
+      example:
+        carrier: carrier
+        trackingNumber: trackingNumber
+        items:
+        - itemId: itemId
+          quantity: 0
+        - itemId: itemId
+          quantity: 0
+      properties:
+        carrier:
+          type: string
+        trackingNumber:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/CreateShipmentRequest_items_inner"
+          type: array
+      required:
+      - carrier
+      - items
+      - trackingNumber
+      type: object
+    SubscriptionUpdateRequest:
+      example:
+        billingCycle: monthly
+        autoRenew: true
+        plan: plan
+      properties:
+        plan:
+          type: string
+        billingCycle:
+          enum:
+          - monthly
+          - annual
+          type: string
+        autoRenew:
+          type: boolean
+      type: object
+    OrderListResponse:
+      example:
+        pagination:
+          totalItems: 2
+          limit: 5
+          totalPages: 7
+          page: 5
+        orders:
+        - orderNumber: orderNumber
+          notes: notes
+          giftMessage: giftMessage
+          channel: online
+          shipments:
+          - carrier: carrier
+            trackingUrl: trackingUrl
+            shippedAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            trackingNumber: trackingNumber
+            items:
+            - itemId: itemId
+              quantity: 1
+            - itemId: itemId
+              quantity: 1
+            estimatedDelivery: 2000-01-23
+            events:
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            status: pending
+            deliveredAt: 2000-01-23T04:56:07.000+00:00
+          - carrier: carrier
+            trackingUrl: trackingUrl
+            shippedAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            trackingNumber: trackingNumber
+            items:
+            - itemId: itemId
+              quantity: 1
+            - itemId: itemId
+              quantity: 1
+            estimatedDelivery: 2000-01-23
+            events:
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            status: pending
+            deliveredAt: 2000-01-23T04:56:07.000+00:00
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+          shipping:
+            instructions: instructions
+            carrier: carrier
+            method: method
+            estimatedDelivery:
+              minDate: 2000-01-23
+              maxDate: 2000-01-23
+          shippingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+          isGift: true
+          payment:
+            last4: last4
+            method: method
+            brand: brand
+            transactionId: transactionId
+            status: pending
+          id: id
+          billingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+          items:
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: image
+            quantity: 0
+            serialNumber: serialNumber
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            options:
+              key: options
+            warranty:
+              type: type
+              expiresAt: 2000-01-23
+            id: id
+            variantId: variantId
+            sku: sku
+            status: pending
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: image
+            quantity: 0
+            serialNumber: serialNumber
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            options:
+              key: options
+            warranty:
+              type: type
+              expiresAt: 2000-01-23
+            id: id
+            variantId: variantId
+            sku: sku
+            status: pending
+          placedAt: 2000-01-23T04:56:07.000+00:00
+          pricing:
+            tradeInCredit:
+              amount: 6.027456183070403
+              currency: USD
+            total:
+              amount: 6.027456183070403
+              currency: USD
+            shipping:
+              amount: 6.027456183070403
+              currency: USD
+            subtotal:
+              amount: 6.027456183070403
+              currency: USD
+            discount:
+              amount: 6.027456183070403
+              currency: USD
+            tax:
+              amount: 6.027456183070403
+              currency: USD
+          estimatedDelivery: 2000-01-23
+          status: pending
+          customer:
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - orderNumber: orderNumber
+          notes: notes
+          giftMessage: giftMessage
+          channel: online
+          shipments:
+          - carrier: carrier
+            trackingUrl: trackingUrl
+            shippedAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            trackingNumber: trackingNumber
+            items:
+            - itemId: itemId
+              quantity: 1
+            - itemId: itemId
+              quantity: 1
+            estimatedDelivery: 2000-01-23
+            events:
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            status: pending
+            deliveredAt: 2000-01-23T04:56:07.000+00:00
+          - carrier: carrier
+            trackingUrl: trackingUrl
+            shippedAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            trackingNumber: trackingNumber
+            items:
+            - itemId: itemId
+              quantity: 1
+            - itemId: itemId
+              quantity: 1
+            estimatedDelivery: 2000-01-23
+            events:
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            - description: description
+              location: location
+              status: status
+              timestamp: 2000-01-23T04:56:07.000+00:00
+            status: pending
+            deliveredAt: 2000-01-23T04:56:07.000+00:00
+          deliveredAt: 2000-01-23T04:56:07.000+00:00
+          shipping:
+            instructions: instructions
+            carrier: carrier
+            method: method
+            estimatedDelivery:
+              minDate: 2000-01-23
+              maxDate: 2000-01-23
+          shippingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+          isGift: true
+          payment:
+            last4: last4
+            method: method
+            brand: brand
+            transactionId: transactionId
+            status: pending
+          id: id
+          billingAddress:
+            firstName: firstName
+            lastName: lastName
+            country: country
+            city: city
+            phone: phone
+            postalCode: postalCode
+            company: company
+            street1: street1
+            street2: street2
+            state: state
+          items:
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: image
+            quantity: 0
+            serialNumber: serialNumber
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            options:
+              key: options
+            warranty:
+              type: type
+              expiresAt: 2000-01-23
+            id: id
+            variantId: variantId
+            sku: sku
+            status: pending
+          - unitPrice:
+              amount: 6.027456183070403
+              currency: USD
+            image: image
+            quantity: 0
+            serialNumber: serialNumber
+            productId: productId
+            totalPrice:
+              amount: 6.027456183070403
+              currency: USD
+            name: name
+            options:
+              key: options
+            warranty:
+              type: type
+              expiresAt: 2000-01-23
+            id: id
+            variantId: variantId
+            sku: sku
+            status: pending
+          placedAt: 2000-01-23T04:56:07.000+00:00
+          pricing:
+            tradeInCredit:
+              amount: 6.027456183070403
+              currency: USD
+            total:
+              amount: 6.027456183070403
+              currency: USD
+            shipping:
+              amount: 6.027456183070403
+              currency: USD
+            subtotal:
+              amount: 6.027456183070403
+              currency: USD
+            discount:
+              amount: 6.027456183070403
+              currency: USD
+            tax:
+              amount: 6.027456183070403
+              currency: USD
+          estimatedDelivery: 2000-01-23
+          status: pending
+          customer:
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        orders:
+          items:
+            $ref: "#/components/schemas/Order"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    ReturnListResponse:
+      example:
+        pagination:
+          totalItems: 2
+          limit: 5
+          totalPages: 7
+          page: 5
+        returns:
+        - reason: reason
+          refundMethod: original_payment
+          completedAt: 2000-01-23T04:56:07.000+00:00
+          orderNumber: orderNumber
+          orderId: orderId
+          returnNumber: returnNumber
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          returnLabel:
+            carrier: carrier
+            labelUrl: labelUrl
+            trackingNumber: trackingNumber
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          items:
+          - itemId: itemId
+            reason: reason
+            condition: condition
+            quantity: 0
+            productName: productName
+          - itemId: itemId
+            reason: reason
+            condition: condition
+            quantity: 0
+            productName: productName
+          status: pending
+          refundAmount:
+            amount: 6.027456183070403
+            currency: USD
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - reason: reason
+          refundMethod: original_payment
+          completedAt: 2000-01-23T04:56:07.000+00:00
+          orderNumber: orderNumber
+          orderId: orderId
+          returnNumber: returnNumber
+          receivedAt: 2000-01-23T04:56:07.000+00:00
+          returnLabel:
+            carrier: carrier
+            labelUrl: labelUrl
+            trackingNumber: trackingNumber
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          items:
+          - itemId: itemId
+            reason: reason
+            condition: condition
+            quantity: 0
+            productName: productName
+          - itemId: itemId
+            reason: reason
+            condition: condition
+            quantity: 0
+            productName: productName
+          status: pending
+          refundAmount:
+            amount: 6.027456183070403
+            currency: USD
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        returns:
+          items:
+            $ref: "#/components/schemas/Return"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    SubscriptionListResponse:
+      example:
+        subscriptions:
+        - product: product
+          nextBillingDate: 2000-01-23
+          usage:
+            storage:
+              limit: 6
+              used: 0
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          features:
+          - features
+          - features
+          billingCycle: monthly
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          autoRenew: true
+          id: id
+          plan: plan
+          endsAt: 2000-01-23T04:56:07.000+00:00
+          status: active
+        - product: product
+          nextBillingDate: 2000-01-23
+          usage:
+            storage:
+              limit: 6
+              used: 0
+          startedAt: 2000-01-23T04:56:07.000+00:00
+          features:
+          - features
+          - features
+          billingCycle: monthly
+          price:
+            amount: 6.027456183070403
+            currency: USD
+          name: name
+          autoRenew: true
+          id: id
+          plan: plan
+          endsAt: 2000-01-23T04:56:07.000+00:00
+          status: active
+      properties:
+        subscriptions:
+          items:
+            $ref: "#/components/schemas/Subscription"
+          type: array
+      type: object
+    Address:
+      example:
+        firstName: firstName
+        lastName: lastName
+        country: country
+        city: city
+        phone: phone
+        postalCode: postalCode
+        company: company
+        street1: street1
+        street2: street2
+        state: state
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        company:
+          type: string
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        phone:
+          type: string
+      type: object
+    Money:
+      example:
+        amount: 6.027456183070403
+        currency: USD
+      properties:
+        amount:
+          type: number
+        currency:
+          default: USD
+          type: string
+      type: object
+    Pagination:
+      example:
+        totalItems: 2
+        limit: 5
+        totalPages: 7
+        page: 5
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    cancelOrder_request:
+      properties:
+        reason:
+          enum:
+          - changed_mind
+          - found_better_price
+          - ordered_by_mistake
+          - shipping_too_slow
+          - other
+          type: string
+        comments:
+          type: string
+      type: object
+    cancelOrderItem_request:
+      properties:
+        reason:
+          type: string
+      type: object
+    cancelSubscription_request:
+      properties:
+        reason:
+          type: string
+        cancelAtPeriodEnd:
+          default: true
+          type: boolean
+      type: object
+    ShippingInfo_estimatedDelivery:
+      example:
+        minDate: 2000-01-23
+        maxDate: 2000-01-23
+      properties:
+        minDate:
+          format: date
+          type: string
+        maxDate:
+          format: date
+          type: string
+      type: object
+    Shipment_items_inner:
+      example:
+        itemId: itemId
+        quantity: 1
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+      type: object
+    Subscription_usage_storage:
+      example:
+        limit: 6
+        used: 0
+      properties:
+        used:
+          type: integer
+        limit:
+          type: integer
+      type: object
+    Subscription_usage:
+      example:
+        storage:
+          limit: 6
+          used: 0
+      properties:
+        storage:
+          $ref: "#/components/schemas/Subscription_usage_storage"
+      type: object
+    ReturnEligibility_items_inner:
+      example:
+        itemId: itemId
+        reason: reason
+        maxQuantity: 0
+        eligible: true
+        productName: productName
+        returnWindowEnds: 2000-01-23
+      properties:
+        itemId:
+          type: string
+        productName:
+          type: string
+        eligible:
+          type: boolean
+        reason:
+          type: string
+        returnWindowEnds:
+          format: date
+          type: string
+        maxQuantity:
+          type: integer
+      type: object
+    GiftReceipt_items_inner:
+      example:
+        quantity: 0
+        name: name
+      properties:
+        name:
+          type: string
+        quantity:
+          type: integer
+      type: object
+    CreateOrderRequest_items_inner:
+      example:
+        unitPrice: 6.027456183070403
+        quantity: 0
+        productId: productId
+        name: name
+        sku: sku
+      properties:
+        sku:
+          type: string
+        productId:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+        unitPrice:
+          type: number
+      required:
+      - quantity
+      - sku
+      - unitPrice
+      type: object
+    CreateOrderRequest_paymentInfo:
+      example:
+        method: method
+        transactionId: transactionId
+      properties:
+        method:
+          type: string
+        transactionId:
+          type: string
+      type: object
+    CreateReturnRequest_items_inner:
+      example:
+        itemId: itemId
+        reason: defective
+        quantity: 0
+        comments: comments
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+        reason:
+          enum:
+          - defective
+          - wrong_item
+          - not_as_described
+          - changed_mind
+          - arrived_late
+          - other
+          type: string
+        comments:
+          type: string
+      required:
+      - itemId
+      - quantity
+      - reason
+      type: object
+    CreateShipmentRequest_items_inner:
+      example:
+        itemId: itemId
+        quantity: 0
+      properties:
+        itemId:
+          type: string
+        quantity:
+          type: integer
+      required:
+      - itemId
+      - quantity
+      type: object

@@ -1,0 +1,2087 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: support-engineering@pearcomputer.com
+    name: Pear Support Engineering
+  description: |
+    Customer support ticketing and self-service support system. Handles support
+    tickets, live chat, knowledge base articles, and customer feedback for all
+    Pear Computer products and services.
+  title: Pear Computer - Customer Support Service
+  version: 1.0.0
+servers:
+- url: /v1/customer-support
+tags:
+- description: Support ticket management
+  name: Tickets
+- description: Live chat support
+  name: Chat
+- description: Self-service support articles
+  name: KnowledgeBase
+- description: Device diagnostics and troubleshooting
+  name: Diagnostics
+- description: Customer feedback and surveys
+  name: Feedback
+paths:
+  /tickets:
+    get:
+      description: Retrieve support tickets for the current user
+      operationId: listTickets
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          $ref: "#/components/schemas/TicketStatus"
+        style: form
+      - explode: true
+        in: query
+        name: priority
+        required: false
+        schema:
+          $ref: "#/components/schemas/TicketPriority"
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketListResponse"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: List support tickets
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+    post:
+      description: Open a new support ticket
+      operationId: createTicket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTicketRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+          description: Ticket created
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      security:
+      - bearerAuth: []
+      summary: Create support ticket
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+      x-codegen-request-body-name: createTicketRequest
+  /tickets/{ticketId}:
+    get:
+      description: Retrieve details of a support ticket
+      operationId: getTicket
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get ticket details
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+    patch:
+      description: Update ticket status or details
+      operationId: updateTicket
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateTicket_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+          description: Ticket updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Update ticket
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+      x-codegen-request-body-name: ticketUpdate
+  /tickets/{ticketId}/messages:
+    get:
+      description: Retrieve conversation history for a ticket
+      operationId: getTicketMessages
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getTicketMessages_200_response"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get ticket messages
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+    post:
+      description: Send a message on an existing ticket
+      operationId: addTicketMessage
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addTicketMessage_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TicketMessage"
+          description: Message added
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Add message to ticket
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+      x-codegen-request-body-name: messageRequest
+  /tickets/{ticketId}/close:
+    post:
+      description: Close a support ticket
+      operationId: closeTicket
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/closeTicket_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+          description: Ticket closed
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Close ticket
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+      x-codegen-request-body-name: closeRequest
+  /tickets/{ticketId}/reopen:
+    post:
+      description: Reopen a closed ticket
+      operationId: reopenTicket
+      parameters:
+      - explode: false
+        in: path
+        name: ticketId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reopenTicket_request"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+          description: Ticket reopened
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Reopen ticket
+      tags:
+      - Tickets
+      x-eov-operation-handler: controllers/TicketsController
+      x-codegen-request-body-name: reopenRequest
+  /chat/sessions:
+    post:
+      description: Initiate a live chat session
+      operationId: startChatSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/startChatSession_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatSession"
+          description: Chat session started
+        "503":
+          description: Chat unavailable
+      security:
+      - bearerAuth: []
+      summary: Start chat session
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+      x-codegen-request-body-name: chatRequest
+  /chat/sessions/{sessionId}:
+    get:
+      description: Retrieve chat session details
+      operationId: getChatSession
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatSession"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get chat session
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+  /chat/sessions/{sessionId}/messages:
+    get:
+      description: Retrieve messages from a chat session
+      operationId: getChatMessages
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Get messages after this message ID
+        explode: true
+        in: query
+        name: after
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getChatMessages_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get chat messages
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+    post:
+      description: Send a message in a chat session
+      operationId: sendChatMessage
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sendChatMessage_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatMessage"
+          description: Message sent
+      security:
+      - bearerAuth: []
+      summary: Send chat message
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+      x-codegen-request-body-name: chatMessageRequest
+  /chat/sessions/{sessionId}/end:
+    post:
+      description: End an active chat session
+      operationId: endChatSession
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/endChatSession_request"
+      responses:
+        "200":
+          description: Chat ended
+      security:
+      - bearerAuth: []
+      summary: End chat session
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+      x-codegen-request-body-name: endChatRequest
+  /chat/availability:
+    get:
+      description: Check if live chat is currently available
+      operationId: getChatAvailability
+      parameters:
+      - explode: true
+        in: query
+        name: topic
+        required: false
+        schema:
+          $ref: "#/components/schemas/SupportTopic"
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getChatAvailability_200_response"
+          description: Availability status
+      summary: Check chat availability
+      tags:
+      - Chat
+      x-eov-operation-handler: controllers/ChatController
+  /knowledge-base/articles:
+    get:
+      description: Search for support articles
+      operationId: searchArticles
+      parameters:
+      - description: Search query
+        explode: true
+        in: query
+        name: query
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: product
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: language
+        required: false
+        schema:
+          default: en
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArticleListResponse"
+          description: Successful response
+      summary: Search knowledge base
+      tags:
+      - KnowledgeBase
+      x-eov-operation-handler: controllers/KnowledgeBaseController
+  /knowledge-base/articles/{articleId}:
+    get:
+      description: Retrieve a knowledge base article
+      operationId: getArticle
+      parameters:
+      - explode: false
+        in: path
+        name: articleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Article"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get article
+      tags:
+      - KnowledgeBase
+      x-eov-operation-handler: controllers/KnowledgeBaseController
+  /knowledge-base/articles/{articleId}/helpful:
+    post:
+      description: Provide feedback on article helpfulness
+      operationId: markArticleHelpful
+      parameters:
+      - explode: false
+        in: path
+        name: articleId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/markArticleHelpful_request"
+        required: true
+      responses:
+        "200":
+          description: Feedback recorded
+      summary: Mark article as helpful
+      tags:
+      - KnowledgeBase
+      x-eov-operation-handler: controllers/KnowledgeBaseController
+      x-codegen-request-body-name: helpfulRequest
+  /knowledge-base/categories:
+    get:
+      description: Get all knowledge base categories
+      operationId: listCategories
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listCategories_200_response"
+          description: Successful response
+      summary: List categories
+      tags:
+      - KnowledgeBase
+      x-eov-operation-handler: controllers/KnowledgeBaseController
+  /knowledge-base/featured:
+    get:
+      description: Get featured and trending support articles
+      operationId: getFeaturedArticles
+      parameters:
+      - explode: true
+        in: query
+        name: product
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getFeaturedArticles_200_response"
+          description: Successful response
+      summary: Get featured articles
+      tags:
+      - KnowledgeBase
+      x-eov-operation-handler: controllers/KnowledgeBaseController
+  /diagnostics/run:
+    post:
+      description: Run automated diagnostics on a device
+      operationId: runDiagnostics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/runDiagnostics_request"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticsSession"
+          description: Diagnostics started
+      security:
+      - bearerAuth: []
+      summary: Run diagnostics
+      tags:
+      - Diagnostics
+      x-eov-operation-handler: controllers/DiagnosticsController
+      x-codegen-request-body-name: diagnosticsRequest
+  /diagnostics/{sessionId}:
+    get:
+      description: Retrieve results of a diagnostics session
+      operationId: getDiagnosticsResults
+      parameters:
+      - explode: false
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticsSession"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      security:
+      - bearerAuth: []
+      summary: Get diagnostics results
+      tags:
+      - Diagnostics
+      x-eov-operation-handler: controllers/DiagnosticsController
+  /diagnostics/history:
+    get:
+      description: Get previous diagnostics sessions
+      operationId: getDiagnosticsHistory
+      parameters:
+      - explode: true
+        in: query
+        name: deviceId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getDiagnosticsHistory_200_response"
+          description: Successful response
+      security:
+      - bearerAuth: []
+      summary: Get diagnostics history
+      tags:
+      - Diagnostics
+      x-eov-operation-handler: controllers/DiagnosticsController
+  /feedback:
+    post:
+      description: Submit general feedback or product feedback
+      operationId: submitFeedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/submitFeedback_201_response"
+          description: Feedback submitted
+      security:
+      - bearerAuth: []
+      summary: Submit feedback
+      tags:
+      - Feedback
+      x-eov-operation-handler: controllers/FeedbackController
+      x-codegen-request-body-name: feedbackRequest
+  /feedback/surveys/{surveyId}:
+    get:
+      description: Retrieve a customer survey
+      operationId: getSurvey
+      parameters:
+      - explode: false
+        in: path
+        name: surveyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Survey"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get survey
+      tags:
+      - Feedback
+      x-eov-operation-handler: controllers/FeedbackController
+    post:
+      description: Submit responses to a survey
+      operationId: submitSurveyResponse
+      parameters:
+      - explode: false
+        in: path
+        name: surveyId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/submitSurveyResponse_request"
+        required: true
+      responses:
+        "200":
+          description: Survey response submitted
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Submit survey response
+      tags:
+      - Feedback
+      x-eov-operation-handler: controllers/FeedbackController
+      x-codegen-request-body-name: surveyResponse
+components:
+  parameters:
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    TicketStatus:
+      enum:
+      - open
+      - in_progress
+      - waiting_on_customer
+      - waiting_on_support
+      - resolved
+      - closed
+      type: string
+    TicketPriority:
+      enum:
+      - low
+      - normal
+      - high
+      - urgent
+      type: string
+    SupportTopic:
+      enum:
+      - technical_support
+      - billing
+      - orders
+      - returns
+      - account
+      - feedback
+      - other
+      type: string
+    Ticket:
+      example:
+        ticketNumber: SUP-2024-123456
+        messageCount: 0
+        attachments:
+        - filename: filename
+          size: 6
+          id: id
+          contentType: contentType
+          url: https://openapi-generator.tech
+        - filename: filename
+          size: 6
+          id: id
+          contentType: contentType
+          url: https://openapi-generator.tech
+        resolvedAt: 2000-01-23T04:56:07.000+00:00
+        firstResponseAt: 2000-01-23T04:56:07.000+00:00
+        subject: subject
+        description: description
+        priority: low
+        assignedTo:
+          name: name
+          id: id
+        relatedOrderId: relatedOrderId
+        tags:
+        - tags
+        - tags
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        topic: technical_support
+        id: id
+        device:
+          serialNumber: serialNumber
+          model: model
+          id: id
+          type: type
+        status: open
+        customer:
+          name: name
+          id: id
+          email: email
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        ticketNumber:
+          example: SUP-2024-123456
+          type: string
+        subject:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: "#/components/schemas/TicketStatus"
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+        topic:
+          $ref: "#/components/schemas/SupportTopic"
+        customer:
+          $ref: "#/components/schemas/Ticket_customer"
+        device:
+          $ref: "#/components/schemas/Ticket_device"
+        assignedTo:
+          $ref: "#/components/schemas/Ticket_assignedTo"
+        relatedOrderId:
+          type: string
+        tags:
+          items:
+            type: string
+          type: array
+        messageCount:
+          type: integer
+        attachments:
+          items:
+            $ref: "#/components/schemas/Attachment"
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        resolvedAt:
+          format: date-time
+          type: string
+        firstResponseAt:
+          format: date-time
+          type: string
+      type: object
+    CreateTicketRequest:
+      example:
+        orderId: orderId
+        subject: subject
+        description: description
+        topic: technical_support
+        priority: low
+        deviceId: deviceId
+      properties:
+        subject:
+          maxLength: 200
+          type: string
+        description:
+          maxLength: 10000
+          type: string
+        topic:
+          $ref: "#/components/schemas/SupportTopic"
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+        deviceId:
+          type: string
+        orderId:
+          type: string
+      required:
+      - description
+      - subject
+      - topic
+      type: object
+    TicketMessage:
+      example:
+        isInternal: true
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        attachments:
+        - filename: filename
+          size: 6
+          id: id
+          contentType: contentType
+          url: https://openapi-generator.tech
+        - filename: filename
+          size: 6
+          id: id
+          contentType: contentType
+          url: https://openapi-generator.tech
+        sender:
+          name: name
+          id: id
+          avatar: https://openapi-generator.tech
+          type: customer
+        id: id
+        message: message
+        ticketId: ticketId
+      properties:
+        id:
+          type: string
+        ticketId:
+          type: string
+        sender:
+          $ref: "#/components/schemas/TicketMessage_sender"
+        message:
+          type: string
+        attachments:
+          items:
+            $ref: "#/components/schemas/Attachment"
+          type: array
+        isInternal:
+          type: boolean
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    TicketFeedback:
+      properties:
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+        resolutionSatisfied:
+          type: boolean
+        comments:
+          type: string
+      type: object
+    ChatSession:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        agent:
+          name: name
+          id: id
+          avatar: https://openapi-generator.tech
+        queuePosition: 0
+        estimatedWaitTime: 6
+        endedAt: 2000-01-23T04:56:07.000+00:00
+        websocketUrl: https://openapi-generator.tech
+        topic: technical_support
+        startedAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        status: queued
+      properties:
+        id:
+          type: string
+        status:
+          enum:
+          - queued
+          - active
+          - ended
+          type: string
+        topic:
+          $ref: "#/components/schemas/SupportTopic"
+        queuePosition:
+          type: integer
+        estimatedWaitTime:
+          type: integer
+        agent:
+          $ref: "#/components/schemas/ChatSession_agent"
+        websocketUrl:
+          format: uri
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+        endedAt:
+          format: date-time
+          type: string
+      type: object
+    ChatMessage:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        metadata: "{}"
+        messageType: text
+        sender:
+          name: name
+          id: id
+          type: customer
+        id: id
+        sessionId: sessionId
+        message: message
+      properties:
+        id:
+          type: string
+        sessionId:
+          type: string
+        sender:
+          $ref: "#/components/schemas/ChatMessage_sender"
+        message:
+          type: string
+        messageType:
+          enum:
+          - text
+          - image
+          - file
+          - card
+          - quick_replies
+          type: string
+        metadata:
+          type: object
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    ChatFeedback:
+      properties:
+        rating:
+          maximum: 5
+          minimum: 1
+          type: integer
+        helpful:
+          type: boolean
+        comments:
+          type: string
+      type: object
+    Article:
+      example:
+        summary: summary
+        helpfulCount: 6
+        publishedAt: 2000-01-23T04:56:07.000+00:00
+        notHelpfulCount: 1
+        language: language
+        title: title
+        content: content
+        products:
+        - products
+        - products
+        tags:
+        - tags
+        - tags
+        relatedArticles:
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        id: id
+        viewCount: 5
+        category:
+          name: name
+          icon: icon
+          description: description
+          articleCount: 0
+          id: id
+          subcategories:
+          - null
+          - null
+          slug: slug
+        slug: slug
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        summary:
+          type: string
+        content:
+          type: string
+        category:
+          $ref: "#/components/schemas/Category"
+        products:
+          items:
+            type: string
+          type: array
+        tags:
+          items:
+            type: string
+          type: array
+        relatedArticles:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        helpfulCount:
+          type: integer
+        notHelpfulCount:
+          type: integer
+        viewCount:
+          type: integer
+        language:
+          type: string
+        publishedAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    ArticleSummary:
+      example:
+        summary: summary
+        id: id
+        title: title
+        category: category
+        slug: slug
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        summary:
+          type: string
+        category:
+          type: string
+      type: object
+    ArticleListResponse:
+      example:
+        pagination:
+          totalItems: 5
+          limit: 5
+          totalPages: 2
+          page: 1
+        articles:
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+      properties:
+        articles:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    Category:
+      example:
+        name: name
+        icon: icon
+        description: description
+        articleCount: 0
+        id: id
+        subcategories:
+        - null
+        - null
+        slug: slug
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+        articleCount:
+          type: integer
+        subcategories:
+          items:
+            $ref: "#/components/schemas/Category"
+          type: array
+      type: object
+    DiagnosticsSession:
+      example:
+        overallHealth: excellent
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        completedAt: 2000-01-23T04:56:07.000+00:00
+        tests:
+        - result:
+            score: 6
+            details: details
+            metrics:
+              key: metrics
+          name: name
+          status: pending
+        - result:
+            score: 6
+            details: details
+            metrics:
+              key: metrics
+          name: name
+          status: pending
+        progress: 8
+        deviceModel: deviceModel
+        id: id
+        deviceId: deviceId
+        recommendations:
+        - actionUrl: https://openapi-generator.tech
+          description: description
+          type: type
+          title: title
+        - actionUrl: https://openapi-generator.tech
+          description: description
+          type: type
+          title: title
+        status: pending
+      properties:
+        id:
+          type: string
+        deviceId:
+          type: string
+        deviceModel:
+          type: string
+        status:
+          enum:
+          - pending
+          - running
+          - completed
+          - failed
+          type: string
+        progress:
+          maximum: 100
+          minimum: 0
+          type: integer
+        tests:
+          items:
+            $ref: "#/components/schemas/DiagnosticTest"
+          type: array
+        overallHealth:
+          enum:
+          - excellent
+          - good
+          - fair
+          - poor
+          type: string
+        recommendations:
+          items:
+            $ref: "#/components/schemas/DiagnosticsSession_recommendations_inner"
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        completedAt:
+          format: date-time
+          type: string
+      type: object
+    DiagnosticTest:
+      example:
+        result:
+          score: 6
+          details: details
+          metrics:
+            key: metrics
+        name: name
+        status: pending
+      properties:
+        name:
+          type: string
+        status:
+          enum:
+          - pending
+          - running
+          - passed
+          - warning
+          - failed
+          - skipped
+          type: string
+        result:
+          $ref: "#/components/schemas/DiagnosticTest_result"
+      type: object
+    FeedbackRequest:
+      example:
+        productId: productId
+        subject: subject
+        contactConsent: false
+        type: bug_report
+        message: message
+        deviceId: deviceId
+      properties:
+        type:
+          enum:
+          - bug_report
+          - feature_request
+          - general
+          - praise
+          - complaint
+          type: string
+        subject:
+          type: string
+        message:
+          maxLength: 5000
+          type: string
+        productId:
+          type: string
+        deviceId:
+          type: string
+        contactConsent:
+          default: false
+          type: boolean
+      required:
+      - message
+      - type
+      type: object
+    Survey:
+      example:
+        questions:
+        - question: question
+          options:
+          - label: label
+            value: value
+          - label: label
+            value: value
+          id: id
+          type: rating
+          required: true
+        - question: question
+          options:
+          - label: label
+            value: value
+          - label: label
+            value: value
+          id: id
+          type: rating
+          required: true
+        description: description
+        id: id
+        title: title
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        questions:
+          items:
+            $ref: "#/components/schemas/Survey_questions_inner"
+          type: array
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    Attachment:
+      example:
+        filename: filename
+        size: 6
+        id: id
+        contentType: contentType
+        url: https://openapi-generator.tech
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        contentType:
+          type: string
+        size:
+          type: integer
+        url:
+          format: uri
+          type: string
+      type: object
+    TicketListResponse:
+      example:
+        tickets:
+        - ticketNumber: SUP-2024-123456
+          messageCount: 0
+          attachments:
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          resolvedAt: 2000-01-23T04:56:07.000+00:00
+          firstResponseAt: 2000-01-23T04:56:07.000+00:00
+          subject: subject
+          description: description
+          priority: low
+          assignedTo:
+            name: name
+            id: id
+          relatedOrderId: relatedOrderId
+          tags:
+          - tags
+          - tags
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          topic: technical_support
+          id: id
+          device:
+            serialNumber: serialNumber
+            model: model
+            id: id
+            type: type
+          status: open
+          customer:
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - ticketNumber: SUP-2024-123456
+          messageCount: 0
+          attachments:
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          resolvedAt: 2000-01-23T04:56:07.000+00:00
+          firstResponseAt: 2000-01-23T04:56:07.000+00:00
+          subject: subject
+          description: description
+          priority: low
+          assignedTo:
+            name: name
+            id: id
+          relatedOrderId: relatedOrderId
+          tags:
+          - tags
+          - tags
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          topic: technical_support
+          id: id
+          device:
+            serialNumber: serialNumber
+            model: model
+            id: id
+            type: type
+          status: open
+          customer:
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        pagination:
+          totalItems: 5
+          limit: 5
+          totalPages: 2
+          page: 1
+      properties:
+        tickets:
+          items:
+            $ref: "#/components/schemas/Ticket"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    Pagination:
+      example:
+        totalItems: 5
+        limit: 5
+        totalPages: 2
+        page: 1
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+    updateTicket_request:
+      properties:
+        status:
+          $ref: "#/components/schemas/TicketStatus"
+        priority:
+          $ref: "#/components/schemas/TicketPriority"
+      type: object
+    getTicketMessages_200_response:
+      example:
+        pagination:
+          totalItems: 5
+          limit: 5
+          totalPages: 2
+          page: 1
+        messages:
+        - isInternal: true
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          attachments:
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          sender:
+            name: name
+            id: id
+            avatar: https://openapi-generator.tech
+            type: customer
+          id: id
+          message: message
+          ticketId: ticketId
+        - isInternal: true
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          attachments:
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          - filename: filename
+            size: 6
+            id: id
+            contentType: contentType
+            url: https://openapi-generator.tech
+          sender:
+            name: name
+            id: id
+            avatar: https://openapi-generator.tech
+            type: customer
+          id: id
+          message: message
+          ticketId: ticketId
+      properties:
+        messages:
+          items:
+            $ref: "#/components/schemas/TicketMessage"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    addTicketMessage_request:
+      properties:
+        message:
+          maxLength: 10000
+          type: string
+      required:
+      - message
+      type: object
+    closeTicket_request:
+      properties:
+        resolution:
+          type: string
+        feedback:
+          $ref: "#/components/schemas/TicketFeedback"
+      type: object
+    reopenTicket_request:
+      properties:
+        reason:
+          type: string
+      type: object
+    startChatSession_request:
+      properties:
+        topic:
+          $ref: "#/components/schemas/SupportTopic"
+        deviceId:
+          type: string
+        initialMessage:
+          type: string
+      type: object
+    getChatMessages_200_response:
+      example:
+        messages:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata: "{}"
+          messageType: text
+          sender:
+            name: name
+            id: id
+            type: customer
+          id: id
+          sessionId: sessionId
+          message: message
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          metadata: "{}"
+          messageType: text
+          sender:
+            name: name
+            id: id
+            type: customer
+          id: id
+          sessionId: sessionId
+          message: message
+      properties:
+        messages:
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+          type: array
+      type: object
+    sendChatMessage_request:
+      properties:
+        message:
+          maxLength: 2000
+          type: string
+      required:
+      - message
+      type: object
+    endChatSession_request:
+      properties:
+        feedback:
+          $ref: "#/components/schemas/ChatFeedback"
+      type: object
+    getChatAvailability_200_response:
+      example:
+        queuePosition: 6
+        estimatedWaitTime: 0
+        available: true
+        alternativeOptions:
+        - alternativeOptions
+        - alternativeOptions
+      properties:
+        available:
+          type: boolean
+        estimatedWaitTime:
+          description: Estimated wait time in minutes
+          type: integer
+        queuePosition:
+          type: integer
+        alternativeOptions:
+          items:
+            type: string
+          type: array
+      type: object
+    markArticleHelpful_request:
+      properties:
+        helpful:
+          type: boolean
+        comments:
+          type: string
+      required:
+      - helpful
+      type: object
+    listCategories_200_response:
+      example:
+        categories:
+        - name: name
+          icon: icon
+          description: description
+          articleCount: 0
+          id: id
+          subcategories:
+          - null
+          - null
+          slug: slug
+        - name: name
+          icon: icon
+          description: description
+          articleCount: 0
+          id: id
+          subcategories:
+          - null
+          - null
+          slug: slug
+      properties:
+        categories:
+          items:
+            $ref: "#/components/schemas/Category"
+          type: array
+      type: object
+    getFeaturedArticles_200_response:
+      example:
+        trending:
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        featured:
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+        - summary: summary
+          id: id
+          title: title
+          category: category
+          slug: slug
+      properties:
+        featured:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+        trending:
+          items:
+            $ref: "#/components/schemas/ArticleSummary"
+          type: array
+      type: object
+    runDiagnostics_request:
+      properties:
+        deviceId:
+          type: string
+        tests:
+          items:
+            enum:
+            - battery
+            - storage
+            - display
+            - camera
+            - connectivity
+            - sensors
+            - performance
+            type: string
+          type: array
+      required:
+      - deviceId
+      type: object
+    getDiagnosticsHistory_200_response:
+      example:
+        sessions:
+        - overallHealth: excellent
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          completedAt: 2000-01-23T04:56:07.000+00:00
+          tests:
+          - result:
+              score: 6
+              details: details
+              metrics:
+                key: metrics
+            name: name
+            status: pending
+          - result:
+              score: 6
+              details: details
+              metrics:
+                key: metrics
+            name: name
+            status: pending
+          progress: 8
+          deviceModel: deviceModel
+          id: id
+          deviceId: deviceId
+          recommendations:
+          - actionUrl: https://openapi-generator.tech
+            description: description
+            type: type
+            title: title
+          - actionUrl: https://openapi-generator.tech
+            description: description
+            type: type
+            title: title
+          status: pending
+        - overallHealth: excellent
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          completedAt: 2000-01-23T04:56:07.000+00:00
+          tests:
+          - result:
+              score: 6
+              details: details
+              metrics:
+                key: metrics
+            name: name
+            status: pending
+          - result:
+              score: 6
+              details: details
+              metrics:
+                key: metrics
+            name: name
+            status: pending
+          progress: 8
+          deviceModel: deviceModel
+          id: id
+          deviceId: deviceId
+          recommendations:
+          - actionUrl: https://openapi-generator.tech
+            description: description
+            type: type
+            title: title
+          - actionUrl: https://openapi-generator.tech
+            description: description
+            type: type
+            title: title
+          status: pending
+      properties:
+        sessions:
+          items:
+            $ref: "#/components/schemas/DiagnosticsSession"
+          type: array
+      type: object
+    submitFeedback_201_response:
+      example:
+        feedbackId: feedbackId
+        message: message
+      properties:
+        feedbackId:
+          type: string
+        message:
+          type: string
+      type: object
+    submitSurveyResponse_request_responses_inner:
+      properties:
+        questionId:
+          type: string
+        answer:
+          type: string
+      type: object
+    submitSurveyResponse_request:
+      properties:
+        responses:
+          items:
+            $ref: "#/components/schemas/submitSurveyResponse_request_responses_inner"
+          type: array
+      required:
+      - responses
+      type: object
+    Ticket_customer:
+      example:
+        name: name
+        id: id
+        email: email
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          format: email
+          type: string
+      type: object
+    Ticket_device:
+      example:
+        serialNumber: serialNumber
+        model: model
+        id: id
+        type: type
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+      type: object
+    Ticket_assignedTo:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    TicketMessage_sender:
+      example:
+        name: name
+        id: id
+        avatar: https://openapi-generator.tech
+        type: customer
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - customer
+          - agent
+          - system
+          type: string
+        avatar:
+          format: uri
+          type: string
+      type: object
+    ChatSession_agent:
+      example:
+        name: name
+        id: id
+        avatar: https://openapi-generator.tech
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        avatar:
+          format: uri
+          type: string
+      type: object
+    ChatMessage_sender:
+      example:
+        name: name
+        id: id
+        type: customer
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - customer
+          - agent
+          - bot
+          - system
+          type: string
+      type: object
+    DiagnosticsSession_recommendations_inner:
+      example:
+        actionUrl: https://openapi-generator.tech
+        description: description
+        type: type
+        title: title
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        actionUrl:
+          format: uri
+          type: string
+      type: object
+    DiagnosticTest_result:
+      example:
+        score: 6
+        details: details
+        metrics:
+          key: metrics
+      properties:
+        score:
+          type: integer
+        details:
+          type: string
+        metrics:
+          additionalProperties:
+            type: string
+          type: object
+      type: object
+    Survey_questions_inner_options_inner:
+      example:
+        label: label
+        value: value
+      properties:
+        value:
+          type: string
+        label:
+          type: string
+      type: object
+    Survey_questions_inner:
+      example:
+        question: question
+        options:
+        - label: label
+          value: value
+        - label: label
+          value: value
+        id: id
+        type: rating
+        required: true
+      properties:
+        id:
+          type: string
+        type:
+          enum:
+          - rating
+          - text
+          - single_choice
+          - multi_choice
+          - nps
+          type: string
+        question:
+          type: string
+        required:
+          type: boolean
+        options:
+          items:
+            $ref: "#/components/schemas/Survey_questions_inner_options_inner"
+          type: array
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

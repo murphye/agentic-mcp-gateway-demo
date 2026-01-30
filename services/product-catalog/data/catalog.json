@@ -1,0 +1,1746 @@
+{
+  "metadata": {
+    "version": "2024.1",
+    "lastUpdated": "2024-01-15T00:00:00Z",
+    "currency": "USD",
+    "region": "US"
+  },
+  "categories": [
+    { "id": "cat-phones", "name": "pPhone", "slug": "pphone", "description": "The ultimate smartphone experience", "icon": "phone", "displayOrder": 1 },
+    { "id": "cat-phones-pro", "name": "pPhone Pro", "slug": "pphone-pro", "parentId": "cat-phones" },
+    { "id": "cat-phones-standard", "name": "pPhone", "slug": "pphone-standard", "parentId": "cat-phones" },
+    { "id": "cat-phones-se", "name": "pPhone SE", "slug": "pphone-se", "parentId": "cat-phones" },
+    { "id": "cat-laptops", "name": "PearBook", "slug": "pearbook", "description": "Power meets portability", "icon": "laptop", "displayOrder": 2 },
+    { "id": "cat-laptops-pro", "name": "PearBook Pro", "slug": "pearbook-pro", "parentId": "cat-laptops" },
+    { "id": "cat-laptops-air", "name": "PearBook Air", "slug": "pearbook-air", "parentId": "cat-laptops" },
+    { "id": "cat-tablets", "name": "PearPad", "slug": "pearpad", "description": "Your canvas for creativity", "icon": "tablet", "displayOrder": 3 },
+    { "id": "cat-tablets-pro", "name": "PearPad Pro", "slug": "pearpad-pro", "parentId": "cat-tablets" },
+    { "id": "cat-tablets-air", "name": "PearPad Air", "slug": "pearpad-air", "parentId": "cat-tablets" },
+    { "id": "cat-tablets-mini", "name": "PearPad Mini", "slug": "pearpad-mini", "parentId": "cat-tablets" },
+    { "id": "cat-watches", "name": "Pear Watch", "slug": "pear-watch", "description": "Health and fitness on your wrist", "icon": "watch", "displayOrder": 4 },
+    { "id": "cat-watches-ultra", "name": "Pear Watch Ultra", "slug": "pear-watch-ultra", "parentId": "cat-watches" },
+    { "id": "cat-watches-series", "name": "Pear Watch Series 10", "slug": "pear-watch-series", "parentId": "cat-watches" },
+    { "id": "cat-watches-se", "name": "Pear Watch SE", "slug": "pear-watch-se", "parentId": "cat-watches" },
+    { "id": "cat-audio", "name": "PearPods", "slug": "pearpods", "description": "Immersive audio experience", "icon": "headphones", "displayOrder": 5 },
+    { "id": "cat-audio-pods-pro", "name": "PearPods Pro", "slug": "pearpods-pro", "parentId": "cat-audio" },
+    { "id": "cat-audio-pods", "name": "PearPods", "slug": "pearpods-standard", "parentId": "cat-audio" },
+    { "id": "cat-audio-max", "name": "PearPods Max", "slug": "pearpods-max", "parentId": "cat-audio" },
+    { "id": "cat-desktops", "name": "Desktop", "slug": "desktop", "description": "Power for professionals", "icon": "desktop", "displayOrder": 6 },
+    { "id": "cat-desktops-studio", "name": "Pear Studio", "slug": "pear-studio", "parentId": "cat-desktops" },
+    { "id": "cat-desktops-mini", "name": "Pear Mini", "slug": "pear-mini", "parentId": "cat-desktops" },
+    { "id": "cat-desktops-imac", "name": "iMac", "slug": "imac", "parentId": "cat-desktops" },
+    { "id": "cat-tv", "name": "PearTV", "slug": "peartv", "description": "Entertainment elevated", "icon": "tv", "displayOrder": 7 },
+    { "id": "cat-accessories", "name": "Accessories", "slug": "accessories", "description": "Complete your setup", "icon": "accessories", "displayOrder": 8 },
+    { "id": "cat-acc-cases", "name": "Cases & Protection", "slug": "cases", "parentId": "cat-accessories" },
+    { "id": "cat-acc-charging", "name": "Power & Cables", "slug": "power-cables", "parentId": "cat-accessories" },
+    { "id": "cat-acc-input", "name": "Keyboards & Mice", "slug": "input-devices", "parentId": "cat-accessories" },
+    { "id": "cat-acc-displays", "name": "Displays", "slug": "displays", "parentId": "cat-accessories" }
+  ],
+  "products": [
+    {
+      "id": "PEAR-PPH-1601",
+      "name": "pPhone 16 Pro Max",
+      "slug": "pphone-16-pro-max",
+      "categoryId": "cat-phones-pro",
+      "description": "The most advanced pPhone ever. Featuring the P18 Pro chip, a stunning 6.9-inch Super Retina XDR display, and our most powerful camera system.",
+      "shortDescription": "Our most powerful pPhone with 6.9\" display",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 1199.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pphone-16-pro-max/hero.jpg",
+        "gallery": [
+          "https://cdn.pearcomputer.com/products/pphone-16-pro-max/gallery-1.jpg",
+          "https://cdn.pearcomputer.com/products/pphone-16-pro-max/gallery-2.jpg",
+          "https://cdn.pearcomputer.com/products/pphone-16-pro-max/gallery-3.jpg"
+        ],
+        "thumbnail": "https://cdn.pearcomputer.com/products/pphone-16-pro-max/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "6.9 inches",
+          "resolution": "2868 x 1320",
+          "technology": "Super Retina XDR OLED",
+          "refreshRate": "1-120Hz ProMotion",
+          "brightness": "2000 nits peak (outdoor)",
+          "features": ["Always-On display", "Dynamic Island", "HDR"]
+        },
+        "processor": {
+          "name": "P18 Pro",
+          "cores": "6-core CPU (2 performance + 4 efficiency)",
+          "gpu": "6-core GPU",
+          "neuralEngine": "16-core Neural Engine"
+        },
+        "camera": {
+          "main": "48MP Fusion camera, f/1.78",
+          "ultrawide": "48MP Ultra Wide, f/2.2",
+          "telephoto": "12MP 5x Telephoto, f/2.8",
+          "front": "12MP TrueDepth, f/1.9",
+          "video": "4K Dolby Vision up to 120fps",
+          "features": ["Photonic Engine", "Night mode", "ProRAW", "Spatial Video"]
+        },
+        "battery": {
+          "videoPlayback": "Up to 33 hours",
+          "streamingPlayback": "Up to 25 hours",
+          "audioPlayback": "Up to 105 hours",
+          "charging": "MagSafe wireless up to 25W"
+        },
+        "storage": ["256GB", "512GB", "1TB"],
+        "dimensions": {
+          "height": "163.0 mm",
+          "width": "77.6 mm",
+          "depth": "8.25 mm",
+          "weight": "227 g"
+        },
+        "connectivity": ["5G", "Wi-Fi 7", "Bluetooth 5.3", "Ultra Wideband", "NFC", "USB-C 3.2"],
+        "waterResistance": "IP68 (6 meters for 30 minutes)",
+        "security": ["Face ID", "Emergency SOS via satellite"],
+        "materials": "Titanium frame, Ceramic Shield front"
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPH-1601-256-NAT",
+          "sku": "PPH16PM-256-NAT",
+          "attributes": { "storage": "256GB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 1199.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-256-BLU",
+          "sku": "PPH16PM-256-BLU",
+          "attributes": { "storage": "256GB", "color": "Blue Titanium" },
+          "colorHex": "#394E5C",
+          "price": 1199.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-256-WHT",
+          "sku": "PPH16PM-256-WHT",
+          "attributes": { "storage": "256GB", "color": "White Titanium" },
+          "colorHex": "#F5F5F0",
+          "price": 1199.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-256-BLK",
+          "sku": "PPH16PM-256-BLK",
+          "attributes": { "storage": "256GB", "color": "Black Titanium" },
+          "colorHex": "#1C1C1E",
+          "price": 1199.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-512-NAT",
+          "sku": "PPH16PM-512-NAT",
+          "attributes": { "storage": "512GB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 1399.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-512-BLU",
+          "sku": "PPH16PM-512-BLU",
+          "attributes": { "storage": "512GB", "color": "Blue Titanium" },
+          "colorHex": "#394E5C",
+          "price": 1399.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-512-WHT",
+          "sku": "PPH16PM-512-WHT",
+          "attributes": { "storage": "512GB", "color": "White Titanium" },
+          "colorHex": "#F5F5F0",
+          "price": 1399.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-512-BLK",
+          "sku": "PPH16PM-512-BLK",
+          "attributes": { "storage": "512GB", "color": "Black Titanium" },
+          "colorHex": "#1C1C1E",
+          "price": 1399.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-1TB-NAT",
+          "sku": "PPH16PM-1TB-NAT",
+          "attributes": { "storage": "1TB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 1599.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-1TB-BLU",
+          "sku": "PPH16PM-1TB-BLU",
+          "attributes": { "storage": "1TB", "color": "Blue Titanium" },
+          "colorHex": "#394E5C",
+          "price": 1599.00,
+          "comparePrice": null,
+          "inStock": false
+        },
+        {
+          "id": "PEAR-PPH-1601-1TB-WHT",
+          "sku": "PPH16PM-1TB-WHT",
+          "attributes": { "storage": "1TB", "color": "White Titanium" },
+          "colorHex": "#F5F5F0",
+          "price": 1599.00,
+          "comparePrice": null,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1601-1TB-BLK",
+          "sku": "PPH16PM-1TB-BLK",
+          "attributes": { "storage": "1TB", "color": "Black Titanium" },
+          "colorHex": "#1C1C1E",
+          "price": 1599.00,
+          "comparePrice": null,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P18 Pro chip with breakthrough performance",
+        "Camera Control button for instant photo access",
+        "48MP Fusion camera with advanced computational photography",
+        "5x optical zoom for stunning telephoto shots",
+        "Action button for customizable shortcuts",
+        "All-day battery life with fast charging",
+        "Titanium design, lighter and more durable"
+      ],
+      "tags": ["flagship", "5g", "pro", "titanium", "promotion"],
+      "metaTitle": "pPhone 16 Pro Max - Pear Computer",
+      "metaDescription": "The most advanced pPhone. 6.9-inch display, P18 Pro chip, 48MP camera system, and titanium design."
+    },
+    {
+      "id": "PEAR-PPH-1602",
+      "name": "pPhone 16 Pro",
+      "slug": "pphone-16-pro",
+      "categoryId": "cat-phones-pro",
+      "description": "Pro performance in a refined design. The P18 Pro chip powers everything from advanced photography to demanding apps.",
+      "shortDescription": "Pro features in a 6.3\" design",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 999.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pphone-16-pro/hero.jpg",
+        "gallery": [
+          "https://cdn.pearcomputer.com/products/pphone-16-pro/gallery-1.jpg",
+          "https://cdn.pearcomputer.com/products/pphone-16-pro/gallery-2.jpg"
+        ],
+        "thumbnail": "https://cdn.pearcomputer.com/products/pphone-16-pro/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "6.3 inches",
+          "resolution": "2622 x 1206",
+          "technology": "Super Retina XDR OLED",
+          "refreshRate": "1-120Hz ProMotion"
+        },
+        "processor": {
+          "name": "P18 Pro",
+          "cores": "6-core CPU",
+          "gpu": "6-core GPU"
+        },
+        "camera": {
+          "main": "48MP Fusion camera",
+          "ultrawide": "48MP Ultra Wide",
+          "telephoto": "12MP 5x Telephoto",
+          "front": "12MP TrueDepth"
+        },
+        "battery": {
+          "videoPlayback": "Up to 27 hours"
+        },
+        "storage": ["128GB", "256GB", "512GB", "1TB"],
+        "dimensions": {
+          "height": "149.6 mm",
+          "width": "71.5 mm",
+          "depth": "8.25 mm",
+          "weight": "199 g"
+        }
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPH-1602-128-NAT",
+          "sku": "PPH16P-128-NAT",
+          "attributes": { "storage": "128GB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 999.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1602-128-BLU",
+          "sku": "PPH16P-128-BLU",
+          "attributes": { "storage": "128GB", "color": "Blue Titanium" },
+          "colorHex": "#394E5C",
+          "price": 999.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1602-256-NAT",
+          "sku": "PPH16P-256-NAT",
+          "attributes": { "storage": "256GB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 1099.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1602-512-NAT",
+          "sku": "PPH16P-512-NAT",
+          "attributes": { "storage": "512GB", "color": "Natural Titanium" },
+          "colorHex": "#8B8378",
+          "price": 1299.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P18 Pro chip",
+        "Pro camera system with 5x optical zoom",
+        "Titanium design",
+        "Action button"
+      ],
+      "tags": ["flagship", "5g", "pro", "titanium"]
+    },
+    {
+      "id": "PEAR-PPH-1603",
+      "name": "pPhone 16",
+      "slug": "pphone-16",
+      "categoryId": "cat-phones-standard",
+      "description": "Built for Pear Intelligence. The new pPhone 16 features the powerful P18 chip, a 48MP camera, and vibrant colors.",
+      "shortDescription": "Powerful and colorful",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 799.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pphone-16/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pphone-16/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "6.1 inches",
+          "resolution": "2556 x 1179",
+          "technology": "Super Retina XDR OLED",
+          "refreshRate": "60Hz"
+        },
+        "processor": {
+          "name": "P18",
+          "cores": "6-core CPU",
+          "gpu": "5-core GPU"
+        },
+        "camera": {
+          "main": "48MP Fusion camera",
+          "ultrawide": "12MP Ultra Wide",
+          "front": "12MP TrueDepth"
+        },
+        "battery": {
+          "videoPlayback": "Up to 22 hours"
+        },
+        "storage": ["128GB", "256GB", "512GB"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPH-1603-128-BLK",
+          "sku": "PPH16-128-BLK",
+          "attributes": { "storage": "128GB", "color": "Black" },
+          "colorHex": "#1C1C1E",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-128-WHT",
+          "sku": "PPH16-128-WHT",
+          "attributes": { "storage": "128GB", "color": "White" },
+          "colorHex": "#F5F5F0",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-128-PNK",
+          "sku": "PPH16-128-PNK",
+          "attributes": { "storage": "128GB", "color": "Pink" },
+          "colorHex": "#F9C6D3",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-128-TEL",
+          "sku": "PPH16-128-TEL",
+          "attributes": { "storage": "128GB", "color": "Teal" },
+          "colorHex": "#5AC8D8",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-128-ULT",
+          "sku": "PPH16-128-ULT",
+          "attributes": { "storage": "128GB", "color": "Ultramarine" },
+          "colorHex": "#2C3E8C",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-256-BLK",
+          "sku": "PPH16-256-BLK",
+          "attributes": { "storage": "256GB", "color": "Black" },
+          "colorHex": "#1C1C1E",
+          "price": 899.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPH-1603-512-BLK",
+          "sku": "PPH16-512-BLK",
+          "attributes": { "storage": "512GB", "color": "Black" },
+          "colorHex": "#1C1C1E",
+          "price": 1099.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P18 chip with Pear Intelligence",
+        "48MP Fusion camera",
+        "Camera Control button",
+        "Action button",
+        "Beautiful aluminum design"
+      ],
+      "tags": ["5g", "colorful", "promotion"]
+    },
+    {
+      "id": "PEAR-PBK-1401",
+      "name": "PearBook Pro 14\"",
+      "slug": "pearbook-pro-14",
+      "categoryId": "cat-laptops-pro",
+      "description": "The most advanced PearBook Pro ever. With the blazing-fast P4 Pro chip, stunning Liquid Retina XDR display, and incredible battery life.",
+      "shortDescription": "Pro power in a portable design",
+      "status": "active",
+      "releaseDate": "2024-11-01",
+      "basePrice": 1999.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearbook-pro-14/hero.jpg",
+        "gallery": [
+          "https://cdn.pearcomputer.com/products/pearbook-pro-14/gallery-1.jpg",
+          "https://cdn.pearcomputer.com/products/pearbook-pro-14/gallery-2.jpg"
+        ],
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearbook-pro-14/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "14.2 inches",
+          "resolution": "3024 x 1964",
+          "technology": "Liquid Retina XDR",
+          "refreshRate": "ProMotion up to 120Hz",
+          "brightness": "1600 nits peak (HDR)",
+          "features": ["P3 wide color", "True Tone", "ProMotion"]
+        },
+        "processor": {
+          "name": "P4 Pro",
+          "cpu": "12-core CPU (8 performance + 4 efficiency)",
+          "gpu": "18-core GPU",
+          "neuralEngine": "16-core Neural Engine",
+          "memoryBandwidth": "200GB/s"
+        },
+        "memory": ["18GB", "36GB", "48GB"],
+        "storage": ["512GB", "1TB", "2TB", "4TB", "8TB"],
+        "battery": {
+          "capacity": "72.4 Wh",
+          "videoPlayback": "Up to 18 hours",
+          "charging": "Fast charge with 96W USB-C"
+        },
+        "dimensions": {
+          "height": "1.55 cm",
+          "width": "31.26 cm",
+          "depth": "22.12 cm",
+          "weight": "1.60 kg"
+        },
+        "ports": [
+          "3x Thunderbolt 4 (USB-C)",
+          "HDMI 2.1",
+          "SDXC card slot",
+          "MagSafe 3",
+          "3.5mm headphone jack"
+        ],
+        "connectivity": ["Wi-Fi 6E", "Bluetooth 5.3"],
+        "keyboard": {
+          "type": "Magic Keyboard with Touch ID",
+          "backlighting": "Ambient light sensor"
+        },
+        "audio": {
+          "speakers": "Six-speaker sound system with force-cancelling woofers",
+          "microphones": "Studio-quality three-mic array",
+          "features": ["Spatial Audio", "Dolby Atmos"]
+        },
+        "camera": {
+          "resolution": "1080p FaceTime HD",
+          "features": ["Advanced ISP", "Center Stage"]
+        }
+      },
+      "variants": [
+        {
+          "id": "PEAR-PBK-1401-P4P-18-512-SPC",
+          "sku": "PBP14-P4P-18-512-SPC",
+          "attributes": {
+            "chip": "P4 Pro 12-core CPU, 18-core GPU",
+            "memory": "18GB",
+            "storage": "512GB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 1999.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1401-P4P-18-512-SLV",
+          "sku": "PBP14-P4P-18-512-SLV",
+          "attributes": {
+            "chip": "P4 Pro 12-core CPU, 18-core GPU",
+            "memory": "18GB",
+            "storage": "512GB",
+            "color": "Silver"
+          },
+          "colorHex": "#E3E4E5",
+          "price": 1999.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1401-P4P-18-1TB-SPC",
+          "sku": "PBP14-P4P-18-1TB-SPC",
+          "attributes": {
+            "chip": "P4 Pro 12-core CPU, 18-core GPU",
+            "memory": "18GB",
+            "storage": "1TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 2199.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1401-P4P-36-1TB-SPC",
+          "sku": "PBP14-P4P-36-1TB-SPC",
+          "attributes": {
+            "chip": "P4 Pro 14-core CPU, 20-core GPU",
+            "memory": "36GB",
+            "storage": "1TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 2999.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1401-P4M-48-2TB-SPC",
+          "sku": "PBP14-P4M-48-2TB-SPC",
+          "attributes": {
+            "chip": "P4 Max 16-core CPU, 40-core GPU",
+            "memory": "48GB",
+            "storage": "2TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 3999.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P4 Pro or P4 Max chip for extreme performance",
+        "Liquid Retina XDR display with ProMotion",
+        "Up to 18 hours of battery life",
+        "Six-speaker sound system with Spatial Audio",
+        "1080p FaceTime HD camera with Center Stage",
+        "MagSafe charging and extensive port selection",
+        "Space Black or Silver finish"
+      ],
+      "tags": ["pro", "laptop", "creative", "developer"]
+    },
+    {
+      "id": "PEAR-PBK-1601",
+      "name": "PearBook Pro 16\"",
+      "slug": "pearbook-pro-16",
+      "categoryId": "cat-laptops-pro",
+      "description": "The ultimate pro notebook. Massive 16-inch Liquid Retina XDR display, extraordinary performance with P4 Pro or P4 Max.",
+      "shortDescription": "Maximum display, maximum power",
+      "status": "active",
+      "releaseDate": "2024-11-01",
+      "basePrice": 2499.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearbook-pro-16/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearbook-pro-16/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "16.2 inches",
+          "resolution": "3456 x 2234",
+          "technology": "Liquid Retina XDR",
+          "refreshRate": "ProMotion up to 120Hz"
+        },
+        "processor": {
+          "name": "P4 Pro / P4 Max",
+          "cpu": "Up to 16-core CPU",
+          "gpu": "Up to 40-core GPU"
+        },
+        "memory": ["18GB", "36GB", "48GB", "64GB", "128GB"],
+        "storage": ["512GB", "1TB", "2TB", "4TB", "8TB"],
+        "battery": {
+          "capacity": "100 Wh",
+          "videoPlayback": "Up to 24 hours"
+        },
+        "dimensions": {
+          "height": "1.68 cm",
+          "width": "35.57 cm",
+          "depth": "24.81 cm",
+          "weight": "2.14 kg"
+        }
+      },
+      "variants": [
+        {
+          "id": "PEAR-PBK-1601-P4P-18-512-SPC",
+          "sku": "PBP16-P4P-18-512-SPC",
+          "attributes": {
+            "chip": "P4 Pro 12-core CPU, 18-core GPU",
+            "memory": "18GB",
+            "storage": "512GB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 2499.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1601-P4P-36-1TB-SPC",
+          "sku": "PBP16-P4P-36-1TB-SPC",
+          "attributes": {
+            "chip": "P4 Pro 14-core CPU, 20-core GPU",
+            "memory": "36GB",
+            "storage": "1TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 3499.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1601-P4M-64-2TB-SPC",
+          "sku": "PBP16-P4M-64-2TB-SPC",
+          "attributes": {
+            "chip": "P4 Max 16-core CPU, 40-core GPU",
+            "memory": "64GB",
+            "storage": "2TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 4499.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBK-1601-P4M-128-4TB-SPC",
+          "sku": "PBP16-P4M-128-4TB-SPC",
+          "attributes": {
+            "chip": "P4 Max 16-core CPU, 40-core GPU",
+            "memory": "128GB",
+            "storage": "4TB",
+            "color": "Space Black"
+          },
+          "colorHex": "#1D1D1F",
+          "price": 6499.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Massive 16.2-inch Liquid Retina XDR display",
+        "P4 Pro or P4 Max chip",
+        "Up to 24 hours battery life",
+        "Up to 128GB unified memory"
+      ],
+      "tags": ["pro", "laptop", "creative", "developer", "flagship"]
+    },
+    {
+      "id": "PEAR-PBA-1501",
+      "name": "PearBook Air 15\"",
+      "slug": "pearbook-air-15",
+      "categoryId": "cat-laptops-air",
+      "description": "Strikingly thin. Incredibly powerful. The 15-inch PearBook Air with P3 chip delivers remarkable performance in our thinnest design ever.",
+      "shortDescription": "Impossibly thin with 15\" display",
+      "status": "active",
+      "releaseDate": "2024-03-08",
+      "basePrice": 1299.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearbook-air-15/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearbook-air-15/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "15.3 inches",
+          "resolution": "2880 x 1864",
+          "technology": "Liquid Retina",
+          "brightness": "500 nits"
+        },
+        "processor": {
+          "name": "P3",
+          "cpu": "8-core CPU",
+          "gpu": "10-core GPU"
+        },
+        "memory": ["8GB", "16GB", "24GB"],
+        "storage": ["256GB", "512GB", "1TB", "2TB"],
+        "battery": {
+          "videoPlayback": "Up to 18 hours"
+        },
+        "dimensions": {
+          "height": "1.15 cm",
+          "width": "34.04 cm",
+          "depth": "23.76 cm",
+          "weight": "1.51 kg"
+        },
+        "ports": ["2x Thunderbolt / USB 4", "MagSafe 3", "3.5mm headphone jack"],
+        "connectivity": ["Wi-Fi 6E", "Bluetooth 5.3"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PBA-1501-8-256-MID",
+          "sku": "PBA15-8-256-MID",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1501-8-256-STL",
+          "sku": "PBA15-8-256-STL",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Starlight" },
+          "colorHex": "#F0E6D3",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1501-8-256-SLV",
+          "sku": "PBA15-8-256-SLV",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Silver" },
+          "colorHex": "#E3E4E5",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1501-8-256-SPC",
+          "sku": "PBA15-8-256-SPC",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Space Gray" },
+          "colorHex": "#7D7E80",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1501-16-512-MID",
+          "sku": "PBA15-16-512-MID",
+          "attributes": { "memory": "16GB", "storage": "512GB", "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 1499.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1501-24-1TB-MID",
+          "sku": "PBA15-24-1TB-MID",
+          "attributes": { "memory": "24GB", "storage": "1TB", "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 1899.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P3 chip with 8-core CPU and 10-core GPU",
+        "15.3-inch Liquid Retina display",
+        "Up to 18 hours of battery life",
+        "Fanless design for silent operation",
+        "MagSafe charging",
+        "1080p FaceTime HD camera",
+        "Four beautiful finishes"
+      ],
+      "tags": ["laptop", "ultraportable", "student"]
+    },
+    {
+      "id": "PEAR-PBA-1301",
+      "name": "PearBook Air 13\"",
+      "slug": "pearbook-air-13",
+      "categoryId": "cat-laptops-air",
+      "description": "The world's best consumer laptop. Supercharged by P3. Impossibly thin design with all-day battery.",
+      "shortDescription": "Power and portability perfected",
+      "status": "active",
+      "releaseDate": "2024-03-08",
+      "basePrice": 1099.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearbook-air-13/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearbook-air-13/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "13.6 inches",
+          "resolution": "2560 x 1664",
+          "technology": "Liquid Retina"
+        },
+        "processor": {
+          "name": "P3",
+          "cpu": "8-core CPU",
+          "gpu": "8-core or 10-core GPU"
+        },
+        "memory": ["8GB", "16GB", "24GB"],
+        "storage": ["256GB", "512GB", "1TB", "2TB"],
+        "battery": {
+          "videoPlayback": "Up to 18 hours"
+        },
+        "dimensions": {
+          "height": "1.13 cm",
+          "width": "30.41 cm",
+          "depth": "21.5 cm",
+          "weight": "1.24 kg"
+        }
+      },
+      "variants": [
+        {
+          "id": "PEAR-PBA-1301-8-256-MID",
+          "sku": "PBA13-8-256-MID",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 1099.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1301-8-256-STL",
+          "sku": "PBA13-8-256-STL",
+          "attributes": { "memory": "8GB", "storage": "256GB", "color": "Starlight" },
+          "colorHex": "#F0E6D3",
+          "price": 1099.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PBA-1301-16-512-MID",
+          "sku": "PBA13-16-512-MID",
+          "attributes": { "memory": "16GB", "storage": "512GB", "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 1299.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P3 chip for incredible performance",
+        "13.6-inch Liquid Retina display",
+        "Up to 18 hours battery life",
+        "Fanless, silent design",
+        "Just 2.7 pounds"
+      ],
+      "tags": ["laptop", "ultraportable", "student", "bestseller"]
+    },
+    {
+      "id": "PEAR-PWU-0201",
+      "name": "Pear Watch Ultra 2",
+      "slug": "pear-watch-ultra-2",
+      "categoryId": "cat-watches-ultra",
+      "description": "The most rugged and capable Pear Watch, designed for endurance athletes, outdoor adventurers, and water sports enthusiasts.",
+      "shortDescription": "Adventure awaits",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 799.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pear-watch-ultra-2/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pear-watch-ultra-2/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "49mm",
+          "resolution": "410 x 502 pixels",
+          "technology": "OLED LTPO",
+          "brightness": "3000 nits"
+        },
+        "processor": {
+          "name": "S9 SiP",
+          "features": ["Double tap gesture", "On-device Siri"]
+        },
+        "battery": {
+          "normalUse": "Up to 36 hours",
+          "lowPowerMode": "Up to 72 hours"
+        },
+        "dimensions": {
+          "height": "49 mm",
+          "width": "44 mm",
+          "depth": "14.4 mm",
+          "weight": "61.3 g"
+        },
+        "waterResistance": "100m water resistant, EN13319 certified for diving",
+        "durability": "MIL-STD-810H certified",
+        "connectivity": ["GPS", "Cellular", "Wi-Fi", "Bluetooth 5.3"],
+        "sensors": [
+          "Blood oxygen",
+          "ECG",
+          "Heart rate",
+          "Temperature",
+          "Compass",
+          "Altimeter",
+          "Depth gauge",
+          "Water temperature"
+        ],
+        "features": [
+          "Action Button",
+          "86dB siren",
+          "Precision dual-frequency GPS",
+          "Crash Detection",
+          "Fall Detection"
+        ]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PWU-0201-TIT-ORP",
+          "sku": "PWU2-TIT-ORP",
+          "attributes": { "case": "Natural Titanium", "band": "Orange Alpine Loop", "size": "M" },
+          "colorHex": "#8B8378",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWU-0201-TIT-BLU",
+          "sku": "PWU2-TIT-BLU",
+          "attributes": { "case": "Natural Titanium", "band": "Blue Alpine Loop", "size": "M" },
+          "colorHex": "#8B8378",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWU-0201-TIT-OCN",
+          "sku": "PWU2-TIT-OCN",
+          "attributes": { "case": "Natural Titanium", "band": "Orange Ocean Band", "size": "M" },
+          "colorHex": "#8B8378",
+          "price": 799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWU-0201-TIT-TRL",
+          "sku": "PWU2-TIT-TRL",
+          "attributes": { "case": "Natural Titanium", "band": "Green Trail Loop", "size": "M/L" },
+          "colorHex": "#8B8378",
+          "price": 799.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "49mm titanium case",
+        "Always-On Retina display at 3000 nits",
+        "Up to 72 hours battery in Low Power Mode",
+        "Precision dual-frequency GPS",
+        "100m water resistant for diving",
+        "Action Button for instant access",
+        "Advanced safety features"
+      ],
+      "tags": ["watch", "fitness", "outdoor", "adventure"]
+    },
+    {
+      "id": "PEAR-PWS-1001",
+      "name": "Pear Watch Series 10",
+      "slug": "pear-watch-series-10",
+      "categoryId": "cat-watches-series",
+      "description": "The thinnest Pear Watch ever. Featuring a stunning new design, larger display, and advanced health features.",
+      "shortDescription": "Thinner. Bigger. Better.",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 399.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pear-watch-s10/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pear-watch-s10/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "sizes": ["42mm", "46mm"],
+          "technology": "OLED LTPO3",
+          "brightness": "2000 nits"
+        },
+        "processor": {
+          "name": "S10 SiP"
+        },
+        "battery": {
+          "normalUse": "Up to 18 hours",
+          "lowPowerMode": "Up to 36 hours"
+        },
+        "waterResistance": "50m water resistant",
+        "connectivity": ["GPS", "Cellular (optional)", "Wi-Fi", "Bluetooth 5.3"],
+        "sensors": ["Blood oxygen", "ECG", "Heart rate", "Temperature"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PWS-1001-42-ALU-MID-GPS",
+          "sku": "PWS10-42-ALU-MID-GPS",
+          "attributes": { "size": "42mm", "case": "Aluminum", "color": "Midnight", "connectivity": "GPS" },
+          "colorHex": "#1E2832",
+          "price": 399.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-42-ALU-STL-GPS",
+          "sku": "PWS10-42-ALU-STL-GPS",
+          "attributes": { "size": "42mm", "case": "Aluminum", "color": "Starlight", "connectivity": "GPS" },
+          "colorHex": "#F0E6D3",
+          "price": 399.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-42-ALU-SLV-GPS",
+          "sku": "PWS10-42-ALU-SLV-GPS",
+          "attributes": { "size": "42mm", "case": "Aluminum", "color": "Silver", "connectivity": "GPS" },
+          "colorHex": "#E3E4E5",
+          "price": 399.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-46-ALU-MID-GPS",
+          "sku": "PWS10-46-ALU-MID-GPS",
+          "attributes": { "size": "46mm", "case": "Aluminum", "color": "Midnight", "connectivity": "GPS" },
+          "colorHex": "#1E2832",
+          "price": 429.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-46-ALU-MID-CEL",
+          "sku": "PWS10-46-ALU-MID-CEL",
+          "attributes": { "size": "46mm", "case": "Aluminum", "color": "Midnight", "connectivity": "GPS + Cellular" },
+          "colorHex": "#1E2832",
+          "price": 529.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-46-SS-GLD-CEL",
+          "sku": "PWS10-46-SS-GLD-CEL",
+          "attributes": { "size": "46mm", "case": "Stainless Steel", "color": "Gold", "connectivity": "GPS + Cellular" },
+          "colorHex": "#D4AF37",
+          "price": 749.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PWS-1001-46-SS-SLT-CEL",
+          "sku": "PWS10-46-SS-SLT-CEL",
+          "attributes": { "size": "46mm", "case": "Stainless Steel", "color": "Slate", "connectivity": "GPS + Cellular" },
+          "colorHex": "#4A4A4A",
+          "price": 749.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Thinnest Pear Watch ever",
+        "Largest display yet",
+        "S10 chip with faster performance",
+        "All-day 18-hour battery",
+        "Advanced health monitoring",
+        "Crash and Fall Detection"
+      ],
+      "tags": ["watch", "fitness", "health", "bestseller"]
+    },
+    {
+      "id": "PEAR-PPD-0301",
+      "name": "PearPods Pro 2",
+      "slug": "pearpods-pro-2",
+      "categoryId": "cat-audio-pods-pro",
+      "description": "Intelligent Active Noise Cancellation. Adaptive Audio. Personalized Spatial Audio. The ultimate listening experience.",
+      "shortDescription": "Pro sound. Now playing.",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 249.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearpods-pro-2/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearpods-pro-2/thumb.jpg"
+      },
+      "specifications": {
+        "driver": "Custom high-excursion driver with amplifier",
+        "chip": "H2 chip",
+        "activeNoiseCancellation": "2x more effective than previous generation",
+        "battery": {
+          "earbuds": "Up to 6 hours (ANC on)",
+          "withCase": "Up to 30 hours",
+          "charging": "USB-C, MagSafe, Qi wireless"
+        },
+        "connectivity": ["Bluetooth 5.3"],
+        "waterResistance": "IP54 (earbuds and case)",
+        "features": [
+          "Active Noise Cancellation",
+          "Transparency mode",
+          "Adaptive Audio",
+          "Conversation Awareness",
+          "Personalized Spatial Audio",
+          "Touch control",
+          "Squeeze for volume"
+        ]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPD-0301-WHT",
+          "sku": "PPD-PRO2-WHT",
+          "attributes": { "color": "White" },
+          "colorHex": "#F5F5F0",
+          "price": 249.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "H2 chip for intelligent audio",
+        "2x more powerful noise cancellation",
+        "Adaptive Audio automatically adjusts",
+        "Personalized Spatial Audio with head tracking",
+        "Up to 30 hours total battery",
+        "USB-C charging with MagSafe support",
+        "Touch and squeeze controls"
+      ],
+      "tags": ["audio", "wireless", "noise-cancelling", "bestseller"]
+    },
+    {
+      "id": "PEAR-PPD-0401",
+      "name": "PearPods 4",
+      "slug": "pearpods-4",
+      "categoryId": "cat-audio-pods",
+      "description": "Iconic design. Elevated experience. Now with Active Noise Cancellation option and USB-C charging.",
+      "shortDescription": "The most popular earbuds in the world",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 129.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearpods-4/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearpods-4/thumb.jpg"
+      },
+      "specifications": {
+        "chip": "H2 chip",
+        "battery": {
+          "earbuds": "Up to 5 hours",
+          "withCase": "Up to 30 hours"
+        },
+        "connectivity": ["Bluetooth 5.3"],
+        "features": ["Personalized Spatial Audio", "Voice Isolation", "USB-C charging"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPD-0401-STD",
+          "sku": "PPD-4-STD",
+          "attributes": { "model": "PearPods 4" },
+          "price": 129.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPD-0401-ANC",
+          "sku": "PPD-4-ANC",
+          "attributes": { "model": "PearPods 4 with ANC" },
+          "price": 179.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "H2 chip for better audio",
+        "Personalized Spatial Audio",
+        "USB-C charging case",
+        "Voice Isolation for calls",
+        "Optional Active Noise Cancellation model"
+      ],
+      "tags": ["audio", "wireless", "value"]
+    },
+    {
+      "id": "PEAR-PPD-MAX-01",
+      "name": "PearPods Max",
+      "slug": "pearpods-max",
+      "categoryId": "cat-audio-max",
+      "description": "High-fidelity audio. Wireless. Magical. The ultimate over-ear listening experience with computational audio.",
+      "shortDescription": "Studio-quality wireless headphones",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 549.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearpods-max/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearpods-max/thumb.jpg"
+      },
+      "specifications": {
+        "driver": "40mm custom driver with dual neodymium magnets",
+        "chip": "H1 chip (each ear cup)",
+        "battery": {
+          "listeningTime": "Up to 20 hours with ANC",
+          "charging": "Lightning (USB-C available)"
+        },
+        "connectivity": ["Bluetooth 5.0"],
+        "weight": "384.8 g",
+        "features": [
+          "Active Noise Cancellation",
+          "Transparency mode",
+          "Spatial Audio with head tracking",
+          "Computational audio",
+          "Digital Crown for volume"
+        ]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPD-MAX-SLV",
+          "sku": "PPD-MAX-SLV",
+          "attributes": { "color": "Silver" },
+          "colorHex": "#E3E4E5",
+          "price": 549.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPD-MAX-SPC",
+          "sku": "PPD-MAX-SPC",
+          "attributes": { "color": "Space Gray" },
+          "colorHex": "#7D7E80",
+          "price": 549.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPD-MAX-GRN",
+          "sku": "PPD-MAX-GRN",
+          "attributes": { "color": "Green" },
+          "colorHex": "#5D7052",
+          "price": 549.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPD-MAX-SKY",
+          "sku": "PPD-MAX-SKY",
+          "attributes": { "color": "Sky Blue" },
+          "colorHex": "#8DB4CA",
+          "price": 549.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPD-MAX-PNK",
+          "sku": "PPD-MAX-PNK",
+          "attributes": { "color": "Pink" },
+          "colorHex": "#F9C6D3",
+          "price": 549.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Stunning high-fidelity audio",
+        "Active Noise Cancellation",
+        "Spatial Audio with head tracking",
+        "Premium knit mesh canopy",
+        "Stainless steel frame",
+        "Digital Crown control",
+        "Up to 20 hours battery"
+      ],
+      "tags": ["audio", "premium", "over-ear"]
+    },
+    {
+      "id": "PEAR-PPT-0601",
+      "name": "PearPad Pro 13\"",
+      "slug": "pearpad-pro-13",
+      "categoryId": "cat-tablets-pro",
+      "description": "The ultimate iPad experience. Featuring the revolutionary P4 chip, Ultra Retina XDR display, and all-new Magic Keyboard.",
+      "shortDescription": "Thin. Light. Outrageously powerful.",
+      "status": "active",
+      "releaseDate": "2024-05-15",
+      "basePrice": 1299.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/pearpad-pro-13/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/pearpad-pro-13/thumb.jpg"
+      },
+      "specifications": {
+        "display": {
+          "size": "13 inches",
+          "resolution": "2752 x 2064",
+          "technology": "Ultra Retina XDR OLED",
+          "refreshRate": "ProMotion up to 120Hz",
+          "brightness": "1600 nits peak HDR"
+        },
+        "processor": {
+          "name": "P4",
+          "cpu": "9-core CPU",
+          "gpu": "10-core GPU"
+        },
+        "memory": ["8GB", "16GB"],
+        "storage": ["256GB", "512GB", "1TB", "2TB"],
+        "battery": {
+          "videoPlayback": "Up to 10 hours"
+        },
+        "dimensions": {
+          "height": "281.6 mm",
+          "width": "215.5 mm",
+          "depth": "5.1 mm",
+          "weight": "579 g (Wi-Fi)"
+        },
+        "connectivity": ["Wi-Fi 6E", "Bluetooth 5.3", "Optional 5G"],
+        "camera": {
+          "rear": "12MP Wide",
+          "front": "12MP Ultra Wide landscape"
+        },
+        "accessories": ["Pear Pencil Pro", "Magic Keyboard"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-PPT-0601-256-SPC-WIFI",
+          "sku": "PPT13-256-SPC-WIFI",
+          "attributes": { "storage": "256GB", "color": "Space Black", "connectivity": "Wi-Fi" },
+          "colorHex": "#1D1D1F",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPT-0601-256-SLV-WIFI",
+          "sku": "PPT13-256-SLV-WIFI",
+          "attributes": { "storage": "256GB", "color": "Silver", "connectivity": "Wi-Fi" },
+          "colorHex": "#E3E4E5",
+          "price": 1299.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPT-0601-512-SPC-WIFI",
+          "sku": "PPT13-512-SPC-WIFI",
+          "attributes": { "storage": "512GB", "color": "Space Black", "connectivity": "Wi-Fi" },
+          "colorHex": "#1D1D1F",
+          "price": 1499.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPT-0601-1TB-SPC-WIFI",
+          "sku": "PPT13-1TB-SPC-WIFI",
+          "attributes": { "storage": "1TB", "color": "Space Black", "connectivity": "Wi-Fi", "chip": "P4 with 16GB RAM" },
+          "colorHex": "#1D1D1F",
+          "price": 1799.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PPT-0601-256-SPC-5G",
+          "sku": "PPT13-256-SPC-5G",
+          "attributes": { "storage": "256GB", "color": "Space Black", "connectivity": "Wi-Fi + Cellular" },
+          "colorHex": "#1D1D1F",
+          "price": 1499.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P4 chip with breakthrough performance",
+        "Ultra Retina XDR OLED display",
+        "Incredibly thin at just 5.1mm",
+        "Supports Pear Pencil Pro with haptics",
+        "Landscape 12MP front camera",
+        "Thunderbolt / USB 4 support"
+      ],
+      "tags": ["tablet", "pro", "creative"]
+    },
+    {
+      "id": "PEAR-PTV-0401",
+      "name": "PearTV 4K",
+      "slug": "peartv-4k",
+      "categoryId": "cat-tv",
+      "description": "The icons icons icons icons icons A icons icons icons icons icons icons icons icons streaming box. Icons icons with icons icons icons icons icons icons icons icons. icons icons icons icons icons icons icons icons icons icons icons icons icons.",
+      "shortDescription": "Your icons icons cinema",
+      "status": "active",
+      "releaseDate": "2024-10-28",
+      "basePrice": 129.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/peartv-4k/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/peartv-4k/thumb.jpg"
+      },
+      "specifications": {
+        "processor": "P15 Bionic chip",
+        "storage": ["64GB", "128GB"],
+        "video": {
+          "resolution": "4K HDR at 60fps",
+          "formats": ["Dolby Vision", "HDR10+", "HDR10"]
+        },
+        "audio": ["Dolby Atmos", "Dolby Digital Plus 7.1"],
+        "connectivity": ["HDMI 2.1", "Wi-Fi 6", "Bluetooth 5.0", "Ethernet", "Thread"],
+        "remote": "Siri Remote with USB-C charging"
+      },
+      "variants": [
+        {
+          "id": "PEAR-PTV-0401-64",
+          "sku": "PTV4K-64",
+          "attributes": { "storage": "64GB", "connectivity": "Wi-Fi" },
+          "price": 129.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-PTV-0401-128",
+          "sku": "PTV4K-128",
+          "attributes": { "storage": "128GB", "connectivity": "Wi-Fi + Ethernet" },
+          "price": 149.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "P15 Bionic for fluid performance",
+        "Dolby Vision and Dolby Atmos",
+        "Siri Remote with touch navigation",
+        "Works with smart home devices",
+        "FaceTime on the big screen"
+      ],
+      "tags": ["streaming", "entertainment", "home"]
+    },
+    {
+      "id": "PEAR-ACC-MKB-01",
+      "name": "Magic Keyboard with Touch ID",
+      "slug": "magic-keyboard-touch-id",
+      "categoryId": "cat-acc-input",
+      "description": "Wireless. Rechargeable. With Touch ID built right in for secure authentication and Pear Pay.",
+      "shortDescription": "Wireless keyboard with built-in Touch ID",
+      "status": "active",
+      "releaseDate": "2024-03-08",
+      "basePrice": 199.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/magic-keyboard-touch-id/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/magic-keyboard-touch-id/thumb.jpg"
+      },
+      "specifications": {
+        "connectivity": ["Bluetooth", "Lightning to USB-C cable included"],
+        "battery": "Rechargeable lithium-ion, 1 month per charge",
+        "compatibility": ["Pear silicon Macs", "PearPad"],
+        "dimensions": {
+          "height": "0.41-1.09 cm",
+          "width": "29.35 cm",
+          "depth": "11.49 cm",
+          "weight": "239 g"
+        }
+      },
+      "variants": [
+        {
+          "id": "PEAR-ACC-MKB-01-WHT",
+          "sku": "MKB-TID-WHT",
+          "attributes": { "color": "White", "numpad": "No" },
+          "colorHex": "#F5F5F0",
+          "price": 199.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-MKB-01-BLK",
+          "sku": "MKB-TID-BLK",
+          "attributes": { "color": "Black", "numpad": "No" },
+          "colorHex": "#1C1C1E",
+          "price": 199.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-MKB-01-WHT-NUM",
+          "sku": "MKB-TID-WHT-NUM",
+          "attributes": { "color": "White", "numpad": "Yes" },
+          "colorHex": "#F5F5F0",
+          "price": 249.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-MKB-01-BLK-NUM",
+          "sku": "MKB-TID-BLK-NUM",
+          "attributes": { "color": "Black", "numpad": "Yes" },
+          "colorHex": "#1C1C1E",
+          "price": 249.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Touch ID for secure authentication",
+        "Wireless and rechargeable",
+        "Scissor mechanism keys",
+        "Month-long battery life",
+        "USB-C to Lightning cable included"
+      ],
+      "tags": ["accessory", "keyboard", "input"]
+    },
+    {
+      "id": "PEAR-ACC-MMS-01",
+      "name": "Magic Mouse",
+      "slug": "magic-mouse",
+      "categoryId": "cat-acc-input",
+      "description": "Wireless. Rechargeable. With a seamless Multi-Touch surface for intuitive gesture control.",
+      "shortDescription": "Wireless Multi-Touch mouse",
+      "status": "active",
+      "releaseDate": "2024-03-08",
+      "basePrice": 99.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/magic-mouse/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/magic-mouse/thumb.jpg"
+      },
+      "specifications": {
+        "connectivity": ["Bluetooth"],
+        "battery": "Rechargeable lithium-ion, 1 month per charge",
+        "surface": "Multi-Touch"
+      },
+      "variants": [
+        {
+          "id": "PEAR-ACC-MMS-01-WHT",
+          "sku": "MMS-WHT",
+          "attributes": { "color": "White" },
+          "colorHex": "#F5F5F0",
+          "price": 99.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-MMS-01-BLK",
+          "sku": "MMS-BLK",
+          "attributes": { "color": "Black" },
+          "colorHex": "#1C1C1E",
+          "price": 99.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Multi-Touch surface",
+        "Wireless and rechargeable",
+        "Optimized foot design"
+      ],
+      "tags": ["accessory", "mouse", "input"]
+    },
+    {
+      "id": "PEAR-ACC-CHG-01",
+      "name": "35W Dual USB-C Compact Power Adapter",
+      "slug": "35w-dual-usb-c-power-adapter",
+      "categoryId": "cat-acc-charging",
+      "description": "Charge two devices at the same time. Perfect for PearBook Air and pPhone.",
+      "shortDescription": "Charge two devices at once",
+      "status": "active",
+      "releaseDate": "2024-01-01",
+      "basePrice": 59.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/35w-adapter/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/35w-adapter/thumb.jpg"
+      },
+      "specifications": {
+        "output": "35W total (17.5W per port when both used)",
+        "ports": "2x USB-C",
+        "compatibility": ["PearBook Air", "pPhone", "PearPad", "Pear Watch"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-ACC-CHG-01-WHT",
+          "sku": "PWR-35W-DUAL",
+          "attributes": {},
+          "price": 59.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "35W total power",
+        "Two USB-C ports",
+        "Compact design"
+      ],
+      "tags": ["accessory", "charger", "power"]
+    },
+    {
+      "id": "PEAR-ACC-CBL-01",
+      "name": "USB-C to MagSafe 3 Cable (2m)",
+      "slug": "usb-c-magsafe-cable-2m",
+      "categoryId": "cat-acc-charging",
+      "description": "The magnetic MagSafe 3 connector helps guide the plug into the port. Supports fast charging up to 140W.",
+      "shortDescription": "MagSafe charging cable",
+      "status": "active",
+      "releaseDate": "2024-01-01",
+      "basePrice": 49.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/magsafe-cable/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/magsafe-cable/thumb.jpg"
+      },
+      "specifications": {
+        "length": "2 meters",
+        "connector": "MagSafe 3 to USB-C",
+        "maxPower": "140W"
+      },
+      "variants": [
+        {
+          "id": "PEAR-ACC-CBL-01-MID",
+          "sku": "CBL-MS3-2M-MID",
+          "attributes": { "color": "Midnight" },
+          "colorHex": "#1E2832",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CBL-01-STL",
+          "sku": "CBL-MS3-2M-STL",
+          "attributes": { "color": "Starlight" },
+          "colorHex": "#F0E6D3",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CBL-01-SLV",
+          "sku": "CBL-MS3-2M-SLV",
+          "attributes": { "color": "Silver" },
+          "colorHex": "#E3E4E5",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CBL-01-SPC",
+          "sku": "CBL-MS3-2M-SPC",
+          "attributes": { "color": "Space Gray" },
+          "colorHex": "#7D7E80",
+          "price": 49.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "MagSafe 3 magnetic connector",
+        "2-meter length",
+        "Up to 140W fast charging",
+        "Braided cable design"
+      ],
+      "tags": ["accessory", "cable", "charging"]
+    },
+    {
+      "id": "PEAR-ACC-CSE-01",
+      "name": "pPhone 16 Pro Silicone Case with MagSafe",
+      "slug": "pphone-16-pro-silicone-case",
+      "categoryId": "cat-acc-cases",
+      "description": "Designed to complement pPhone 16 Pro. Soft-touch silicone exterior with soft microfiber lining.",
+      "shortDescription": "MagSafe silicone case",
+      "status": "active",
+      "releaseDate": "2024-09-20",
+      "basePrice": 49.00,
+      "images": {
+        "hero": "https://cdn.pearcomputer.com/products/silicone-case-16pro/hero.jpg",
+        "thumbnail": "https://cdn.pearcomputer.com/products/silicone-case-16pro/thumb.jpg"
+      },
+      "specifications": {
+        "material": "Silicone exterior, microfiber lining",
+        "compatibility": ["pPhone 16 Pro"],
+        "features": ["MagSafe compatible", "Wireless charging compatible"]
+      },
+      "variants": [
+        {
+          "id": "PEAR-ACC-CSE-01-BLK",
+          "sku": "CSE-16P-SIL-BLK",
+          "attributes": { "color": "Black" },
+          "colorHex": "#1C1C1E",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-WHT",
+          "sku": "CSE-16P-SIL-WHT",
+          "attributes": { "color": "White" },
+          "colorHex": "#F5F5F0",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-ULT",
+          "sku": "CSE-16P-SIL-ULT",
+          "attributes": { "color": "Ultramarine" },
+          "colorHex": "#2C3E8C",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-LAK",
+          "sku": "CSE-16P-SIL-LAK",
+          "attributes": { "color": "Lake Green" },
+          "colorHex": "#5D7F6E",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-PLM",
+          "sku": "CSE-16P-SIL-PLM",
+          "attributes": { "color": "Plum" },
+          "colorHex": "#6B4984",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-PNK",
+          "sku": "CSE-16P-SIL-PNK",
+          "attributes": { "color": "Pink" },
+          "colorHex": "#F9C6D3",
+          "price": 49.00,
+          "inStock": true
+        },
+        {
+          "id": "PEAR-ACC-CSE-01-STR",
+          "sku": "CSE-16P-SIL-STR",
+          "attributes": { "color": "Star Fruit" },
+          "colorHex": "#E8D44D",
+          "price": 49.00,
+          "inStock": true
+        }
+      ],
+      "features": [
+        "Silicone exterior feels soft",
+        "Microfiber lining protects your pPhone",
+        "Built-in magnets for MagSafe",
+        "Supports wireless charging"
+      ],
+      "tags": ["accessory", "case", "pphone"]
+    }
+  ],
+  "promotions": [
+    {
+      "id": "promo-back-to-school-2024",
+      "name": "Back to School 2024",
+      "description": "Get PearPods with select PearBook or PearPad",
+      "type": "bundle",
+      "conditions": {
+        "productCategories": ["cat-laptops", "cat-tablets"],
+        "minPurchase": 999.00
+      },
+      "reward": {
+        "type": "free_product",
+        "productId": "PEAR-PPD-0401-STD"
+      },
+      "validFrom": "2024-06-01T00:00:00Z",
+      "validTo": "2024-09-30T23:59:59Z",
+      "active": true
+    },
+    {
+      "id": "promo-trade-in-2024",
+      "name": "Trade In and Save",
+      "description": "Get credit toward a new pPhone when you trade in your current phone",
+      "type": "trade_in",
+      "conditions": {
+        "productCategories": ["cat-phones"]
+      },
+      "reward": {
+        "type": "credit",
+        "maxValue": 650.00
+      },
+      "validFrom": "2024-01-01T00:00:00Z",
+      "validTo": "2024-12-31T23:59:59Z",
+      "active": true
+    },
+    {
+      "id": "promo-pear-card-2024",
+      "name": "Pear Card Monthly Installments",
+      "description": "Pay over time at 0% APR when you choose to check out with Pear Card",
+      "type": "financing",
+      "conditions": {
+        "paymentMethod": "pear_card",
+        "minPurchase": 99.00
+      },
+      "reward": {
+        "type": "installments",
+        "apr": 0,
+        "terms": [6, 12, 24]
+      },
+      "validFrom": "2024-01-01T00:00:00Z",
+      "validTo": "2024-12-31T23:59:59Z",
+      "active": true
+    }
+  ],
+  "tradeInValues": {
+    "pphone": [
+      { "model": "pPhone 15 Pro Max", "maxValue": 650 },
+      { "model": "pPhone 15 Pro", "maxValue": 570 },
+      { "model": "pPhone 15", "maxValue": 430 },
+      { "model": "pPhone 14 Pro Max", "maxValue": 500 },
+      { "model": "pPhone 14 Pro", "maxValue": 430 },
+      { "model": "pPhone 14", "maxValue": 350 },
+      { "model": "pPhone 13 Pro Max", "maxValue": 400 },
+      { "model": "pPhone 13", "maxValue": 270 }
+    ],
+    "pearbook": [
+      { "model": "PearBook Pro 16\" (2023)", "maxValue": 1200 },
+      { "model": "PearBook Pro 14\" (2023)", "maxValue": 1000 },
+      { "model": "PearBook Air 15\" (2023)", "maxValue": 650 },
+      { "model": "PearBook Air 13\" (2022)", "maxValue": 500 }
+    ],
+    "pearpad": [
+      { "model": "PearPad Pro 13\" (2024)", "maxValue": 700 },
+      { "model": "PearPad Pro 11\" (2024)", "maxValue": 550 },
+      { "model": "PearPad Air (2024)", "maxValue": 400 }
+    ],
+    "pearwatch": [
+      { "model": "Pear Watch Ultra", "maxValue": 290 },
+      { "model": "Pear Watch Series 9", "maxValue": 180 },
+      { "model": "Pear Watch SE (2nd gen)", "maxValue": 100 }
+    ]
+  }
+}

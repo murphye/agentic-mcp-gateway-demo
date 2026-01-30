@@ -1,0 +1,1891 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: retail-tech@pearcomputer.com
+    name: Pear Retail Technology Team
+  description: |
+    Service for managing Pear Computer retail store locations, appointments,
+    in-store services, events, and store-specific inventory.
+  title: Pear Computer - Physical Stores Service
+  version: 1.0.0
+servers:
+- url: /v1/physical-stores
+tags:
+- description: Store locations and information
+  name: Stores
+- description: Genius Grove appointments
+  name: Appointments
+- description: In-store services
+  name: Services
+- description: Store events and workshops
+  name: Events
+- description: Store inventory and pickup
+  name: Inventory
+paths:
+  /locations:
+    get:
+      description: Search and retrieve Pear Store locations
+      operationId: listStores
+      parameters:
+      - explode: true
+        in: query
+        name: latitude
+        required: false
+        schema:
+          format: double
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: longitude
+        required: false
+        schema:
+          format: double
+          type: number
+        style: form
+      - explode: true
+        in: query
+        name: radius
+        required: false
+        schema:
+          default: 25
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: city
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: state
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: country
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: postalCode
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: services
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreListResponse"
+          description: Successful response
+      summary: List store locations
+      tags:
+      - Stores
+      x-eov-operation-handler: controllers/StoresController
+  /locations/{storeId}:
+    get:
+      operationId: getStore
+      parameters:
+      - explode: false
+        in: path
+        name: storeId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Store"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get store details
+      tags:
+      - Stores
+      x-eov-operation-handler: controllers/StoresController
+  /locations/{storeId}/hours:
+    get:
+      operationId: getStoreHours
+      parameters:
+      - explode: false
+        in: path
+        name: storeId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreHours"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get store hours
+      tags:
+      - Stores
+      x-eov-operation-handler: controllers/StoresController
+  /appointments:
+    get:
+      operationId: listAppointments
+      parameters:
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          enum:
+          - upcoming
+          - past
+          - cancelled
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: storeId
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentListResponse"
+          description: Successful response
+      summary: List user appointments
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+    post:
+      operationId: createAppointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AppointmentRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+          description: Appointment booked
+        "400":
+          $ref: "#/components/responses/BadRequest"
+      summary: Book appointment
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+      x-codegen-request-body-name: appointmentRequest
+  /appointments/{appointmentId}:
+    delete:
+      operationId: cancelAppointment
+      parameters:
+      - explode: false
+        in: path
+        name: appointmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Appointment cancelled
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Cancel appointment
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+    get:
+      operationId: getAppointment
+      parameters:
+      - explode: false
+        in: path
+        name: appointmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get appointment details
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+    patch:
+      operationId: updateAppointment
+      parameters:
+      - explode: false
+        in: path
+        name: appointmentId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAppointmentRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+          description: Appointment updated
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Update appointment
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+      x-codegen-request-body-name: updateAppointmentRequest
+  /appointments/availability:
+    get:
+      operationId: getAppointmentAvailability
+      parameters:
+      - explode: true
+        in: query
+        name: storeId
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: serviceType
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: startDate
+        required: true
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: productCategory
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AvailabilityResponse"
+          description: Successful response
+      summary: Get appointment availability
+      tags:
+      - Appointments
+      x-eov-operation-handler: controllers/AppointmentsController
+  /services:
+    get:
+      operationId: listServices
+      parameters:
+      - explode: true
+        in: query
+        name: storeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          enum:
+          - repair
+          - support
+          - training
+          - business
+          - trade_in
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceListResponse"
+          description: Successful response
+      summary: List available services
+      tags:
+      - Services
+      x-eov-operation-handler: controllers/ServicesController
+  /services/{serviceId}/pricing:
+    get:
+      operationId: getServicePricing
+      parameters:
+      - explode: false
+        in: path
+        name: serviceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: deviceModel
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServicePricing"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get service pricing
+      tags:
+      - Services
+      x-eov-operation-handler: controllers/ServicesController
+  /events:
+    get:
+      operationId: listEvents
+      parameters:
+      - explode: true
+        in: query
+        name: storeId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: category
+        required: false
+        schema:
+          enum:
+          - workshop
+          - session
+          - camp
+          - special_event
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: topic
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: startDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: endDate
+        required: false
+        schema:
+          format: date
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 20
+          maximum: 50
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventListResponse"
+          description: Successful response
+      summary: List store events
+      tags:
+      - Events
+      x-eov-operation-handler: controllers/EventsController
+  /events/{eventId}:
+    get:
+      operationId: getEvent
+      parameters:
+      - explode: false
+        in: path
+        name: eventId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreEvent"
+          description: Successful response
+        "404":
+          $ref: "#/components/responses/NotFound"
+      summary: Get event details
+      tags:
+      - Events
+      x-eov-operation-handler: controllers/EventsController
+  /events/{eventId}/register:
+    post:
+      operationId: registerForEvent
+      parameters:
+      - explode: false
+        in: path
+        name: eventId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventRegistrationRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventRegistration"
+          description: Registration confirmed
+        "409":
+          description: Event is full
+      summary: Register for event
+      tags:
+      - Events
+      x-eov-operation-handler: controllers/EventsController
+      x-codegen-request-body-name: eventRegistrationRequest
+  /locations/{storeId}/inventory:
+    get:
+      operationId: getStoreInventory
+      parameters:
+      - explode: false
+        in: path
+        name: storeId
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: productId
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sku
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreInventoryResponse"
+          description: Successful response
+      summary: Check store inventory
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+  /pickup/check:
+    post:
+      operationId: checkPickupAvailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PickupCheckRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PickupCheckResponse"
+          description: Successful response
+      summary: Check pickup availability
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+      x-codegen-request-body-name: pickupCheckRequest
+  /pickup/reserve:
+    post:
+      operationId: reserveForPickup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PickupReserveRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PickupReservation"
+          description: Items reserved
+        "409":
+          description: Items no longer available
+      summary: Reserve for pickup
+      tags:
+      - Inventory
+      x-eov-operation-handler: controllers/InventoryController
+      x-codegen-request-body-name: pickupReserveRequest
+components:
+  parameters:
+    PageParam:
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        minimum: 1
+        type: integer
+      style: form
+    LimitParam:
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 20
+        maximum: 50
+        minimum: 1
+        type: integer
+      style: form
+  responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Bad request
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: Resource not found
+  schemas:
+    StoreListResponse:
+      example:
+        pagination:
+          totalItems: 2
+          limit: 5
+          totalPages: 7
+          page: 5
+        stores:
+        - storeNumber: storeNumber
+          hours:
+            special:
+            - date: date
+              name: name
+              closed: true
+              close: close
+              open: open
+            - date: date
+              name: name
+              closed: true
+              close: close
+              open: open
+            currentStatus:
+              isOpen: true
+              opensAt: opensAt
+              closesAt: closesAt
+            regular:
+              key:
+                closed: true
+                close: close
+                open: open
+          images:
+          - type: type
+            url: url
+          - type: type
+            url: url
+          transitInfo: transitInfo
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          distance: 1.4658129805029452
+          timezone: timezone
+          coordinates:
+            latitude: 0.8008281904610115
+            longitude: 6.027456183070403
+          services:
+          - services
+          - services
+          parkingInfo: parkingInfo
+          accessibilityFeatures:
+          - accessibilityFeatures
+          - accessibilityFeatures
+          features:
+          - features
+          - features
+          phone: phone
+          name: name
+          id: id
+          slug: slug
+          email: email
+        - storeNumber: storeNumber
+          hours:
+            special:
+            - date: date
+              name: name
+              closed: true
+              close: close
+              open: open
+            - date: date
+              name: name
+              closed: true
+              close: close
+              open: open
+            currentStatus:
+              isOpen: true
+              opensAt: opensAt
+              closesAt: closesAt
+            regular:
+              key:
+                closed: true
+                close: close
+                open: open
+          images:
+          - type: type
+            url: url
+          - type: type
+            url: url
+          transitInfo: transitInfo
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          distance: 1.4658129805029452
+          timezone: timezone
+          coordinates:
+            latitude: 0.8008281904610115
+            longitude: 6.027456183070403
+          services:
+          - services
+          - services
+          parkingInfo: parkingInfo
+          accessibilityFeatures:
+          - accessibilityFeatures
+          - accessibilityFeatures
+          features:
+          - features
+          - features
+          phone: phone
+          name: name
+          id: id
+          slug: slug
+          email: email
+      properties:
+        stores:
+          items:
+            $ref: "#/components/schemas/Store"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    Store:
+      example:
+        storeNumber: storeNumber
+        hours:
+          special:
+          - date: date
+            name: name
+            closed: true
+            close: close
+            open: open
+          - date: date
+            name: name
+            closed: true
+            close: close
+            open: open
+          currentStatus:
+            isOpen: true
+            opensAt: opensAt
+            closesAt: closesAt
+          regular:
+            key:
+              closed: true
+              close: close
+              open: open
+        images:
+        - type: type
+          url: url
+        - type: type
+          url: url
+        transitInfo: transitInfo
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        distance: 1.4658129805029452
+        timezone: timezone
+        coordinates:
+          latitude: 0.8008281904610115
+          longitude: 6.027456183070403
+        services:
+        - services
+        - services
+        parkingInfo: parkingInfo
+        accessibilityFeatures:
+        - accessibilityFeatures
+        - accessibilityFeatures
+        features:
+        - features
+        - features
+        phone: phone
+        name: name
+        id: id
+        slug: slug
+        email: email
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        storeNumber:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+        coordinates:
+          $ref: "#/components/schemas/Store_coordinates"
+        phone:
+          type: string
+        email:
+          type: string
+        timezone:
+          type: string
+        hours:
+          $ref: "#/components/schemas/StoreHours"
+        services:
+          items:
+            type: string
+          type: array
+        features:
+          items:
+            type: string
+          type: array
+        images:
+          items:
+            $ref: "#/components/schemas/Store_images_inner"
+          type: array
+        parkingInfo:
+          type: string
+        transitInfo:
+          type: string
+        accessibilityFeatures:
+          items:
+            type: string
+          type: array
+        distance:
+          type: number
+      type: object
+    StoreHours:
+      example:
+        special:
+        - date: date
+          name: name
+          closed: true
+          close: close
+          open: open
+        - date: date
+          name: name
+          closed: true
+          close: close
+          open: open
+        currentStatus:
+          isOpen: true
+          opensAt: opensAt
+          closesAt: closesAt
+        regular:
+          key:
+            closed: true
+            close: close
+            open: open
+      properties:
+        regular:
+          additionalProperties:
+            $ref: "#/components/schemas/StoreHours_regular_value"
+          type: object
+        special:
+          items:
+            $ref: "#/components/schemas/StoreHours_special_inner"
+          type: array
+        currentStatus:
+          $ref: "#/components/schemas/StoreHours_currentStatus"
+      type: object
+    AppointmentListResponse:
+      example:
+        appointments:
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          confirmationCode: confirmationCode
+          notes: notes
+          issue: issue
+          store:
+            address:
+              country: country
+              city: city
+              postalCode: postalCode
+              street1: street1
+              street2: street2
+              state: state
+            name: name
+            id: id
+          checkinCode: checkinCode
+          type: type
+          duration: 0
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          device:
+            serialNumber: serialNumber
+            model: model
+            type: type
+          status: status
+          customer:
+            phone: phone
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          confirmationCode: confirmationCode
+          notes: notes
+          issue: issue
+          store:
+            address:
+              country: country
+              city: city
+              postalCode: postalCode
+              street1: street1
+              street2: street2
+              state: state
+            name: name
+            id: id
+          checkinCode: checkinCode
+          type: type
+          duration: 0
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          device:
+            serialNumber: serialNumber
+            model: model
+            type: type
+          status: status
+          customer:
+            phone: phone
+            name: name
+            id: id
+            email: email
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        appointments:
+          items:
+            $ref: "#/components/schemas/Appointment"
+          type: array
+      type: object
+    Appointment:
+      example:
+        dateTime: 2000-01-23T04:56:07.000+00:00
+        confirmationCode: confirmationCode
+        notes: notes
+        issue: issue
+        store:
+          address:
+            country: country
+            city: city
+            postalCode: postalCode
+            street1: street1
+            street2: street2
+            state: state
+          name: name
+          id: id
+        checkinCode: checkinCode
+        type: type
+        duration: 0
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        device:
+          serialNumber: serialNumber
+          model: model
+          type: type
+        status: status
+        customer:
+          phone: phone
+          name: name
+          id: id
+          email: email
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          type: string
+        confirmationCode:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        store:
+          $ref: "#/components/schemas/Appointment_store"
+        dateTime:
+          format: date-time
+          type: string
+        duration:
+          type: integer
+        customer:
+          $ref: "#/components/schemas/Appointment_customer"
+        device:
+          $ref: "#/components/schemas/Appointment_device"
+        issue:
+          type: string
+        notes:
+          type: string
+        checkinCode:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    AppointmentRequest:
+      example:
+        deviceType: deviceType
+        notes: notes
+        slotId: slotId
+        deviceModel: deviceModel
+        storeId: storeId
+        type: type
+        issueDescription: issueDescription
+        deviceSerialNumber: deviceSerialNumber
+      properties:
+        storeId:
+          type: string
+        type:
+          type: string
+        slotId:
+          type: string
+        deviceType:
+          type: string
+        deviceModel:
+          type: string
+        deviceSerialNumber:
+          type: string
+        issueDescription:
+          type: string
+        notes:
+          type: string
+      required:
+      - slotId
+      - storeId
+      - type
+      type: object
+    UpdateAppointmentRequest:
+      example:
+        notes: notes
+        slotId: slotId
+        deviceSerialNumber: deviceSerialNumber
+      properties:
+        slotId:
+          type: string
+        notes:
+          type: string
+        deviceSerialNumber:
+          type: string
+      type: object
+    AvailabilityResponse:
+      example:
+        serviceType: serviceType
+        dates:
+        - date: date
+          slots:
+          - available: true
+            startTime: startTime
+            id: id
+            endTime: endTime
+          - available: true
+            startTime: startTime
+            id: id
+            endTime: endTime
+        - date: date
+          slots:
+          - available: true
+            startTime: startTime
+            id: id
+            endTime: endTime
+          - available: true
+            startTime: startTime
+            id: id
+            endTime: endTime
+        storeId: storeId
+      properties:
+        storeId:
+          type: string
+        serviceType:
+          type: string
+        dates:
+          items:
+            $ref: "#/components/schemas/AvailabilityResponse_dates_inner"
+          type: array
+      type: object
+    ServiceListResponse:
+      example:
+        services:
+        - duration: 0
+          requiresAppointment: true
+          availableAt:
+          - availableAt
+          - availableAt
+          name: name
+          description: description
+          id: id
+          category: category
+        - duration: 0
+          requiresAppointment: true
+          availableAt:
+          - availableAt
+          - availableAt
+          name: name
+          description: description
+          id: id
+          category: category
+      properties:
+        services:
+          items:
+            $ref: "#/components/schemas/Service"
+          type: array
+      type: object
+    Service:
+      example:
+        duration: 0
+        requiresAppointment: true
+        availableAt:
+        - availableAt
+        - availableAt
+        name: name
+        description: description
+        id: id
+        category: category
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        duration:
+          type: integer
+        requiresAppointment:
+          type: boolean
+        availableAt:
+          items:
+            type: string
+          type: array
+      type: object
+    ServicePricing:
+      example:
+        serviceId: serviceId
+        serviceName: serviceName
+        pricing:
+        - notes: notes
+          price:
+            amount: 0.8008281904610115
+            currency: currency
+          description: description
+          warranty: warranty
+        - notes: notes
+          price:
+            amount: 0.8008281904610115
+            currency: currency
+          description: description
+          warranty: warranty
+      properties:
+        serviceId:
+          type: string
+        serviceName:
+          type: string
+        pricing:
+          items:
+            $ref: "#/components/schemas/ServicePricing_pricing_inner"
+          type: array
+      type: object
+    EventListResponse:
+      example:
+        pagination:
+          totalItems: 2
+          limit: 5
+          totalPages: 7
+          page: 5
+        events:
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          spotsRemaining: 1
+          requirements:
+          - requirements
+          - requirements
+          description: description
+          store:
+            name: name
+            id: id
+          title: title
+          capacity: 6
+          duration: 0
+          instructor: instructor
+          isFree: true
+          price:
+            amount: 0.8008281904610115
+            currency: currency
+          imageUrl: imageUrl
+          topic: topic
+          ageRestriction: ageRestriction
+          id: id
+          category: category
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          spotsRemaining: 1
+          requirements:
+          - requirements
+          - requirements
+          description: description
+          store:
+            name: name
+            id: id
+          title: title
+          capacity: 6
+          duration: 0
+          instructor: instructor
+          isFree: true
+          price:
+            amount: 0.8008281904610115
+            currency: currency
+          imageUrl: imageUrl
+          topic: topic
+          ageRestriction: ageRestriction
+          id: id
+          category: category
+      properties:
+        events:
+          items:
+            $ref: "#/components/schemas/StoreEvent"
+          type: array
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      type: object
+    StoreEvent:
+      example:
+        dateTime: 2000-01-23T04:56:07.000+00:00
+        spotsRemaining: 1
+        requirements:
+        - requirements
+        - requirements
+        description: description
+        store:
+          name: name
+          id: id
+        title: title
+        capacity: 6
+        duration: 0
+        instructor: instructor
+        isFree: true
+        price:
+          amount: 0.8008281904610115
+          currency: currency
+        imageUrl: imageUrl
+        topic: topic
+        ageRestriction: ageRestriction
+        id: id
+        category: category
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        topic:
+          type: string
+        store:
+          $ref: "#/components/schemas/StoreEvent_store"
+        dateTime:
+          format: date-time
+          type: string
+        duration:
+          type: integer
+        instructor:
+          type: string
+        capacity:
+          type: integer
+        spotsRemaining:
+          type: integer
+        isFree:
+          type: boolean
+        price:
+          $ref: "#/components/schemas/ServicePricing_pricing_inner_price"
+        requirements:
+          items:
+            type: string
+          type: array
+        ageRestriction:
+          type: string
+        imageUrl:
+          type: string
+      type: object
+    EventRegistrationRequest:
+      example:
+        attendees: 1
+        specialRequirements: specialRequirements
+      properties:
+        attendees:
+          default: 1
+          maximum: 5
+          minimum: 1
+          type: integer
+        specialRequirements:
+          type: string
+      type: object
+    EventRegistration:
+      example:
+        eventId: eventId
+        confirmationCode: confirmationCode
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        qrCode: qrCode
+        attendees: 0
+        id: id
+        status: status
+      properties:
+        id:
+          type: string
+        eventId:
+          type: string
+        confirmationCode:
+          type: string
+        attendees:
+          type: integer
+        status:
+          type: string
+        qrCode:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      type: object
+    StoreInventoryResponse:
+      example:
+        storeId: storeId
+        items:
+        - pickupAvailable: true
+          quantity: 0
+          productId: productId
+          name: name
+          pickupReadyTime: pickupReadyTime
+          availability: availability
+          sku: sku
+        - pickupAvailable: true
+          quantity: 0
+          productId: productId
+          name: name
+          pickupReadyTime: pickupReadyTime
+          availability: availability
+          sku: sku
+      properties:
+        storeId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/StoreInventoryItem"
+          type: array
+      type: object
+    StoreInventoryItem:
+      example:
+        pickupAvailable: true
+        quantity: 0
+        productId: productId
+        name: name
+        pickupReadyTime: pickupReadyTime
+        availability: availability
+        sku: sku
+      properties:
+        productId:
+          type: string
+        sku:
+          type: string
+        name:
+          type: string
+        availability:
+          type: string
+        quantity:
+          type: integer
+        pickupAvailable:
+          type: boolean
+        pickupReadyTime:
+          type: string
+      type: object
+    PickupCheckRequest:
+      example:
+        latitude: 6.027456183070403
+        radius: 5
+        items:
+        - quantity: 0
+          sku: sku
+        - quantity: 0
+          sku: sku
+        storeIds:
+        - storeIds
+        - storeIds
+        longitude: 1.4658129805029452
+      properties:
+        items:
+          items:
+            $ref: "#/components/schemas/PickupCheckRequest_items_inner"
+          type: array
+        storeIds:
+          items:
+            type: string
+          type: array
+        latitude:
+          type: number
+        longitude:
+          type: number
+        radius:
+          default: 50
+          type: integer
+      required:
+      - items
+      type: object
+    PickupCheckResponse:
+      example:
+        stores:
+        - allItemsAvailable: true
+          pickupReadyTime: 2000-01-23T04:56:07.000+00:00
+          store:
+            distance: 0.8008281904610115
+            name: name
+            id: id
+          items:
+          - quantity: 6
+            available: true
+            sku: sku
+          - quantity: 6
+            available: true
+            sku: sku
+        - allItemsAvailable: true
+          pickupReadyTime: 2000-01-23T04:56:07.000+00:00
+          store:
+            distance: 0.8008281904610115
+            name: name
+            id: id
+          items:
+          - quantity: 6
+            available: true
+            sku: sku
+          - quantity: 6
+            available: true
+            sku: sku
+      properties:
+        stores:
+          items:
+            $ref: "#/components/schemas/PickupAvailability"
+          type: array
+      type: object
+    PickupAvailability:
+      example:
+        allItemsAvailable: true
+        pickupReadyTime: 2000-01-23T04:56:07.000+00:00
+        store:
+          distance: 0.8008281904610115
+          name: name
+          id: id
+        items:
+        - quantity: 6
+          available: true
+          sku: sku
+        - quantity: 6
+          available: true
+          sku: sku
+      properties:
+        store:
+          $ref: "#/components/schemas/PickupAvailability_store"
+        allItemsAvailable:
+          type: boolean
+        items:
+          items:
+            $ref: "#/components/schemas/PickupAvailability_items_inner"
+          type: array
+        pickupReadyTime:
+          format: date-time
+          type: string
+      type: object
+    PickupReserveRequest:
+      example:
+        orderId: orderId
+        storeId: storeId
+        items:
+        - quantity: 0
+          sku: sku
+        - quantity: 0
+          sku: sku
+      properties:
+        storeId:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/PickupCheckRequest_items_inner"
+          type: array
+        orderId:
+          type: string
+      required:
+      - items
+      - storeId
+      type: object
+    PickupReservation:
+      example:
+        reservationId: reservationId
+        pickupReadyTime: 2000-01-23T04:56:07.000+00:00
+        storeName: storeName
+        storeId: storeId
+        pickupInstructions: pickupInstructions
+        items:
+        - quantity: 0
+          name: name
+          sku: sku
+        - quantity: 0
+          name: name
+          sku: sku
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+        status: status
+      properties:
+        reservationId:
+          type: string
+        storeId:
+          type: string
+        storeName:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/PickupReservation_items_inner"
+          type: array
+        status:
+          type: string
+        pickupReadyTime:
+          format: date-time
+          type: string
+        expiresAt:
+          format: date-time
+          type: string
+        pickupInstructions:
+          type: string
+      type: object
+    Address:
+      example:
+        country: country
+        city: city
+        postalCode: postalCode
+        street1: street1
+        street2: street2
+        state: state
+      properties:
+        street1:
+          type: string
+        street2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+      type: object
+    Pagination:
+      example:
+        totalItems: 2
+        limit: 5
+        totalPages: 7
+        page: 5
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+      type: object
+    Error:
+      example:
+        code: code
+        details: "{}"
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+      type: object
+    Store_coordinates:
+      example:
+        latitude: 0.8008281904610115
+        longitude: 6.027456183070403
+      properties:
+        latitude:
+          type: number
+        longitude:
+          type: number
+      type: object
+    Store_images_inner:
+      example:
+        type: type
+        url: url
+      properties:
+        url:
+          type: string
+        type:
+          type: string
+      type: object
+    StoreHours_regular_value:
+      example:
+        closed: true
+        close: close
+        open: open
+      properties:
+        open:
+          type: string
+        close:
+          type: string
+        closed:
+          type: boolean
+      type: object
+    StoreHours_special_inner:
+      example:
+        date: date
+        name: name
+        closed: true
+        close: close
+        open: open
+      properties:
+        date:
+          type: string
+        name:
+          type: string
+        open:
+          type: string
+        close:
+          type: string
+        closed:
+          type: boolean
+      type: object
+    StoreHours_currentStatus:
+      example:
+        isOpen: true
+        opensAt: opensAt
+        closesAt: closesAt
+      properties:
+        isOpen:
+          type: boolean
+        opensAt:
+          type: string
+        closesAt:
+          type: string
+      type: object
+    Appointment_store:
+      example:
+        address:
+          country: country
+          city: city
+          postalCode: postalCode
+          street1: street1
+          street2: street2
+          state: state
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+      type: object
+    Appointment_customer:
+      example:
+        phone: phone
+        name: name
+        id: id
+        email: email
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+      type: object
+    Appointment_device:
+      example:
+        serialNumber: serialNumber
+        model: model
+        type: type
+      properties:
+        type:
+          type: string
+        model:
+          type: string
+        serialNumber:
+          type: string
+      type: object
+    AvailabilityResponse_dates_inner_slots_inner:
+      example:
+        available: true
+        startTime: startTime
+        id: id
+        endTime: endTime
+      properties:
+        id:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        available:
+          type: boolean
+      type: object
+    AvailabilityResponse_dates_inner:
+      example:
+        date: date
+        slots:
+        - available: true
+          startTime: startTime
+          id: id
+          endTime: endTime
+        - available: true
+          startTime: startTime
+          id: id
+          endTime: endTime
+      properties:
+        date:
+          type: string
+        slots:
+          items:
+            $ref: "#/components/schemas/AvailabilityResponse_dates_inner_slots_inner"
+          type: array
+      type: object
+    ServicePricing_pricing_inner_price:
+      example:
+        amount: 0.8008281904610115
+        currency: currency
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+      type: object
+    ServicePricing_pricing_inner:
+      example:
+        notes: notes
+        price:
+          amount: 0.8008281904610115
+          currency: currency
+        description: description
+        warranty: warranty
+      properties:
+        description:
+          type: string
+        price:
+          $ref: "#/components/schemas/ServicePricing_pricing_inner_price"
+        warranty:
+          type: string
+        notes:
+          type: string
+      type: object
+    StoreEvent_store:
+      example:
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object
+    PickupCheckRequest_items_inner:
+      example:
+        quantity: 0
+        sku: sku
+      properties:
+        sku:
+          type: string
+        quantity:
+          type: integer
+      required:
+      - quantity
+      - sku
+      type: object
+    PickupAvailability_store:
+      example:
+        distance: 0.8008281904610115
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        distance:
+          type: number
+      type: object
+    PickupAvailability_items_inner:
+      example:
+        quantity: 6
+        available: true
+        sku: sku
+      properties:
+        sku:
+          type: string
+        available:
+          type: boolean
+        quantity:
+          type: integer
+      type: object
+    PickupReservation_items_inner:
+      example:
+        quantity: 0
+        name: name
+        sku: sku
+      properties:
+        sku:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: integer
+      type: object

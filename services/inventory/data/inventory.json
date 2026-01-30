@@ -1,0 +1,1213 @@
+{
+  "metadata": {
+    "version": "2024.1",
+    "lastUpdated": "2024-01-15T08:00:00Z",
+    "timezone": "UTC"
+  },
+  "warehouses": [
+    {
+      "id": "WH-001",
+      "name": "Pear Distribution Center - West",
+      "code": "PDC-WEST",
+      "type": "distribution_center",
+      "address": {
+        "street": "1 Pear Way",
+        "city": "Cupertino",
+        "state": "CA",
+        "zip": "95014",
+        "country": "US"
+      },
+      "coordinates": { "lat": 37.3349, "lng": -122.0090 },
+      "capacity": 500000,
+      "active": true
+    },
+    {
+      "id": "WH-002",
+      "name": "Pear Distribution Center - East",
+      "code": "PDC-EAST",
+      "type": "distribution_center",
+      "address": {
+        "street": "500 Pear Boulevard",
+        "city": "Newark",
+        "state": "NJ",
+        "zip": "07102",
+        "country": "US"
+      },
+      "coordinates": { "lat": 40.7357, "lng": -74.1724 },
+      "capacity": 400000,
+      "active": true
+    },
+    {
+      "id": "WH-003",
+      "name": "Pear Distribution Center - Central",
+      "code": "PDC-CENTRAL",
+      "type": "distribution_center",
+      "address": {
+        "street": "200 Innovation Drive",
+        "city": "Austin",
+        "state": "TX",
+        "zip": "78701",
+        "country": "US"
+      },
+      "coordinates": { "lat": 30.2672, "lng": -97.7431 },
+      "capacity": 350000,
+      "active": true
+    }
+  ],
+  "stockLevels": [
+    {
+      "sku": "PPH16PM-256-NAT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 15000, "reserved": 2340, "available": 12660 },
+        { "locationId": "WH-002", "quantity": 12000, "reserved": 1890, "available": 10110 },
+        { "locationId": "WH-003", "quantity": 8000, "reserved": 1200, "available": 6800 }
+      ],
+      "reorderPoint": 5000,
+      "reorderQuantity": 10000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-256-BLU",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 10000, "reserved": 1500, "available": 8500 },
+        { "locationId": "WH-003", "quantity": 7000, "reserved": 900, "available": 6100 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-256-WHT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 10000, "reserved": 1400, "available": 8600 },
+        { "locationId": "WH-002", "quantity": 8500, "reserved": 1200, "available": 7300 },
+        { "locationId": "WH-003", "quantity": 6000, "reserved": 800, "available": 5200 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-256-BLK",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 18000, "reserved": 3200, "available": 14800 },
+        { "locationId": "WH-002", "quantity": 14000, "reserved": 2100, "available": 11900 },
+        { "locationId": "WH-003", "quantity": 10000, "reserved": 1500, "available": 8500 }
+      ],
+      "reorderPoint": 6000,
+      "reorderQuantity": 12000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-512-NAT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6000, "reserved": 900, "available": 5100 },
+        { "locationId": "WH-003", "quantity": 4000, "reserved": 600, "available": 3400 }
+      ],
+      "reorderPoint": 3000,
+      "reorderQuantity": 6000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-512-BLU",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 6500, "reserved": 980, "available": 5520 },
+        { "locationId": "WH-002", "quantity": 5000, "reserved": 750, "available": 4250 },
+        { "locationId": "WH-003", "quantity": 3500, "reserved": 520, "available": 2980 }
+      ],
+      "reorderPoint": 2500,
+      "reorderQuantity": 5000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-512-WHT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5500, "reserved": 820, "available": 4680 },
+        { "locationId": "WH-002", "quantity": 4200, "reserved": 630, "available": 3570 },
+        { "locationId": "WH-003", "quantity": 3000, "reserved": 450, "available": 2550 }
+      ],
+      "reorderPoint": 2000,
+      "reorderQuantity": 4000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-512-BLK",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 9000, "reserved": 1350, "available": 7650 },
+        { "locationId": "WH-002", "quantity": 7000, "reserved": 1050, "available": 5950 },
+        { "locationId": "WH-003", "quantity": 5000, "reserved": 750, "available": 4250 }
+      ],
+      "reorderPoint": 3500,
+      "reorderQuantity": 7000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-1TB-NAT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3000, "reserved": 450, "available": 2550 },
+        { "locationId": "WH-002", "quantity": 2500, "reserved": 375, "available": 2125 },
+        { "locationId": "WH-003", "quantity": 1800, "reserved": 270, "available": 1530 }
+      ],
+      "reorderPoint": 1500,
+      "reorderQuantity": 3000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-1TB-BLU",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 500, "reserved": 480, "available": 20 },
+        { "locationId": "WH-002", "quantity": 300, "reserved": 290, "available": 10 },
+        { "locationId": "WH-003", "quantity": 200, "reserved": 195, "available": 5 }
+      ],
+      "reorderPoint": 1000,
+      "reorderQuantity": 2000,
+      "status": "low_stock",
+      "backorderDate": "2024-02-01T00:00:00Z"
+    },
+    {
+      "sku": "PPH16PM-1TB-WHT",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 2500, "reserved": 375, "available": 2125 },
+        { "locationId": "WH-002", "quantity": 2000, "reserved": 300, "available": 1700 },
+        { "locationId": "WH-003", "quantity": 1500, "reserved": 225, "available": 1275 }
+      ],
+      "reorderPoint": 1200,
+      "reorderQuantity": 2400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16PM-1TB-BLK",
+      "productId": "PEAR-PPH-1601",
+      "productName": "pPhone 16 Pro Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-002", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-003", "quantity": 2400, "reserved": 360, "available": 2040 }
+      ],
+      "reorderPoint": 1800,
+      "reorderQuantity": 3600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16P-128-NAT",
+      "productId": "PEAR-PPH-1602",
+      "productName": "pPhone 16 Pro",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 10000, "reserved": 1500, "available": 8500 },
+        { "locationId": "WH-002", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-003", "quantity": 6000, "reserved": 900, "available": 5100 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16P-128-BLU",
+      "productId": "PEAR-PPH-1602",
+      "productName": "pPhone 16 Pro",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8500, "reserved": 1275, "available": 7225 },
+        { "locationId": "WH-002", "quantity": 6800, "reserved": 1020, "available": 5780 },
+        { "locationId": "WH-003", "quantity": 5100, "reserved": 765, "available": 4335 }
+      ],
+      "reorderPoint": 3500,
+      "reorderQuantity": 7000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16P-256-NAT",
+      "productId": "PEAR-PPH-1602",
+      "productName": "pPhone 16 Pro",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 7000, "reserved": 1050, "available": 5950 },
+        { "locationId": "WH-002", "quantity": 5600, "reserved": 840, "available": 4760 },
+        { "locationId": "WH-003", "quantity": 4200, "reserved": 630, "available": 3570 }
+      ],
+      "reorderPoint": 3000,
+      "reorderQuantity": 6000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16P-512-NAT",
+      "productId": "PEAR-PPH-1602",
+      "productName": "pPhone 16 Pro",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-002", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-003", "quantity": 2400, "reserved": 360, "available": 2040 }
+      ],
+      "reorderPoint": 2000,
+      "reorderQuantity": 4000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-128-BLK",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 20000, "reserved": 3000, "available": 17000 },
+        { "locationId": "WH-002", "quantity": 16000, "reserved": 2400, "available": 13600 },
+        { "locationId": "WH-003", "quantity": 12000, "reserved": 1800, "available": 10200 }
+      ],
+      "reorderPoint": 8000,
+      "reorderQuantity": 16000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-128-WHT",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 18000, "reserved": 2700, "available": 15300 },
+        { "locationId": "WH-002", "quantity": 14400, "reserved": 2160, "available": 12240 },
+        { "locationId": "WH-003", "quantity": 10800, "reserved": 1620, "available": 9180 }
+      ],
+      "reorderPoint": 7000,
+      "reorderQuantity": 14000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-128-PNK",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 9600, "reserved": 1440, "available": 8160 },
+        { "locationId": "WH-003", "quantity": 7200, "reserved": 1080, "available": 6120 }
+      ],
+      "reorderPoint": 5000,
+      "reorderQuantity": 10000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-128-TEL",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 10000, "reserved": 1500, "available": 8500 },
+        { "locationId": "WH-002", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-003", "quantity": 6000, "reserved": 900, "available": 5100 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-128-ULT",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 14000, "reserved": 2100, "available": 11900 },
+        { "locationId": "WH-002", "quantity": 11200, "reserved": 1680, "available": 9520 },
+        { "locationId": "WH-003", "quantity": 8400, "reserved": 1260, "available": 7140 }
+      ],
+      "reorderPoint": 5500,
+      "reorderQuantity": 11000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-256-BLK",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 9000, "reserved": 1350, "available": 7650 },
+        { "locationId": "WH-002", "quantity": 7200, "reserved": 1080, "available": 6120 },
+        { "locationId": "WH-003", "quantity": 5400, "reserved": 810, "available": 4590 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPH16-512-BLK",
+      "productId": "PEAR-PPH-1603",
+      "productName": "pPhone 16",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5000, "reserved": 750, "available": 4250 },
+        { "locationId": "WH-002", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-003", "quantity": 3000, "reserved": 450, "available": 2550 }
+      ],
+      "reorderPoint": 2500,
+      "reorderQuantity": 5000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP14-P4P-18-512-SPC",
+      "productId": "PEAR-PBK-1401",
+      "productName": "PearBook Pro 14\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3500,
+      "reorderQuantity": 7000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP14-P4P-18-512-SLV",
+      "productId": "PEAR-PBK-1401",
+      "productName": "PearBook Pro 14\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 6000, "reserved": 900, "available": 5100 },
+        { "locationId": "WH-002", "quantity": 4800, "reserved": 720, "available": 4080 },
+        { "locationId": "WH-003", "quantity": 3600, "reserved": 540, "available": 3060 }
+      ],
+      "reorderPoint": 2800,
+      "reorderQuantity": 5600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP14-P4P-18-1TB-SPC",
+      "productId": "PEAR-PBK-1401",
+      "productName": "PearBook Pro 14\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5500, "reserved": 825, "available": 4675 },
+        { "locationId": "WH-002", "quantity": 4400, "reserved": 660, "available": 3740 },
+        { "locationId": "WH-003", "quantity": 3300, "reserved": 495, "available": 2805 }
+      ],
+      "reorderPoint": 2500,
+      "reorderQuantity": 5000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP14-P4P-36-1TB-SPC",
+      "productId": "PEAR-PBK-1401",
+      "productName": "PearBook Pro 14\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3000, "reserved": 450, "available": 2550 },
+        { "locationId": "WH-002", "quantity": 2400, "reserved": 360, "available": 2040 },
+        { "locationId": "WH-003", "quantity": 1800, "reserved": 270, "available": 1530 }
+      ],
+      "reorderPoint": 1500,
+      "reorderQuantity": 3000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP14-P4M-48-2TB-SPC",
+      "productId": "PEAR-PBK-1401",
+      "productName": "PearBook Pro 14\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 1500, "reserved": 225, "available": 1275 },
+        { "locationId": "WH-002", "quantity": 1200, "reserved": 180, "available": 1020 },
+        { "locationId": "WH-003", "quantity": 900, "reserved": 135, "available": 765 }
+      ],
+      "reorderPoint": 800,
+      "reorderQuantity": 1600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP16-P4P-18-512-SPC",
+      "productId": "PEAR-PBK-1601",
+      "productName": "PearBook Pro 16\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 6000, "reserved": 900, "available": 5100 },
+        { "locationId": "WH-002", "quantity": 4800, "reserved": 720, "available": 4080 },
+        { "locationId": "WH-003", "quantity": 3600, "reserved": 540, "available": 3060 }
+      ],
+      "reorderPoint": 2800,
+      "reorderQuantity": 5600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP16-P4P-36-1TB-SPC",
+      "productId": "PEAR-PBK-1601",
+      "productName": "PearBook Pro 16\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3500, "reserved": 525, "available": 2975 },
+        { "locationId": "WH-002", "quantity": 2800, "reserved": 420, "available": 2380 },
+        { "locationId": "WH-003", "quantity": 2100, "reserved": 315, "available": 1785 }
+      ],
+      "reorderPoint": 1800,
+      "reorderQuantity": 3600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP16-P4M-64-2TB-SPC",
+      "productId": "PEAR-PBK-1601",
+      "productName": "PearBook Pro 16\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 2000, "reserved": 300, "available": 1700 },
+        { "locationId": "WH-002", "quantity": 1600, "reserved": 240, "available": 1360 },
+        { "locationId": "WH-003", "quantity": 1200, "reserved": 180, "available": 1020 }
+      ],
+      "reorderPoint": 1000,
+      "reorderQuantity": 2000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBP16-P4M-128-4TB-SPC",
+      "productId": "PEAR-PBK-1601",
+      "productName": "PearBook Pro 16\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 800, "reserved": 120, "available": 680 },
+        { "locationId": "WH-002", "quantity": 640, "reserved": 96, "available": 544 },
+        { "locationId": "WH-003", "quantity": 480, "reserved": 72, "available": 408 }
+      ],
+      "reorderPoint": 400,
+      "reorderQuantity": 800,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-8-256-MID",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 9600, "reserved": 1440, "available": 8160 },
+        { "locationId": "WH-003", "quantity": 7200, "reserved": 1080, "available": 6120 }
+      ],
+      "reorderPoint": 5000,
+      "reorderQuantity": 10000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-8-256-STL",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 10000, "reserved": 1500, "available": 8500 },
+        { "locationId": "WH-002", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-003", "quantity": 6000, "reserved": 900, "available": 5100 }
+      ],
+      "reorderPoint": 4200,
+      "reorderQuantity": 8400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-8-256-SLV",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 9000, "reserved": 1350, "available": 7650 },
+        { "locationId": "WH-002", "quantity": 7200, "reserved": 1080, "available": 6120 },
+        { "locationId": "WH-003", "quantity": 5400, "reserved": 810, "available": 4590 }
+      ],
+      "reorderPoint": 3800,
+      "reorderQuantity": 7600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-8-256-SPC",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 11000, "reserved": 1650, "available": 9350 },
+        { "locationId": "WH-002", "quantity": 8800, "reserved": 1320, "available": 7480 },
+        { "locationId": "WH-003", "quantity": 6600, "reserved": 990, "available": 5610 }
+      ],
+      "reorderPoint": 4600,
+      "reorderQuantity": 9200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-16-512-MID",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 7000, "reserved": 1050, "available": 5950 },
+        { "locationId": "WH-002", "quantity": 5600, "reserved": 840, "available": 4760 },
+        { "locationId": "WH-003", "quantity": 4200, "reserved": 630, "available": 3570 }
+      ],
+      "reorderPoint": 3000,
+      "reorderQuantity": 6000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA15-24-1TB-MID",
+      "productId": "PEAR-PBA-1501",
+      "productName": "PearBook Air 15\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3500, "reserved": 525, "available": 2975 },
+        { "locationId": "WH-002", "quantity": 2800, "reserved": 420, "available": 2380 },
+        { "locationId": "WH-003", "quantity": 2100, "reserved": 315, "available": 1785 }
+      ],
+      "reorderPoint": 1500,
+      "reorderQuantity": 3000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA13-8-256-MID",
+      "productId": "PEAR-PBA-1301",
+      "productName": "PearBook Air 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 15000, "reserved": 2250, "available": 12750 },
+        { "locationId": "WH-002", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-003", "quantity": 9000, "reserved": 1350, "available": 7650 }
+      ],
+      "reorderPoint": 6000,
+      "reorderQuantity": 12000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA13-8-256-STL",
+      "productId": "PEAR-PBA-1301",
+      "productName": "PearBook Air 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 13000, "reserved": 1950, "available": 11050 },
+        { "locationId": "WH-002", "quantity": 10400, "reserved": 1560, "available": 8840 },
+        { "locationId": "WH-003", "quantity": 7800, "reserved": 1170, "available": 6630 }
+      ],
+      "reorderPoint": 5200,
+      "reorderQuantity": 10400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PBA13-16-512-MID",
+      "productId": "PEAR-PBA-1301",
+      "productName": "PearBook Air 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3400,
+      "reorderQuantity": 6800,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWU2-TIT-ORP",
+      "productId": "PEAR-PWU-0201",
+      "productName": "Pear Watch Ultra 2",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5000, "reserved": 750, "available": 4250 },
+        { "locationId": "WH-002", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-003", "quantity": 3000, "reserved": 450, "available": 2550 }
+      ],
+      "reorderPoint": 2000,
+      "reorderQuantity": 4000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWU2-TIT-BLU",
+      "productId": "PEAR-PWU-0201",
+      "productName": "Pear Watch Ultra 2",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4500, "reserved": 675, "available": 3825 },
+        { "locationId": "WH-002", "quantity": 3600, "reserved": 540, "available": 3060 },
+        { "locationId": "WH-003", "quantity": 2700, "reserved": 405, "available": 2295 }
+      ],
+      "reorderPoint": 1800,
+      "reorderQuantity": 3600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWU2-TIT-OCN",
+      "productId": "PEAR-PWU-0201",
+      "productName": "Pear Watch Ultra 2",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-002", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-003", "quantity": 2400, "reserved": 360, "available": 2040 }
+      ],
+      "reorderPoint": 1600,
+      "reorderQuantity": 3200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWU2-TIT-TRL",
+      "productId": "PEAR-PWU-0201",
+      "productName": "Pear Watch Ultra 2",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3800, "reserved": 570, "available": 3230 },
+        { "locationId": "WH-002", "quantity": 3040, "reserved": 456, "available": 2584 },
+        { "locationId": "WH-003", "quantity": 2280, "reserved": 342, "available": 1938 }
+      ],
+      "reorderPoint": 1520,
+      "reorderQuantity": 3040,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-42-ALU-MID-GPS",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 18000, "reserved": 2700, "available": 15300 },
+        { "locationId": "WH-002", "quantity": 14400, "reserved": 2160, "available": 12240 },
+        { "locationId": "WH-003", "quantity": 10800, "reserved": 1620, "available": 9180 }
+      ],
+      "reorderPoint": 7200,
+      "reorderQuantity": 14400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-42-ALU-STL-GPS",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 15000, "reserved": 2250, "available": 12750 },
+        { "locationId": "WH-002", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-003", "quantity": 9000, "reserved": 1350, "available": 7650 }
+      ],
+      "reorderPoint": 6000,
+      "reorderQuantity": 12000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-42-ALU-SLV-GPS",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 14000, "reserved": 2100, "available": 11900 },
+        { "locationId": "WH-002", "quantity": 11200, "reserved": 1680, "available": 9520 },
+        { "locationId": "WH-003", "quantity": 8400, "reserved": 1260, "available": 7140 }
+      ],
+      "reorderPoint": 5600,
+      "reorderQuantity": 11200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-46-ALU-MID-GPS",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 16000, "reserved": 2400, "available": 13600 },
+        { "locationId": "WH-002", "quantity": 12800, "reserved": 1920, "available": 10880 },
+        { "locationId": "WH-003", "quantity": 9600, "reserved": 1440, "available": 8160 }
+      ],
+      "reorderPoint": 6400,
+      "reorderQuantity": 12800,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-46-ALU-MID-CEL",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3200,
+      "reorderQuantity": 6400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-46-SS-GLD-CEL",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3000, "reserved": 450, "available": 2550 },
+        { "locationId": "WH-002", "quantity": 2400, "reserved": 360, "available": 2040 },
+        { "locationId": "WH-003", "quantity": 1800, "reserved": 270, "available": 1530 }
+      ],
+      "reorderPoint": 1200,
+      "reorderQuantity": 2400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWS10-46-SS-SLT-CEL",
+      "productId": "PEAR-PWS-1001",
+      "productName": "Pear Watch Series 10",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3500, "reserved": 525, "available": 2975 },
+        { "locationId": "WH-002", "quantity": 2800, "reserved": 420, "available": 2380 },
+        { "locationId": "WH-003", "quantity": 2100, "reserved": 315, "available": 1785 }
+      ],
+      "reorderPoint": 1400,
+      "reorderQuantity": 2800,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-PRO2-WHT",
+      "productId": "PEAR-PPD-0301",
+      "productName": "PearPods Pro 2",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 35000, "reserved": 5250, "available": 29750 },
+        { "locationId": "WH-002", "quantity": 28000, "reserved": 4200, "available": 23800 },
+        { "locationId": "WH-003", "quantity": 21000, "reserved": 3150, "available": 17850 }
+      ],
+      "reorderPoint": 14000,
+      "reorderQuantity": 28000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-4-STD",
+      "productId": "PEAR-PPD-0401",
+      "productName": "PearPods 4",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 45000, "reserved": 6750, "available": 38250 },
+        { "locationId": "WH-002", "quantity": 36000, "reserved": 5400, "available": 30600 },
+        { "locationId": "WH-003", "quantity": 27000, "reserved": 4050, "available": 22950 }
+      ],
+      "reorderPoint": 18000,
+      "reorderQuantity": 36000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-4-ANC",
+      "productId": "PEAR-PPD-0401",
+      "productName": "PearPods 4",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 30000, "reserved": 4500, "available": 25500 },
+        { "locationId": "WH-002", "quantity": 24000, "reserved": 3600, "available": 20400 },
+        { "locationId": "WH-003", "quantity": 18000, "reserved": 2700, "available": 15300 }
+      ],
+      "reorderPoint": 12000,
+      "reorderQuantity": 24000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-MAX-SLV",
+      "productId": "PEAR-PPD-MAX-01",
+      "productName": "PearPods Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-002", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-003", "quantity": 2400, "reserved": 360, "available": 2040 }
+      ],
+      "reorderPoint": 1600,
+      "reorderQuantity": 3200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-MAX-SPC",
+      "productId": "PEAR-PPD-MAX-01",
+      "productName": "PearPods Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5000, "reserved": 750, "available": 4250 },
+        { "locationId": "WH-002", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-003", "quantity": 3000, "reserved": 450, "available": 2550 }
+      ],
+      "reorderPoint": 2000,
+      "reorderQuantity": 4000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-MAX-GRN",
+      "productId": "PEAR-PPD-MAX-01",
+      "productName": "PearPods Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 2500, "reserved": 375, "available": 2125 },
+        { "locationId": "WH-002", "quantity": 2000, "reserved": 300, "available": 1700 },
+        { "locationId": "WH-003", "quantity": 1500, "reserved": 225, "available": 1275 }
+      ],
+      "reorderPoint": 1000,
+      "reorderQuantity": 2000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-MAX-SKY",
+      "productId": "PEAR-PPD-MAX-01",
+      "productName": "PearPods Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 2800, "reserved": 420, "available": 2380 },
+        { "locationId": "WH-002", "quantity": 2240, "reserved": 336, "available": 1904 },
+        { "locationId": "WH-003", "quantity": 1680, "reserved": 252, "available": 1428 }
+      ],
+      "reorderPoint": 1120,
+      "reorderQuantity": 2240,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPD-MAX-PNK",
+      "productId": "PEAR-PPD-MAX-01",
+      "productName": "PearPods Max",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-002", "quantity": 2560, "reserved": 384, "available": 2176 },
+        { "locationId": "WH-003", "quantity": 1920, "reserved": 288, "available": 1632 }
+      ],
+      "reorderPoint": 1280,
+      "reorderQuantity": 2560,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPT13-256-SPC-WIFI",
+      "productId": "PEAR-PPT-0601",
+      "productName": "PearPad Pro 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3200,
+      "reorderQuantity": 6400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPT13-256-SLV-WIFI",
+      "productId": "PEAR-PPT-0601",
+      "productName": "PearPad Pro 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 7000, "reserved": 1050, "available": 5950 },
+        { "locationId": "WH-002", "quantity": 5600, "reserved": 840, "available": 4760 },
+        { "locationId": "WH-003", "quantity": 4200, "reserved": 630, "available": 3570 }
+      ],
+      "reorderPoint": 2800,
+      "reorderQuantity": 5600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPT13-512-SPC-WIFI",
+      "productId": "PEAR-PPT-0601",
+      "productName": "PearPad Pro 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 5500, "reserved": 825, "available": 4675 },
+        { "locationId": "WH-002", "quantity": 4400, "reserved": 660, "available": 3740 },
+        { "locationId": "WH-003", "quantity": 3300, "reserved": 495, "available": 2805 }
+      ],
+      "reorderPoint": 2200,
+      "reorderQuantity": 4400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPT13-1TB-SPC-WIFI",
+      "productId": "PEAR-PPT-0601",
+      "productName": "PearPad Pro 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 3000, "reserved": 450, "available": 2550 },
+        { "locationId": "WH-002", "quantity": 2400, "reserved": 360, "available": 2040 },
+        { "locationId": "WH-003", "quantity": 1800, "reserved": 270, "available": 1530 }
+      ],
+      "reorderPoint": 1200,
+      "reorderQuantity": 2400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PPT13-256-SPC-5G",
+      "productId": "PEAR-PPT-0601",
+      "productName": "PearPad Pro 13\"",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 4000, "reserved": 600, "available": 3400 },
+        { "locationId": "WH-002", "quantity": 3200, "reserved": 480, "available": 2720 },
+        { "locationId": "WH-003", "quantity": 2400, "reserved": 360, "available": 2040 }
+      ],
+      "reorderPoint": 1600,
+      "reorderQuantity": 3200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PTV4K-64",
+      "productId": "PEAR-PTV-0401",
+      "productName": "PearTV 4K",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 20000, "reserved": 3000, "available": 17000 },
+        { "locationId": "WH-002", "quantity": 16000, "reserved": 2400, "available": 13600 },
+        { "locationId": "WH-003", "quantity": 12000, "reserved": 1800, "available": 10200 }
+      ],
+      "reorderPoint": 8000,
+      "reorderQuantity": 16000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PTV4K-128",
+      "productId": "PEAR-PTV-0401",
+      "productName": "PearTV 4K",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 9600, "reserved": 1440, "available": 8160 },
+        { "locationId": "WH-003", "quantity": 7200, "reserved": 1080, "available": 6120 }
+      ],
+      "reorderPoint": 4800,
+      "reorderQuantity": 9600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MKB-TID-WHT",
+      "productId": "PEAR-ACC-MKB-01",
+      "productName": "Magic Keyboard with Touch ID",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 15000, "reserved": 2250, "available": 12750 },
+        { "locationId": "WH-002", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-003", "quantity": 9000, "reserved": 1350, "available": 7650 }
+      ],
+      "reorderPoint": 6000,
+      "reorderQuantity": 12000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MKB-TID-BLK",
+      "productId": "PEAR-ACC-MKB-01",
+      "productName": "Magic Keyboard with Touch ID",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 9600, "reserved": 1440, "available": 8160 },
+        { "locationId": "WH-003", "quantity": 7200, "reserved": 1080, "available": 6120 }
+      ],
+      "reorderPoint": 4800,
+      "reorderQuantity": 9600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MKB-TID-WHT-NUM",
+      "productId": "PEAR-ACC-MKB-01",
+      "productName": "Magic Keyboard with Touch ID",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3200,
+      "reorderQuantity": 6400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MKB-TID-BLK-NUM",
+      "productId": "PEAR-ACC-MKB-01",
+      "productName": "Magic Keyboard with Touch ID",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 6500, "reserved": 975, "available": 5525 },
+        { "locationId": "WH-002", "quantity": 5200, "reserved": 780, "available": 4420 },
+        { "locationId": "WH-003", "quantity": 3900, "reserved": 585, "available": 3315 }
+      ],
+      "reorderPoint": 2600,
+      "reorderQuantity": 5200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MMS-WHT",
+      "productId": "PEAR-ACC-MMS-01",
+      "productName": "Magic Mouse",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 20000, "reserved": 3000, "available": 17000 },
+        { "locationId": "WH-002", "quantity": 16000, "reserved": 2400, "available": 13600 },
+        { "locationId": "WH-003", "quantity": 12000, "reserved": 1800, "available": 10200 }
+      ],
+      "reorderPoint": 8000,
+      "reorderQuantity": 16000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "MMS-BLK",
+      "productId": "PEAR-ACC-MMS-01",
+      "productName": "Magic Mouse",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 18000, "reserved": 2700, "available": 15300 },
+        { "locationId": "WH-002", "quantity": 14400, "reserved": 2160, "available": 12240 },
+        { "locationId": "WH-003", "quantity": 10800, "reserved": 1620, "available": 9180 }
+      ],
+      "reorderPoint": 7200,
+      "reorderQuantity": 14400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "PWR-35W-DUAL",
+      "productId": "PEAR-ACC-CHG-01",
+      "productName": "35W Dual USB-C Compact Power Adapter",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 30000, "reserved": 4500, "available": 25500 },
+        { "locationId": "WH-002", "quantity": 24000, "reserved": 3600, "available": 20400 },
+        { "locationId": "WH-003", "quantity": 18000, "reserved": 2700, "available": 15300 }
+      ],
+      "reorderPoint": 12000,
+      "reorderQuantity": 24000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CBL-MS3-2M-MID",
+      "productId": "PEAR-ACC-CBL-01",
+      "productName": "USB-C to MagSafe 3 Cable (2m)",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 25000, "reserved": 3750, "available": 21250 },
+        { "locationId": "WH-002", "quantity": 20000, "reserved": 3000, "available": 17000 },
+        { "locationId": "WH-003", "quantity": 15000, "reserved": 2250, "available": 12750 }
+      ],
+      "reorderPoint": 10000,
+      "reorderQuantity": 20000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CBL-MS3-2M-STL",
+      "productId": "PEAR-ACC-CBL-01",
+      "productName": "USB-C to MagSafe 3 Cable (2m)",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 22000, "reserved": 3300, "available": 18700 },
+        { "locationId": "WH-002", "quantity": 17600, "reserved": 2640, "available": 14960 },
+        { "locationId": "WH-003", "quantity": 13200, "reserved": 1980, "available": 11220 }
+      ],
+      "reorderPoint": 8800,
+      "reorderQuantity": 17600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CBL-MS3-2M-SLV",
+      "productId": "PEAR-ACC-CBL-01",
+      "productName": "USB-C to MagSafe 3 Cable (2m)",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 20000, "reserved": 3000, "available": 17000 },
+        { "locationId": "WH-002", "quantity": 16000, "reserved": 2400, "available": 13600 },
+        { "locationId": "WH-003", "quantity": 12000, "reserved": 1800, "available": 10200 }
+      ],
+      "reorderPoint": 8000,
+      "reorderQuantity": 16000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CBL-MS3-2M-SPC",
+      "productId": "PEAR-ACC-CBL-01",
+      "productName": "USB-C to MagSafe 3 Cable (2m)",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 23000, "reserved": 3450, "available": 19550 },
+        { "locationId": "WH-002", "quantity": 18400, "reserved": 2760, "available": 15640 },
+        { "locationId": "WH-003", "quantity": 13800, "reserved": 2070, "available": 11730 }
+      ],
+      "reorderPoint": 9200,
+      "reorderQuantity": 18400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-BLK",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 15000, "reserved": 2250, "available": 12750 },
+        { "locationId": "WH-002", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-003", "quantity": 9000, "reserved": 1350, "available": 7650 }
+      ],
+      "reorderPoint": 6000,
+      "reorderQuantity": 12000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-WHT",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 12000, "reserved": 1800, "available": 10200 },
+        { "locationId": "WH-002", "quantity": 9600, "reserved": 1440, "available": 8160 },
+        { "locationId": "WH-003", "quantity": 7200, "reserved": 1080, "available": 6120 }
+      ],
+      "reorderPoint": 4800,
+      "reorderQuantity": 9600,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-ULT",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 10000, "reserved": 1500, "available": 8500 },
+        { "locationId": "WH-002", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-003", "quantity": 6000, "reserved": 900, "available": 5100 }
+      ],
+      "reorderPoint": 4000,
+      "reorderQuantity": 8000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-LAK",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 8000, "reserved": 1200, "available": 6800 },
+        { "locationId": "WH-002", "quantity": 6400, "reserved": 960, "available": 5440 },
+        { "locationId": "WH-003", "quantity": 4800, "reserved": 720, "available": 4080 }
+      ],
+      "reorderPoint": 3200,
+      "reorderQuantity": 6400,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-PLM",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 7500, "reserved": 1125, "available": 6375 },
+        { "locationId": "WH-002", "quantity": 6000, "reserved": 900, "available": 5100 },
+        { "locationId": "WH-003", "quantity": 4500, "reserved": 675, "available": 3825 }
+      ],
+      "reorderPoint": 3000,
+      "reorderQuantity": 6000,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-PNK",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 9000, "reserved": 1350, "available": 7650 },
+        { "locationId": "WH-002", "quantity": 7200, "reserved": 1080, "available": 6120 },
+        { "locationId": "WH-003", "quantity": 5400, "reserved": 810, "available": 4590 }
+      ],
+      "reorderPoint": 3600,
+      "reorderQuantity": 7200,
+      "status": "in_stock"
+    },
+    {
+      "sku": "CSE-16P-SIL-STR",
+      "productId": "PEAR-ACC-CSE-01",
+      "productName": "pPhone 16 Pro Silicone Case with MagSafe",
+      "locations": [
+        { "locationId": "WH-001", "quantity": 6500, "reserved": 975, "available": 5525 },
+        { "locationId": "WH-002", "quantity": 5200, "reserved": 780, "available": 4420 },
+        { "locationId": "WH-003", "quantity": 3900, "reserved": 585, "available": 3315 }
+      ],
+      "reorderPoint": 2600,
+      "reorderQuantity": 5200,
+      "status": "in_stock"
+    }
+  ],
+  "pendingTransfers": [
+    {
+      "id": "TRF-2024-00142",
+      "fromLocation": "WH-001",
+      "toLocation": "WH-002",
+      "status": "in_transit",
+      "items": [
+        { "sku": "PPH16PM-1TB-BLU", "quantity": 500 },
+        { "sku": "PPH16PM-1TB-NAT", "quantity": 300 }
+      ],
+      "createdAt": "2024-01-12T10:30:00Z",
+      "estimatedArrival": "2024-01-16T18:00:00Z"
+    },
+    {
+      "id": "TRF-2024-00143",
+      "fromLocation": "WH-001",
+      "toLocation": "WH-003",
+      "status": "pending",
+      "items": [
+        { "sku": "PBP16-P4M-128-4TB-SPC", "quantity": 200 },
+        { "sku": "PBP14-P4M-48-2TB-SPC", "quantity": 150 }
+      ],
+      "createdAt": "2024-01-14T14:00:00Z",
+      "estimatedArrival": "2024-01-18T12:00:00Z"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "ALT-2024-00089",
+      "type": "low_stock",
+      "severity": "high",
+      "sku": "PPH16PM-1TB-BLU",
+      "productName": "pPhone 16 Pro Max 1TB Blue Titanium",
+      "message": "Stock critically low across all warehouses. Total available: 35 units.",
+      "createdAt": "2024-01-15T06:00:00Z",
+      "acknowledged": false
+    },
+    {
+      "id": "ALT-2024-00090",
+      "type": "reorder_point",
+      "severity": "medium",
+      "sku": "PPD-MAX-GRN",
+      "productName": "PearPods Max Green",
+      "message": "Approaching reorder point. Current available: 5100 units. Reorder point: 1000 units.",
+      "createdAt": "2024-01-15T06:00:00Z",
+      "acknowledged": true
+    }
+  ]
+}

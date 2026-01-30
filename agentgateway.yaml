@@ -1,0 +1,179 @@
+binds:
+- port: 3000
+  listeners:
+
+  - protocol: HTTP
+    name: http-listener
+    routes:
+
+    # REST Services
+
+    - name: product-catalog
+      backends:
+      - host: 127.0.0.1:8080
+      matches:
+      - path:
+          pathPrefix: /v1/product-catalog
+
+    - name: inventory
+      backends:
+      - host: 127.0.0.1:8081
+      matches:
+      - path:
+          pathPrefix: /v1/inventory
+
+    - name: online-store
+      backends:
+      - host: 127.0.0.1:8082
+      matches:
+      - path:
+          pathPrefix: /v1/online-store
+
+    - name: shipping
+      backends:
+      - host: 127.0.0.1:8083
+      matches:
+      - path:
+          pathPrefix: /v1/shipping
+
+    - name: physical-stores
+      backends:
+      - host: 127.0.0.1:8084
+      matches:
+      - path:
+          pathPrefix: /v1/physical-stores
+
+    - name: product-support
+      backends:
+      - host: 127.0.0.1:8085
+      matches:
+      - path:
+          pathPrefix: /v1/product-support
+
+    - name: payments
+      backends:
+      - host: 127.0.0.1:8086
+      matches:
+      - path:
+          pathPrefix: /v1/payments
+
+    - name: order-management
+      backends:
+      - host: 127.0.0.1:8087
+      matches:
+      - path:
+          pathPrefix: /v1/order-management
+
+    - name: customer-accounts
+      backends:
+      - host: 127.0.0.1:8088
+      matches:
+      - path:
+          pathPrefix: /v1/customer-accounts
+
+    - name: customer-support
+      backends:
+      - host: 127.0.0.1:8089
+      matches:
+      - path:
+          pathPrefix: /v1/customer-support
+
+    - name: analytics
+      backends:
+      - host: 127.0.0.1:8090
+      matches:
+      - path:
+          pathPrefix: /v1/analytics
+
+    # MCP
+    - name: mcp
+      backends:
+      - mcp:
+          targets:
+          - name: product-catalog
+            openapi:
+              schema:
+                file: services/product-catalog/server/api/openapi.yaml
+              host: localhost
+              port: 8080
+              path: /v1/product-catalog
+          - name: inventory
+            openapi:
+              schema:
+                file: services/inventory/server/api/openapi.yaml
+              host: localhost
+              port: 8081
+              path: /v1/inventory
+          - name: online-store
+            openapi:
+              schema:
+                file: services/online-store/server/api/openapi.yaml
+              host: localhost
+              port: 8082
+              path: /v1/online-store
+          - name: shipping
+            openapi:
+              schema:
+                file: services/shipping/server/api/openapi.yaml
+              host: localhost
+              port: 8083
+              path: /v1/shipping
+          - name: physical-stores
+            openapi:
+              schema:
+                file: services/physical-stores/server/api/openapi.yaml
+              host: localhost
+              port: 8084
+              path: /v1/physical-stores
+          - name: product-support
+            openapi:
+              schema:
+                file: services/product-support/server/api/openapi.yaml
+              host: localhost
+              port: 8085
+              path: /v1/product-support
+          - name: payments
+            openapi:
+              schema:
+                file: services/payments/server/api/openapi.yaml
+              host: localhost
+              port: 8086
+              path: /v1/payments
+          - name: order-management
+            openapi:
+              schema:
+                file: services/order-management/server/api/openapi.yaml
+              host: localhost
+              port: 8087
+              path: /v1/order-management
+          - name: customer-accounts
+            openapi:
+              schema:
+                file: services/customer-accounts/server/api/openapi.yaml
+              host: localhost
+              port: 8088
+              path: /v1/customer-accounts
+          - name: customer-support
+            openapi:
+              schema:
+                file: services/customer-support/server/api/openapi.yaml
+              host: localhost
+              port: 8089
+              path: /v1/customer-support
+          - name: analytics
+            openapi:
+              schema:
+                file: services/analytics/server/api/openapi.yaml
+              host: localhost
+              port: 8090
+              path: /v1/analytics
+      policies:
+        cors:
+          allowOrigins:
+          - "*"
+          allowHeaders:
+            - "*"
+          exposeHeaders:
+          - mcp-session-id
+          - mcp-protocol-version
+          maxAge: 5m

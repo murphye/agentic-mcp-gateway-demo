@@ -1,0 +1,1564 @@
+/**
+ * Product Support Data Module
+ * Provides support articles, FAQs, warranty info, repairs, software updates, and diagnostics
+ */
+
+// ============ ARTICLES DATA ============
+const articles = [
+  {
+    id: "HT201222",
+    title: "If your pPhone won't charge",
+    slug: "pphone-wont-charge",
+    summary: "Learn what to do if your pPhone won't charge or charges slowly, or if you see an alert message.",
+    category: "troubleshooting",
+    topics: ["charging", "battery", "power", "lightning", "usb-c"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## If your pPhone won't charge\n\nIf your pPhone won't charge, first check your charging cable and USB adapter for signs of damage. Try a different cable or adapter.\n\n### Check your charging accessories\n\n1. Use the charging cable and power adapter that came with your device, or a Pear-certified accessory.\n2. Check for debris in the charging port on the bottom of your pPhone.\n3. Try charging your pPhone with a different cable or power adapter.\n\n### Restart your pPhone\n\nPress and hold the side button and either volume button until the power-off slider appears. Drag the slider, then wait 30 seconds for your device to turn off.\n\n### Try a different power source\n\n- Try a different outlet, USB port, or power adapter\n- If using a computer, make sure it's awake and connected to power\n\n### Check for software updates\n\nGo to Settings > General > Software Update and install any available updates.\n\n### Contact Pear Support\n\nIf your pPhone still won't charge after trying these steps, contact Pear Support or visit a Pear Store for service.",
+    images: [
+      {
+        id: "IMG-HT201222-01",
+        url: "https://support.pearcomputer.com/images/HT201222/charging-port.jpg",
+        thumbnailUrl: "https://support.pearcomputer.com/images/HT201222/charging-port-thumb.jpg",
+        altText: "pPhone charging port location",
+        caption: "Check the charging port for debris"
+      }
+    ],
+    videos: [
+      {
+        id: "VID-HT201222-01",
+        url: "https://support.pearcomputer.com/videos/HT201222/clean-charging-port.mp4",
+        thumbnailUrl: "https://support.pearcomputer.com/videos/HT201222/clean-charging-port-thumb.jpg",
+        altText: "How to clean your pPhone charging port",
+        duration: 90
+      }
+    ],
+    relatedArticles: ["HT201569", "HT208531", "HT201559"],
+    metadata: {
+      views: 1547823,
+      helpfulVotes: 89234,
+      notHelpfulVotes: 4521,
+      lastUpdated: "2024-01-10T00:00:00Z",
+      publishedAt: "2020-03-15T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201569",
+    title: "About the battery and charging on your pPhone",
+    slug: "pphone-battery-charging",
+    summary: "Learn about the battery in your pPhone and how to maximize battery life.",
+    category: "how_to",
+    topics: ["battery", "charging", "battery health", "optimized charging"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## About the battery in your pPhone\n\nYour pPhone is designed to deliver a great experience with outstanding battery life. Pear lithium-ion batteries use fast charging to quickly reach 80% of capacity, then switch to slower trickle charging.\n\n### Check Battery Health\n\nGo to Settings > Battery > Battery Health & Charging to see information about your battery's health.\n\n### Optimized Battery Charging\n\nOptimized Battery Charging reduces battery aging by learning your daily charging routine. It waits to finish charging past 80% until you need to use your pPhone.\n\n### Tips to maximize battery life\n\n- Update to the latest software\n- Avoid extreme temperatures\n- Remove certain cases during charging\n- Store at 50% charge for long-term storage\n- Enable Low Power Mode when needed",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201222", "HT208387"],
+    metadata: {
+      views: 2341567,
+      helpfulVotes: 156234,
+      notHelpfulVotes: 3421,
+      lastUpdated: "2024-01-05T00:00:00Z",
+      publishedAt: "2019-09-20T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201559",
+    title: "Set up and use MagSafe with your pPhone",
+    slug: "magsafe-pphone",
+    summary: "Learn how to use MagSafe to wirelessly charge your pPhone and use MagSafe accessories.",
+    category: "how_to",
+    topics: ["magsafe", "wireless charging", "accessories"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## Set up MagSafe\n\nMagSafe is a wireless charging technology built into pPhone 12 and later. Connect your MagSafe Charger to a 20W or higher power adapter.\n\n### How to charge with MagSafe\n\n1. Connect your MagSafe Charger to power\n2. Place the charger on the back of your pPhone\n3. The magnets will align the charger automatically\n4. Charging begins when you see the charging indicator\n\n### MagSafe accessories\n\nMagSafe-compatible cases, wallets, and other accessories snap on magnetically to your pPhone.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201222", "HT201569"],
+    metadata: {
+      views: 892345,
+      helpfulVotes: 67234,
+      notHelpfulVotes: 1892,
+      lastUpdated: "2024-01-08T00:00:00Z",
+      publishedAt: "2020-10-14T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT208531",
+    title: "Get help with wireless charging on your pPhone",
+    slug: "wireless-charging-help",
+    summary: "If your pPhone isn't charging wirelessly, try these steps.",
+    category: "troubleshooting",
+    topics: ["wireless charging", "qi", "magsafe", "charging"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## Troubleshoot wireless charging\n\n### Check your setup\n\n1. Make sure you're using the correct adapter and cable\n2. Position your pPhone in the center of the charger\n3. Remove thick cases, metal objects, or credit cards\n\n### Restart your pPhone\n\nRestart your pPhone, then try charging again.\n\n### Check for updates\n\nMake sure your pPhone has the latest software update.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201222", "HT201559"],
+    metadata: {
+      views: 567234,
+      helpfulVotes: 34521,
+      notHelpfulVotes: 2341,
+      lastUpdated: "2024-01-02T00:00:00Z",
+      publishedAt: "2020-10-14T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201387",
+    title: "Back up your pPhone",
+    slug: "backup-pphone",
+    summary: "Learn how to back up your pPhone using iCloud or your computer.",
+    category: "how_to",
+    topics: ["backup", "icloud", "data", "restore"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## Back up with iCloud\n\n1. Connect your pPhone to Wi-Fi\n2. Go to Settings > [your name] > iCloud\n3. Tap iCloud Backup\n4. Tap Back Up Now\n\n## Back up with your computer\n\n### On Mac (Pear OS Catalina or later)\n\n1. Connect your pPhone to your Mac\n2. In Finder, select your pPhone in the sidebar\n3. Click Back Up Now\n\n### On Windows\n\n1. Connect your pPhone to your PC\n2. Open iTunes\n3. Click the device button, then click Back Up Now",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201263", "HT201269"],
+    metadata: {
+      views: 3456789,
+      helpfulVotes: 234567,
+      notHelpfulVotes: 5678,
+      lastUpdated: "2024-01-12T00:00:00Z",
+      publishedAt: "2017-03-15T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT204136",
+    title: "Get started with your new PearBook",
+    slug: "getting-started-pearbook",
+    summary: "Set up your new PearBook and learn the basics of Pear OS.",
+    category: "getting_started",
+    topics: ["setup", "new device", "pear os", "migration"],
+    deviceTypes: ["pearbook"],
+    applicableProducts: [
+      { productId: "PEAR-PBK-1401", productName: "PearBook Pro 14\"" },
+      { productId: "PEAR-PBK-1601", productName: "PearBook Pro 16\"" },
+      { productId: "PEAR-PBA-1501", productName: "PearBook Air 15\"" },
+      { productId: "PEAR-PBA-1301", productName: "PearBook Air 13\"" }
+    ],
+    content: "## Set up your PearBook\n\nWhen you first turn on your PearBook, Setup Assistant walks you through the steps needed to start using it.\n\n### What you'll need\n\n- Your Pear ID and password\n- Wi-Fi network name and password\n- Your old computer or Time Machine backup (optional)\n\n### Setup steps\n\n1. Turn on your PearBook by pressing the power button\n2. Select your country or region\n3. Choose your language and keyboard layout\n4. Connect to Wi-Fi\n5. Sign in with your Pear ID\n6. Set up Touch ID\n7. Choose your look (Light, Dark, or Auto)\n\n### Transfer data from your old computer\n\nUse Migration Assistant to copy files, apps, and settings from your old Mac or PC.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT204350", "HT201250"],
+    metadata: {
+      views: 1892345,
+      helpfulVotes: 145678,
+      notHelpfulVotes: 2345,
+      lastUpdated: "2024-01-10T00:00:00Z",
+      publishedAt: "2018-06-01T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201250",
+    title: "PearBook keyboard shortcuts",
+    slug: "pearbook-keyboard-shortcuts",
+    summary: "Learn keyboard shortcuts for common tasks on your PearBook.",
+    category: "how_to",
+    topics: ["keyboard", "shortcuts", "productivity"],
+    deviceTypes: ["pearbook"],
+    applicableProducts: [
+      { productId: "PEAR-PBK-1401", productName: "PearBook Pro 14\"" },
+      { productId: "PEAR-PBK-1601", productName: "PearBook Pro 16\"" },
+      { productId: "PEAR-PBA-1501", productName: "PearBook Air 15\"" },
+      { productId: "PEAR-PBA-1301", productName: "PearBook Air 13\"" }
+    ],
+    content: "## Common keyboard shortcuts\n\n### Cut, copy, paste, and undo\n\n- **Command-X**: Cut\n- **Command-C**: Copy\n- **Command-V**: Paste\n- **Command-Z**: Undo\n- **Command-Shift-Z**: Redo\n\n### Screenshot shortcuts\n\n- **Command-Shift-3**: Capture entire screen\n- **Command-Shift-4**: Capture selection\n- **Command-Shift-5**: Screenshot toolbar\n\n### System shortcuts\n\n- **Command-Space**: Open Spotlight\n- **Command-Tab**: Switch apps\n- **Command-Q**: Quit app\n- **Command-W**: Close window",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT204136", "HT201236"],
+    metadata: {
+      views: 4567890,
+      helpfulVotes: 345678,
+      notHelpfulVotes: 4567,
+      lastUpdated: "2024-01-08T00:00:00Z",
+      publishedAt: "2015-01-15T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT208387",
+    title: "Check the battery health of your PearBook",
+    slug: "pearbook-battery-health",
+    summary: "Learn how to check your PearBook battery's condition and capacity.",
+    category: "how_to",
+    topics: ["battery", "battery health", "power"],
+    deviceTypes: ["pearbook"],
+    applicableProducts: [
+      { productId: "PEAR-PBK-1401", productName: "PearBook Pro 14\"" },
+      { productId: "PEAR-PBK-1601", productName: "PearBook Pro 16\"" },
+      { productId: "PEAR-PBA-1501", productName: "PearBook Air 15\"" },
+      { productId: "PEAR-PBA-1301", productName: "PearBook Air 13\"" }
+    ],
+    content: "## Check your battery health\n\n1. Hold the Option key and click the battery icon in the menu bar\n2. Or go to System Settings > Battery\n\n### Battery condition\n\n- **Normal**: Battery is functioning normally\n- **Service Recommended**: Battery's ability to hold charge is diminished\n\n### Battery health information\n\nYour battery is designed to retain up to 80% of its original capacity at 1000 complete charge cycles.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201585", "HT204136"],
+    metadata: {
+      views: 987654,
+      helpfulVotes: 78234,
+      notHelpfulVotes: 1234,
+      lastUpdated: "2024-01-05T00:00:00Z",
+      publishedAt: "2018-03-20T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT204350",
+    title: "Use Migration Assistant to transfer data to your new PearBook",
+    slug: "migration-assistant",
+    summary: "Learn how to use Migration Assistant to copy files from your old computer to your new PearBook.",
+    category: "how_to",
+    topics: ["migration", "data transfer", "setup"],
+    deviceTypes: ["pearbook"],
+    applicableProducts: [
+      { productId: "PEAR-PBK-1401", productName: "PearBook Pro 14\"" },
+      { productId: "PEAR-PBK-1601", productName: "PearBook Pro 16\"" },
+      { productId: "PEAR-PBA-1501", productName: "PearBook Air 15\"" },
+      { productId: "PEAR-PBA-1301", productName: "PearBook Air 13\"" }
+    ],
+    content: "## Use Migration Assistant\n\nMigration Assistant copies all of your files, apps, user accounts, and settings to a new PearBook.\n\n### Before you begin\n\n- Make sure both computers are connected to power\n- Update both computers to the latest software\n- Connect both computers to the same Wi-Fi network\n\n### Transfer from a Mac\n\n1. Open Migration Assistant on both computers\n2. On your new PearBook, select 'From a Mac, Time Machine backup, or Startup disk'\n3. On your old Mac, select 'To another Mac'\n4. Follow the onscreen instructions",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT204136"],
+    metadata: {
+      views: 1234567,
+      helpfulVotes: 98765,
+      notHelpfulVotes: 2134,
+      lastUpdated: "2024-01-10T00:00:00Z",
+      publishedAt: "2017-09-25T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT205189",
+    title: "Set up and use your Pear Watch",
+    slug: "setup-pear-watch",
+    summary: "Learn how to pair your Pear Watch with your pPhone and get started.",
+    category: "getting_started",
+    topics: ["setup", "pairing", "watch os"],
+    deviceTypes: ["pear_watch"],
+    applicableProducts: [
+      { productId: "PEAR-PWU-0201", productName: "Pear Watch Ultra 2" },
+      { productId: "PEAR-PWS-1001", productName: "Pear Watch Series 10" }
+    ],
+    content: "## Set up your Pear Watch\n\n### What you need\n\n- pPhone with the latest version of Pear iOS\n- Bluetooth turned on\n- Wi-Fi turned on\n\n### Pair your Pear Watch with your pPhone\n\n1. Turn on your Pear Watch by pressing and holding the side button\n2. Bring your pPhone near your Pear Watch\n3. When you see the pairing screen, tap Continue\n4. Center the watch face in the viewfinder on your pPhone\n5. Follow the onscreen instructions to complete setup",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT204505", "HT205547"],
+    metadata: {
+      views: 2345678,
+      helpfulVotes: 189234,
+      notHelpfulVotes: 3456,
+      lastUpdated: "2024-01-12T00:00:00Z",
+      publishedAt: "2015-04-24T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT204505",
+    title: "Use workout and health features on Pear Watch",
+    slug: "pear-watch-workouts",
+    summary: "Track workouts, monitor your heart rate, and reach your fitness goals with Pear Watch.",
+    category: "how_to",
+    topics: ["fitness", "workouts", "health", "heart rate"],
+    deviceTypes: ["pear_watch"],
+    applicableProducts: [
+      { productId: "PEAR-PWU-0201", productName: "Pear Watch Ultra 2" },
+      { productId: "PEAR-PWS-1001", productName: "Pear Watch Series 10" }
+    ],
+    content: "## Start a workout\n\n1. Open the Workout app on your Pear Watch\n2. Scroll to find the workout type\n3. Tap the workout to begin\n4. Swipe right and tap End to finish\n\n## Track your activity\n\nThe Activity app shows three rings:\n- **Move**: Active calories burned\n- **Exercise**: Brisk activity minutes\n- **Stand**: Hours with standing breaks\n\n## Monitor your heart rate\n\nPear Watch measures your heart rate throughout the day and during workouts. Open the Heart Rate app to see your current rate.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT205189", "HT207941"],
+    metadata: {
+      views: 3456789,
+      helpfulVotes: 267890,
+      notHelpfulVotes: 4567,
+      lastUpdated: "2024-01-08T00:00:00Z",
+      publishedAt: "2015-09-18T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT207010",
+    title: "Set up and use PearPods",
+    slug: "setup-pearpods",
+    summary: "Learn how to set up and use your PearPods or PearPods Pro.",
+    category: "getting_started",
+    topics: ["setup", "pairing", "audio", "bluetooth"],
+    deviceTypes: ["pearpods"],
+    applicableProducts: [
+      { productId: "PEAR-PPD-0301", productName: "PearPods Pro 2" },
+      { productId: "PEAR-PPD-0401", productName: "PearPods 4" },
+      { productId: "PEAR-PPD-MAX-01", productName: "PearPods Max" }
+    ],
+    content: "## Set up PearPods with your pPhone\n\n1. Go to the Home Screen on your pPhone\n2. Open the case with your PearPods inside\n3. Hold the case close to your pPhone\n4. Tap Connect on your pPhone\n5. Follow the onscreen instructions\n\n## Set up PearPods with your PearBook\n\n1. Open the case with your PearPods inside\n2. Press and hold the setup button on the back of the case\n3. Go to System Settings > Bluetooth on your PearBook\n4. Select your PearPods in the device list",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT207827", "HT209463"],
+    metadata: {
+      views: 4567890,
+      helpfulVotes: 345678,
+      notHelpfulVotes: 5678,
+      lastUpdated: "2024-01-10T00:00:00Z",
+      publishedAt: "2016-12-13T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT207827",
+    title: "Use Active Noise Cancellation with PearPods Pro",
+    slug: "pearpods-noise-cancellation",
+    summary: "Learn how to use Active Noise Cancellation and Transparency mode on PearPods Pro.",
+    category: "how_to",
+    topics: ["noise cancellation", "transparency", "audio"],
+    deviceTypes: ["pearpods"],
+    applicableProducts: [
+      { productId: "PEAR-PPD-0301", productName: "PearPods Pro 2" },
+      { productId: "PEAR-PPD-MAX-01", productName: "PearPods Max" }
+    ],
+    content: "## Switch between noise control modes\n\n### On PearPods Pro\n\nPress and hold the force sensor on the stem to switch between:\n- **Active Noise Cancellation**: Blocks outside sounds\n- **Transparency mode**: Lets in outside sounds\n- **Off**: Standard audio mode\n\n### On PearPods Max\n\nPress the noise control button to switch modes.\n\n## Customize noise control\n\nGo to Settings > Bluetooth > [your PearPods] to customize which modes are available when you press and hold.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT207010", "HT209463"],
+    metadata: {
+      views: 2345678,
+      helpfulVotes: 189012,
+      notHelpfulVotes: 3456,
+      lastUpdated: "2024-01-05T00:00:00Z",
+      publishedAt: "2019-10-30T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT211003",
+    title: "If you forgot your pPhone passcode",
+    slug: "forgot-pphone-passcode",
+    summary: "Learn what to do if you forgot your pPhone passcode or your pPhone is disabled.",
+    category: "troubleshooting",
+    topics: ["passcode", "security", "locked", "disabled"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## If you forgot your passcode\n\nIf you enter the wrong passcode too many times, your pPhone will be disabled. You'll need to erase your pPhone and set it up again.\n\n### Erase your pPhone using another device\n\n1. Go to iCloud.com/find on another device\n2. Sign in with your Pear ID\n3. Select your pPhone\n4. Tap Erase pPhone\n\n### Erase using Find My\n\n1. Open Find My on another Pear device\n2. Tap Devices and select your pPhone\n3. Tap Erase This Device\n\n### After erasing\n\nRestore your data from an iCloud or computer backup.",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201263", "HT201252"],
+    metadata: {
+      views: 5678901,
+      helpfulVotes: 423456,
+      notHelpfulVotes: 12345,
+      lastUpdated: "2024-01-12T00:00:00Z",
+      publishedAt: "2020-04-07T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201252",
+    title: "If you forgot your Pear ID password",
+    slug: "forgot-pear-id-password",
+    summary: "Learn how to reset your Pear ID password if you forgot it.",
+    category: "troubleshooting",
+    topics: ["pear id", "password", "account recovery"],
+    deviceTypes: ["pphone", "pearbook", "pearpad", "pear_watch", "pearpods"],
+    applicableProducts: [],
+    content: "## Reset your Pear ID password\n\n### On your pPhone, PearPad, or Pear Watch\n\n1. Go to Settings > [your name]\n2. Tap Sign-In & Security > Change Password\n3. Follow the onscreen steps to reset your password\n\n### On your PearBook\n\n1. Go to System Settings > [your name]\n2. Click Sign-In & Security\n3. Click Change Password\n\n### On the web\n\n1. Go to iforgot.pearcomputer.com\n2. Enter your Pear ID email address\n3. Follow the steps to reset your password",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT211003", "HT204915"],
+    metadata: {
+      views: 8901234,
+      helpfulVotes: 678901,
+      notHelpfulVotes: 23456,
+      lastUpdated: "2024-01-10T00:00:00Z",
+      publishedAt: "2012-09-19T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "HT201263",
+    title: "Restore your pPhone from a backup",
+    slug: "restore-pphone-backup",
+    summary: "Learn how to restore your pPhone from an iCloud or computer backup.",
+    category: "how_to",
+    topics: ["backup", "restore", "icloud", "recovery"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" },
+      { productId: "PEAR-PPH-1602", productName: "pPhone 16 Pro" },
+      { productId: "PEAR-PPH-1603", productName: "pPhone 16" }
+    ],
+    content: "## Restore from iCloud backup\n\n1. Turn on your pPhone and follow the setup steps\n2. On the Apps & Data screen, tap Restore from iCloud Backup\n3. Sign in to iCloud with your Pear ID\n4. Choose a backup\n5. Stay connected to Wi-Fi until the process completes\n\n## Restore from a computer backup\n\n1. Connect your pPhone to your computer\n2. Open Finder (Mac) or iTunes (Windows)\n3. Select your pPhone\n4. Click Restore Backup\n5. Choose the backup you want to restore",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201387", "HT211003"],
+    metadata: {
+      views: 3456789,
+      helpfulVotes: 267890,
+      notHelpfulVotes: 5678,
+      lastUpdated: "2024-01-08T00:00:00Z",
+      publishedAt: "2011-10-14T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  },
+  {
+    id: "SP879",
+    title: "pPhone 16 Pro Max - Technical Specifications",
+    slug: "pphone-16-pro-max-specs",
+    summary: "View the technical specifications for pPhone 16 Pro Max.",
+    category: "specifications",
+    topics: ["specs", "technical", "dimensions"],
+    deviceTypes: ["pphone"],
+    applicableProducts: [
+      { productId: "PEAR-PPH-1601", productName: "pPhone 16 Pro Max" }
+    ],
+    content: "## pPhone 16 Pro Max Technical Specifications\n\n### Display\n- 6.9-inch Super Retina XDR display\n- 2868 x 1320 pixels at 460 ppi\n- ProMotion with 1-120Hz refresh rate\n- Always-On display\n\n### Chip\n- P18 Pro chip\n- 6-core CPU (2 performance + 4 efficiency)\n- 6-core GPU\n- 16-core Neural Engine\n\n### Camera\n- 48MP Fusion: f/1.78\n- 48MP Ultra Wide: f/2.2\n- 12MP 5x Telephoto: f/2.8\n- 12MP TrueDepth front: f/1.9\n\n### Battery\n- Video playback: Up to 33 hours\n- Video streaming: Up to 25 hours\n- Audio playback: Up to 105 hours\n\n### Dimensions\n- Height: 163.0 mm\n- Width: 77.6 mm\n- Depth: 8.25 mm\n- Weight: 227 g",
+    images: [],
+    videos: [],
+    relatedArticles: ["HT201222", "HT201569"],
+    metadata: {
+      views: 1567890,
+      helpfulVotes: 123456,
+      notHelpfulVotes: 1234,
+      lastUpdated: "2024-01-05T00:00:00Z",
+      publishedAt: "2024-09-09T00:00:00Z",
+      author: "Pear Support",
+      locale: "en-US"
+    }
+  }
+];
+
+// ============ FAQs DATA ============
+const faqs = [
+  {
+    id: "FAQ-001",
+    question: "How do I back up my pPhone?",
+    answer: "You can back up your pPhone using iCloud or your computer.\n\n**iCloud Backup:**\n1. Go to Settings > [your name] > iCloud > iCloud Backup\n2. Make sure iCloud Backup is turned on\n3. Tap Back Up Now\n\n**Computer Backup:**\n1. Connect your pPhone to your Mac or PC\n2. Open Finder (Mac) or iTunes (Windows)\n3. Select your device and click Back Up Now\n\nFor more details, see our full backup guide.",
+    shortAnswer: "Go to Settings > [your name] > iCloud > iCloud Backup, then tap Back Up Now. Or connect to a computer and use Finder/iTunes.",
+    category: "data_management",
+    topics: ["backup", "icloud", "data"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT201387", "HT201263"],
+    relatedFAQs: ["FAQ-002", "FAQ-003"],
+    metadata: { views: 456789, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-002",
+    question: "How much iCloud storage is free?",
+    answer: "Every Pear ID comes with 5 GB of free iCloud storage. You can use this storage for:\n- iCloud Backup\n- iCloud Drive\n- Photos (if iCloud Photos is enabled)\n- App data\n\nIf you need more storage, you can upgrade to iCloud+ with plans starting at 50 GB for $0.99/month.",
+    shortAnswer: "5 GB is included free with your Pear ID. Upgrade to iCloud+ for more storage starting at $0.99/month.",
+    category: "services",
+    topics: ["icloud", "storage", "subscription"],
+    deviceTypes: ["pphone", "pearbook", "pearpad"],
+    relatedArticles: ["HT201318"],
+    relatedFAQs: ["FAQ-001"],
+    metadata: { views: 345678, lastUpdated: "2024-01-05T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-003",
+    question: "What's included in an iCloud backup?",
+    answer: "iCloud Backup includes:\n- App data\n- Pear Watch backups\n- Device settings\n- Home screen and app organization\n- Messages (if not using Messages in iCloud)\n- Photos and videos (if not using iCloud Photos)\n- Purchase history from Pear services\n- Ringtones\n- Visual Voicemail password\n\nNote: iCloud Backup doesn't include data already stored in iCloud, like Contacts, Calendars, and Notes.",
+    shortAnswer: "iCloud Backup includes app data, device settings, messages, photos (if not synced), and more. It doesn't duplicate data already in iCloud.",
+    category: "data_management",
+    topics: ["backup", "icloud"],
+    deviceTypes: ["pphone", "pearpad"],
+    relatedArticles: ["HT201387"],
+    relatedFAQs: ["FAQ-001", "FAQ-002"],
+    metadata: { views: 234567, lastUpdated: "2024-01-08T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-004",
+    question: "How do I check my pPhone's battery health?",
+    answer: "Go to **Settings > Battery > Battery Health & Charging**.\n\nHere you'll see:\n- **Maximum Capacity**: Your battery's capacity relative to when it was new\n- **Peak Performance Capability**: Whether your battery supports normal peak performance\n\nPear considers any battery at 80% capacity or above to be in optimal condition.",
+    shortAnswer: "Go to Settings > Battery > Battery Health & Charging to see your battery's maximum capacity and performance status.",
+    category: "device_care",
+    topics: ["battery", "battery health"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT201569"],
+    relatedFAQs: ["FAQ-005"],
+    metadata: { views: 567890, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-005",
+    question: "When should I replace my pPhone battery?",
+    answer: "Consider battery replacement when:\n- **Maximum Capacity is below 80%**: Performance may be impacted\n- **Peak Performance is affected**: You see a message about performance management\n- **Battery drains quickly**: Significant reduction in daily usage time\n\nPear offers battery replacement service at any Pear Store or Pear Authorized Service Provider.",
+    shortAnswer: "Consider replacement when battery capacity falls below 80% or you notice significant performance issues. Visit a Pear Store for service.",
+    category: "repairs",
+    topics: ["battery", "repair", "service"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT201569", "HT201222"],
+    relatedFAQs: ["FAQ-004"],
+    metadata: { views: 345678, lastUpdated: "2024-01-05T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-006",
+    question: "What is PearCare+?",
+    answer: "PearCare+ is Pear's extended warranty and service plan that includes:\n- Extended hardware coverage for 2 years from purchase\n- Up to 2 incidents of accidental damage protection (service fee applies)\n- 24/7 priority access to Pear experts\n- Express Replacement Service\n- Coverage for battery service if capacity falls below 80%\n\nPearCare+ can be purchased within 60 days of device purchase.",
+    shortAnswer: "PearCare+ extends hardware coverage to 2 years and includes accidental damage protection, priority support, and express replacement service.",
+    category: "warranty",
+    topics: ["pearcare", "warranty", "coverage"],
+    deviceTypes: ["pphone", "pearbook", "pearpad", "pear_watch", "pearpods"],
+    relatedArticles: [],
+    relatedFAQs: ["FAQ-007", "FAQ-008"],
+    metadata: { views: 456789, lastUpdated: "2024-01-12T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-007",
+    question: "How much does PearCare+ cost?",
+    answer: "PearCare+ pricing varies by device:\n\n**pPhone:**\n- pPhone 16 Pro/Pro Max: $199 or $9.99/month\n- pPhone 16: $149 or $7.99/month\n\n**PearBook:**\n- PearBook Pro: $299 or $9.99/month\n- PearBook Air: $199 or $7.99/month\n\n**Pear Watch:**\n- Pear Watch Ultra: $99 or $4.99/month\n- Pear Watch Series: $79 or $3.99/month\n\n**PearPods:**\n- PearPods Pro/Max: $49 or $2.99/month\n- PearPods: $29",
+    shortAnswer: "Pricing varies from $29 for PearPods to $299 for PearBook Pro. Monthly payment options are available.",
+    category: "warranty",
+    topics: ["pearcare", "pricing"],
+    deviceTypes: ["pphone", "pearbook", "pearpad", "pear_watch", "pearpods"],
+    relatedArticles: [],
+    relatedFAQs: ["FAQ-006", "FAQ-008"],
+    metadata: { views: 345678, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-008",
+    question: "How do I check my warranty status?",
+    answer: "Check your warranty status at **checkcoverage.pearcomputer.com**:\n\n1. Go to checkcoverage.pearcomputer.com\n2. Enter your device's serial number\n3. Complete the CAPTCHA verification\n4. View your coverage details\n\nYou can also check in **Settings > General > About** on your device to find your serial number.",
+    shortAnswer: "Visit checkcoverage.pearcomputer.com and enter your device's serial number to see your warranty and coverage status.",
+    category: "warranty",
+    topics: ["warranty", "coverage"],
+    deviceTypes: ["pphone", "pearbook", "pearpad", "pear_watch"],
+    relatedArticles: [],
+    relatedFAQs: ["FAQ-006"],
+    metadata: { views: 678901, lastUpdated: "2024-01-08T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-009",
+    question: "How do I transfer data to a new pPhone?",
+    answer: "Use Quick Start to transfer data to your new pPhone:\n\n1. Turn on your new pPhone and place it near your old pPhone\n2. Follow the instructions to use your Pear ID to set up your new pPhone\n3. When the animation appears, hold your new pPhone over your old pPhone\n4. Enter your old pPhone passcode on the new pPhone\n5. Set up Face ID or Touch ID\n6. Choose to transfer your data directly or restore from iCloud\n\nKeep both devices near each other until the transfer completes.",
+    shortAnswer: "Use Quick Start by placing your new pPhone near your old one and following the onscreen instructions to transfer data directly.",
+    category: "setup",
+    topics: ["data transfer", "quick start", "setup"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT201269"],
+    relatedFAQs: ["FAQ-001"],
+    metadata: { views: 789012, lastUpdated: "2024-01-12T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-010",
+    question: "How do I update my pPhone software?",
+    answer: "Update your pPhone over the air:\n\n1. Go to **Settings > General > Software Update**\n2. Tap Download and Install if an update is available\n3. Enter your passcode if prompted\n4. Tap Install Now\n\n**Tips:**\n- Connect to Wi-Fi before updating\n- Make sure you have at least 50% battery or connect to power\n- Updates may take 10-30 minutes depending on size",
+    shortAnswer: "Go to Settings > General > Software Update, then tap Download and Install. Make sure you're on Wi-Fi with sufficient battery.",
+    category: "software",
+    topics: ["software update", "ios"],
+    deviceTypes: ["pphone"],
+    relatedArticles: [],
+    relatedFAQs: [],
+    metadata: { views: 567890, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-011",
+    question: "How do I reset my pPhone?",
+    answer: "There are several reset options:\n\n**Reset All Settings** (keeps data):\nSettings > General > Transfer or Reset pPhone > Reset > Reset All Settings\n\n**Erase All Content and Settings**:\nSettings > General > Transfer or Reset pPhone > Erase All Content and Settings\n\n**Force Restart** (for frozen device):\n1. Press and release Volume Up\n2. Press and release Volume Down\n3. Press and hold Side button until Pear logo appears",
+    shortAnswer: "Go to Settings > General > Transfer or Reset pPhone. Choose Reset All Settings (keeps data) or Erase All Content and Settings (complete wipe).",
+    category: "troubleshooting",
+    topics: ["reset", "erase", "troubleshooting"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT201263"],
+    relatedFAQs: [],
+    metadata: { views: 456789, lastUpdated: "2024-01-08T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-012",
+    question: "How do I find my lost pPhone?",
+    answer: "Use Find My to locate your pPhone:\n\n**From another Pear device:**\n1. Open the Find My app\n2. Tap Devices\n3. Select your pPhone\n4. View its location on the map\n5. Use Play Sound, Mark As Lost, or Erase\n\n**From a browser:**\n1. Go to iCloud.com/find\n2. Sign in with your Pear ID\n3. Click All Devices\n4. Select your pPhone\n\n**Note:** Find My must be enabled before your pPhone is lost.",
+    shortAnswer: "Use the Find My app on another device or visit iCloud.com/find to locate, play a sound, mark as lost, or erase your pPhone.",
+    category: "security",
+    topics: ["find my", "lost device", "security"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["HT210515"],
+    relatedFAQs: [],
+    metadata: { views: 678901, lastUpdated: "2024-01-12T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-013",
+    question: "How do I pair my PearPods?",
+    answer: "**With pPhone:**\n1. Go to Home Screen\n2. Open the PearPods case near your pPhone\n3. Tap Connect when prompted\n4. Follow setup instructions\n\n**With PearBook:**\n1. Open the case, hold button on back until light blinks\n2. Go to System Settings > Bluetooth\n3. Select your PearPods\n\n**With non-Pear device:**\n1. Put PearPods in case, open lid\n2. Press and hold button until light blinks white\n3. Select PearPods in your device's Bluetooth settings",
+    shortAnswer: "Open the case near your pPhone and tap Connect. For other devices, hold the button until the light blinks, then pair via Bluetooth.",
+    category: "setup",
+    topics: ["pairing", "bluetooth", "setup"],
+    deviceTypes: ["pearpods"],
+    relatedArticles: ["HT207010"],
+    relatedFAQs: ["FAQ-014"],
+    metadata: { views: 890123, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-014",
+    question: "How do I check my PearPods battery level?",
+    answer: "**On pPhone:**\n- Open the case near your pPhone to see battery status\n- Check the Batteries widget on your Home Screen\n- Ask Siri \"How's my PearPods battery?\"\n\n**On PearBook:**\n- Click the Bluetooth icon in the menu bar\n- Select your PearPods to see battery level\n\n**On PearPods case:**\n- The status light shows: Green = charged, Amber = needs charging",
+    shortAnswer: "Open the case near your pPhone, use the Batteries widget, or check the status light on the case (green = charged, amber = low).",
+    category: "device_care",
+    topics: ["battery", "pearpods"],
+    deviceTypes: ["pearpods"],
+    relatedArticles: ["HT207010"],
+    relatedFAQs: ["FAQ-013"],
+    metadata: { views: 567890, lastUpdated: "2024-01-08T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-015",
+    question: "What's the difference between Pear Watch GPS and GPS + Cellular?",
+    answer: "**GPS model:**\n- Requires nearby pPhone for calls, texts, and data\n- Can use Wi-Fi for some features when pPhone isn't nearby\n- Lower price\n\n**GPS + Cellular model:**\n- Works independently with its own cellular connection\n- Make calls, send texts, stream music without your pPhone\n- Requires cellular plan (typically $10/month)\n- Slightly higher price\n\nBoth models have the same fitness, health, and core watch features.",
+    shortAnswer: "GPS requires your pPhone nearby for connectivity. GPS + Cellular works independently with its own data plan for calls, texts, and streaming.",
+    category: "product_info",
+    topics: ["cellular", "gps", "connectivity"],
+    deviceTypes: ["pear_watch"],
+    relatedArticles: ["HT205189"],
+    relatedFAQs: [],
+    metadata: { views: 456789, lastUpdated: "2024-01-05T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-016",
+    question: "How water resistant is my pPhone?",
+    answer: "Water resistance varies by model:\n\n**pPhone 16 Pro/Pro Max:** IP68 - up to 6 meters for 30 minutes\n**pPhone 16:** IP68 - up to 6 meters for 30 minutes\n**pPhone 15 Pro/Pro Max:** IP68 - up to 6 meters for 30 minutes\n\n**Important:**\n- Water resistance isn't permanent and may decrease over time\n- Don't swim or bathe with your pPhone\n- Liquid damage isn't covered by warranty\n- If wet, don't charge until completely dry",
+    shortAnswer: "pPhone 16 series is IP68 rated - water resistant up to 6 meters for 30 minutes. However, liquid damage isn't covered by warranty.",
+    category: "specifications",
+    topics: ["water resistance", "ip68", "durability"],
+    deviceTypes: ["pphone"],
+    relatedArticles: ["SP879"],
+    relatedFAQs: [],
+    metadata: { views: 678901, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-017",
+    question: "Can I trade in my old device?",
+    answer: "Yes! Pear Trade In lets you exchange eligible devices for credit toward a new purchase.\n\n**How it works:**\n1. Get an estimate at pearcomputer.com/trade-in\n2. Answer questions about your device condition\n3. If buying a new device, credit applies at checkout\n4. Send in your old device or bring to a Pear Store\n5. Final value determined after inspection\n\n**Eligible devices:** pPhones, PearBooks, PearPads, Pear Watches, and select Android/Windows devices.",
+    shortAnswer: "Yes! Get an estimate at pearcomputer.com/trade-in, then apply the credit toward a new purchase. Works for Pear devices and select others.",
+    category: "purchasing",
+    topics: ["trade in", "recycle", "upgrade"],
+    deviceTypes: ["pphone", "pearbook", "pearpad", "pear_watch"],
+    relatedArticles: [],
+    relatedFAQs: [],
+    metadata: { views: 567890, lastUpdated: "2024-01-12T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-018",
+    question: "What is the return policy for Pear products?",
+    answer: "Pear offers a 14-day return policy:\n\n**Standard returns:**\n- Return within 14 days of receipt\n- Product must be in original condition\n- Include all accessories and packaging\n- Full refund to original payment method\n\n**Holiday returns:**\n- Extended return window for holiday purchases\n- Items purchased Nov 1 - Dec 25 can be returned until Jan 8\n\n**Exceptions:**\n- Opened software can't be returned\n- Gift cards are non-refundable",
+    shortAnswer: "14 days to return products in original condition with all accessories. Extended returns during holidays (Nov 1 - Dec 25 purchases can return until Jan 8).",
+    category: "purchasing",
+    topics: ["returns", "refunds", "policy"],
+    deviceTypes: [],
+    relatedArticles: [],
+    relatedFAQs: [],
+    metadata: { views: 456789, lastUpdated: "2024-01-08T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-019",
+    question: "How do I schedule a Genius Grove appointment?",
+    answer: "Schedule online or through the Pear Support app:\n\n**Online:**\n1. Go to getsupport.pearcomputer.com\n2. Select your product and issue\n3. Choose \"Bring in for Repair\"\n4. Select a Pear Store and time slot\n5. Confirm your appointment\n\n**Pear Support app:**\n1. Open the Pear Support app\n2. Tap Get Support\n3. Select your device\n4. Choose your issue and tap \"Bring in for Repair\"\n\n**Walk-ins:** Available based on store availability, but appointments recommended.",
+    shortAnswer: "Visit getsupport.pearcomputer.com or use the Pear Support app to select your product, choose a store, and book a time slot.",
+    category: "service",
+    topics: ["genius grove", "appointment", "repair"],
+    deviceTypes: [],
+    relatedArticles: [],
+    relatedFAQs: ["FAQ-020"],
+    metadata: { views: 789012, lastUpdated: "2024-01-10T00:00:00Z", locale: "en-US" }
+  },
+  {
+    id: "FAQ-020",
+    question: "How much does pPhone screen repair cost?",
+    answer: "Screen repair costs vary by model and coverage:\n\n**pPhone 16 Pro Max:**\n- With PearCare+: $29 service fee\n- Without coverage: $379\n\n**pPhone 16 Pro:**\n- With PearCare+: $29 service fee\n- Without coverage: $329\n\n**pPhone 16:**\n- With PearCare+: $29 service fee\n- Without coverage: $279\n\n**Note:** Prices are for screen-only damage. Additional damage may increase cost.",
+    shortAnswer: "Screen repair ranges from $279-$379 depending on model. With PearCare+, you pay only a $29 service fee.",
+    category: "repairs",
+    topics: ["screen repair", "pricing", "pearcare"],
+    deviceTypes: ["pphone"],
+    relatedArticles: [],
+    relatedFAQs: ["FAQ-006", "FAQ-019"],
+    metadata: { views: 890123, lastUpdated: "2024-01-12T00:00:00Z", locale: "en-US" }
+  }
+];
+
+const faqGroups = [
+  { id: "group-1", name: "Getting Started", slug: "getting-started", deviceType: "pphone", faqIds: ["FAQ-009", "FAQ-010", "FAQ-001"] },
+  { id: "group-2", name: "Battery & Charging", slug: "battery-charging", deviceType: "pphone", faqIds: ["FAQ-004", "FAQ-005"] },
+  { id: "group-3", name: "Warranty & PearCare+", slug: "warranty-pearcare", deviceType: null, faqIds: ["FAQ-006", "FAQ-007", "FAQ-008"] },
+  { id: "group-4", name: "Repairs & Service", slug: "repairs-service", deviceType: null, faqIds: ["FAQ-019", "FAQ-020"] },
+  { id: "group-5", name: "PearPods", slug: "pearpods", deviceType: "pearpods", faqIds: ["FAQ-013", "FAQ-014"] },
+  { id: "group-6", name: "Purchasing", slug: "purchasing", deviceType: null, faqIds: ["FAQ-017", "FAQ-018"] }
+];
+
+// ============ WARRANTY DATA ============
+const standardWarranty = {
+  duration: "1 year",
+  durationMonths: 12,
+  coverage: [
+    "Manufacturing defects in materials and workmanship",
+    "Battery service if capacity falls below 80%",
+    "90 days of complimentary technical support"
+  ],
+  exclusions: [
+    "Accidental damage",
+    "Unauthorized modifications",
+    "Damage from third-party accessories",
+    "Normal wear and tear",
+    "Liquid damage"
+  ],
+  termsUrl: "https://www.pearcomputer.com/legal/warranty"
+};
+
+const pearCarePlans = {
+  pphone: [
+    {
+      planId: "PEARCARE-PPH-STD",
+      name: "PearCare+ for pPhone",
+      description: "Extends coverage to 2 years with accidental damage protection",
+      price: 149.00,
+      monthlyPrice: 7.99,
+      duration: "2 years",
+      coverage: ["Hardware coverage for 2 years", "Up to 2 incidents of accidental damage", "Battery service if below 80% capacity", "24/7 priority tech support", "Express Replacement Service"],
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 29.00 },
+      theftAndLoss: { available: true, additionalCost: 50.00, deductible: 149.00 },
+      applicableProducts: ["PEAR-PPH-1603"]
+    },
+    {
+      planId: "PEARCARE-PPH-PRO",
+      name: "PearCare+ for pPhone Pro",
+      description: "Premium protection for pPhone Pro models",
+      price: 199.00,
+      monthlyPrice: 9.99,
+      duration: "2 years",
+      coverage: ["Hardware coverage for 2 years", "Up to 2 incidents of accidental damage", "Battery service if below 80% capacity", "24/7 priority tech support", "Express Replacement Service"],
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 29.00 },
+      theftAndLoss: { available: true, additionalCost: 50.00, deductible: 149.00 },
+      applicableProducts: ["PEAR-PPH-1601", "PEAR-PPH-1602"]
+    }
+  ],
+  pearbook: [
+    {
+      planId: "PEARCARE-PBK-AIR",
+      name: "PearCare+ for PearBook Air",
+      price: 199.00,
+      monthlyPrice: 7.99,
+      duration: "3 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 99.00 },
+      applicableProducts: ["PEAR-PBA-1301", "PEAR-PBA-1501"]
+    },
+    {
+      planId: "PEARCARE-PBK-PRO",
+      name: "PearCare+ for PearBook Pro",
+      price: 299.00,
+      monthlyPrice: 9.99,
+      duration: "3 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 99.00 },
+      applicableProducts: ["PEAR-PBK-1401", "PEAR-PBK-1601"]
+    }
+  ],
+  pear_watch: [
+    {
+      planId: "PEARCARE-PWS",
+      name: "PearCare+ for Pear Watch",
+      price: 79.00,
+      monthlyPrice: 3.99,
+      duration: "2 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 69.00 },
+      applicableProducts: ["PEAR-PWS-1001"]
+    },
+    {
+      planId: "PEARCARE-PWU",
+      name: "PearCare+ for Pear Watch Ultra",
+      price: 99.00,
+      monthlyPrice: 4.99,
+      duration: "2 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 79.00 },
+      applicableProducts: ["PEAR-PWU-0201"]
+    }
+  ],
+  pearpods: [
+    {
+      planId: "PEARCARE-PPD",
+      name: "PearCare+ for PearPods",
+      price: 29.00,
+      duration: "2 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 29.00 },
+      applicableProducts: ["PEAR-PPD-0401"]
+    },
+    {
+      planId: "PEARCARE-PPD-PRO",
+      name: "PearCare+ for PearPods Pro",
+      price: 49.00,
+      monthlyPrice: 2.99,
+      duration: "2 years",
+      accidentalDamage: { included: true, incidents: 2, serviceFee: 29.00 },
+      applicableProducts: ["PEAR-PPD-0301", "PEAR-PPD-MAX-01"]
+    }
+  ]
+};
+
+// ============ REPAIR PRICING DATA ============
+const repairPricing = {
+  pphone: {
+    "PEAR-PPH-1601": {
+      productName: "pPhone 16 Pro Max",
+      repairs: {
+        screen_replacement: { outOfWarranty: 379.00, withPearCare: 29.00, underWarranty: "No charge" },
+        battery_replacement: { outOfWarranty: 119.00, withPearCare: 0, underWarranty: "No charge (if below 80%)" },
+        back_glass: { outOfWarranty: 199.00, withPearCare: 29.00 },
+        camera_repair: { outOfWarranty: 249.00, withPearCare: 29.00 }
+      }
+    },
+    "PEAR-PPH-1602": {
+      productName: "pPhone 16 Pro",
+      repairs: {
+        screen_replacement: { outOfWarranty: 329.00, withPearCare: 29.00, underWarranty: "No charge" },
+        battery_replacement: { outOfWarranty: 119.00, withPearCare: 0, underWarranty: "No charge (if below 80%)" },
+        back_glass: { outOfWarranty: 169.00, withPearCare: 29.00 }
+      }
+    },
+    "PEAR-PPH-1603": {
+      productName: "pPhone 16",
+      repairs: {
+        screen_replacement: { outOfWarranty: 279.00, withPearCare: 29.00, underWarranty: "No charge" },
+        battery_replacement: { outOfWarranty: 99.00, withPearCare: 0, underWarranty: "No charge (if below 80%)" },
+        back_glass: { outOfWarranty: 169.00, withPearCare: 29.00 }
+      }
+    }
+  },
+  pearbook: {
+    "PEAR-PBK-1401": {
+      productName: "PearBook Pro 14\"",
+      repairs: {
+        display_replacement: { outOfWarranty: 599.00, withPearCare: 99.00 },
+        keyboard_replacement: { outOfWarranty: 399.00, withPearCare: 99.00 },
+        battery_replacement: { outOfWarranty: 249.00, withPearCare: 0 }
+      }
+    }
+  },
+  pear_watch: {
+    "PEAR-PWS-1001": {
+      productName: "Pear Watch Series 10",
+      repairs: {
+        screen_replacement: { outOfWarranty: 299.00, withPearCare: 69.00 },
+        battery_replacement: { outOfWarranty: 99.00, withPearCare: 0 }
+      }
+    }
+  }
+};
+
+// ============ SOFTWARE UPDATES DATA ============
+const softwareUpdates = [
+  {
+    id: "pear-ios-17.3",
+    name: "Pear iOS 17.3",
+    version: "17.3",
+    releaseDate: "2024-01-22",
+    osType: "pear_ios",
+    updateType: "minor",
+    size: "1.2 GB",
+    highlights: [
+      "Stolen Device Protection for pPhone",
+      "Collaborative Playlists in Pear Music",
+      "New Unity wallpaper",
+      "Bug fixes and security updates"
+    ],
+    compatibleDevices: [
+      "pPhone 16 Pro Max", "pPhone 16 Pro", "pPhone 16",
+      "pPhone 15 series", "pPhone 14 series", "pPhone 13 series",
+      "pPhone 12 series", "pPhone SE (3rd gen)"
+    ],
+    installationInstructions: "Go to Settings > General > Software Update and tap Download and Install.",
+    securityContent: [
+      { cve: "CVE-2024-23222", description: "Processing maliciously crafted web content may lead to arbitrary code execution", severity: "high" }
+    ]
+  },
+  {
+    id: "pear-os-14.3",
+    name: "Pear OS Sonoma 14.3",
+    version: "14.3",
+    releaseDate: "2024-01-22",
+    osType: "pear_os",
+    updateType: "minor",
+    size: "2.8 GB",
+    highlights: [
+      "Collaborative Playlists in Pear Music",
+      "New screen savers",
+      "Security fixes"
+    ],
+    compatibleDevices: [
+      "PearBook Pro (2023 and later)",
+      "PearBook Air (2022 and later)",
+      "iMac (2019 and later)"
+    ],
+    installationInstructions: "Go to System Settings > General > Software Update.",
+    securityContent: []
+  },
+  {
+    id: "watch-os-10.3",
+    name: "watchOS 10.3",
+    version: "10.3",
+    releaseDate: "2024-01-22",
+    osType: "watch_os",
+    updateType: "minor",
+    size: "450 MB",
+    highlights: [
+      "New Unity Bloom watch face",
+      "Bug fixes"
+    ],
+    compatibleDevices: [
+      "Pear Watch Series 10", "Pear Watch Ultra 2",
+      "Pear Watch Series 9", "Pear Watch Ultra",
+      "Pear Watch SE (2nd gen)"
+    ],
+    installationInstructions: "On your pPhone, open the Watch app and go to General > Software Update.",
+    securityContent: []
+  }
+];
+
+// ============ DIAGNOSTICS DATA ============
+const diagnosticTests = {
+  battery: {
+    id: "battery",
+    name: "Battery Health Test",
+    description: "Checks battery capacity, charge cycles, and health status",
+    duration: 30,
+    metrics: ["capacity", "cycleCount", "peakPerformance", "health"]
+  },
+  display: {
+    id: "display",
+    name: "Display Test",
+    description: "Tests display pixels, touch sensitivity, and brightness",
+    duration: 45,
+    metrics: ["deadPixels", "touchResponse", "brightness", "colorAccuracy"]
+  },
+  speaker: {
+    id: "speaker",
+    name: "Speaker & Microphone Test",
+    description: "Tests audio output and microphone input",
+    duration: 30,
+    metrics: ["speakerOutput", "microphoneInput", "stereoBalance"]
+  },
+  camera: {
+    id: "camera",
+    name: "Camera Test",
+    description: "Tests front and rear camera functionality",
+    duration: 60,
+    metrics: ["rearCamera", "frontCamera", "flash", "autofocus"]
+  },
+  connectivity: {
+    id: "connectivity",
+    name: "Connectivity Test",
+    description: "Tests Wi-Fi, Bluetooth, and cellular connections",
+    duration: 45,
+    metrics: ["wifi", "bluetooth", "cellular", "gps"]
+  },
+  sensors: {
+    id: "sensors",
+    name: "Sensors Test",
+    description: "Tests accelerometer, gyroscope, and other sensors",
+    duration: 30,
+    metrics: ["accelerometer", "gyroscope", "proximity", "ambientLight"]
+  }
+};
+
+// In-memory diagnostics storage
+const diagnosticResults = new Map();
+
+// ============ ARTICLE FEEDBACK STORAGE ============
+const articleFeedback = new Map();
+
+// ============ HELPER FUNCTIONS ============
+
+// Articles
+function listArticles({ category, deviceType, topic, limit = 20, offset = 0 }) {
+  let filtered = [...articles];
+
+  if (category) {
+    filtered = filtered.filter(a => a.category === category);
+  }
+  if (deviceType) {
+    filtered = filtered.filter(a => a.deviceTypes.includes(deviceType));
+  }
+  if (topic) {
+    filtered = filtered.filter(a => a.topics.includes(topic));
+  }
+
+  const total = filtered.length;
+  const items = filtered.slice(offset, offset + limit).map(a => ({
+    id: a.id,
+    title: a.title,
+    slug: a.slug,
+    summary: a.summary,
+    category: a.category,
+    deviceTypes: a.deviceTypes,
+    topics: a.topics,
+    lastUpdated: a.metadata.lastUpdated,
+    views: a.metadata.views
+  }));
+
+  return { items, total, limit, offset };
+}
+
+function getArticle(articleId) {
+  const article = articles.find(a => a.id === articleId);
+  if (!article) return null;
+  return { ...article };
+}
+
+function submitArticleFeedback(articleId, { helpful, feedback, email }) {
+  const article = articles.find(a => a.id === articleId);
+  if (!article) return null;
+
+  const feedbackId = `FB-${Date.now()}`;
+  const feedbackEntry = {
+    id: feedbackId,
+    articleId,
+    helpful,
+    feedback,
+    email,
+    submittedAt: new Date().toISOString()
+  };
+
+  if (!articleFeedback.has(articleId)) {
+    articleFeedback.set(articleId, []);
+  }
+  articleFeedback.get(articleId).push(feedbackEntry);
+
+  // Update article stats
+  if (helpful) {
+    article.metadata.helpfulVotes++;
+  } else {
+    article.metadata.notHelpfulVotes++;
+  }
+
+  return {
+    feedbackId,
+    message: "Thank you for your feedback!",
+    articleId,
+    helpful
+  };
+}
+
+// FAQs
+function listFAQs({ category, deviceType, groupId, limit = 20, offset = 0 }) {
+  let filtered = [...faqs];
+
+  if (category) {
+    filtered = filtered.filter(f => f.category === category);
+  }
+  if (deviceType) {
+    filtered = filtered.filter(f => f.deviceTypes.length === 0 || f.deviceTypes.includes(deviceType));
+  }
+  if (groupId) {
+    const group = faqGroups.find(g => g.id === groupId || g.slug === groupId);
+    if (group) {
+      filtered = filtered.filter(f => group.faqIds.includes(f.id));
+    }
+  }
+
+  const total = filtered.length;
+  const items = filtered.slice(offset, offset + limit).map(f => ({
+    id: f.id,
+    question: f.question,
+    shortAnswer: f.shortAnswer,
+    category: f.category,
+    deviceTypes: f.deviceTypes,
+    topics: f.topics
+  }));
+
+  return { items, total, limit, offset, groups: faqGroups };
+}
+
+function getFAQ(faqId) {
+  const faq = faqs.find(f => f.id === faqId);
+  if (!faq) return null;
+  return { ...faq };
+}
+
+// Warranty
+function checkWarrantyCoverage(serialNumber, productId) {
+  // Simulate warranty check
+  const purchaseDate = new Date();
+  purchaseDate.setMonth(purchaseDate.getMonth() - Math.floor(Math.random() * 18));
+
+  const warrantyEndDate = new Date(purchaseDate);
+  warrantyEndDate.setFullYear(warrantyEndDate.getFullYear() + 1);
+
+  const hasPearCare = Math.random() > 0.5;
+  const pearCareEndDate = hasPearCare ? new Date(purchaseDate) : null;
+  if (pearCareEndDate) {
+    pearCareEndDate.setFullYear(pearCareEndDate.getFullYear() + 2);
+  }
+
+  const isUnderWarranty = warrantyEndDate > new Date();
+  const isPearCareActive = hasPearCare && pearCareEndDate > new Date();
+
+  return {
+    serialNumber,
+    productId,
+    productName: getProductName(productId),
+    purchaseDate: purchaseDate.toISOString().split('T')[0],
+    warrantyStatus: {
+      standard: {
+        active: isUnderWarranty,
+        endDate: warrantyEndDate.toISOString().split('T')[0],
+        coverage: standardWarranty.coverage
+      },
+      pearCare: hasPearCare ? {
+        active: isPearCareActive,
+        planId: "PEARCARE-PPH-PRO",
+        endDate: pearCareEndDate.toISOString().split('T')[0],
+        incidentsRemaining: Math.floor(Math.random() * 3)
+      } : null
+    },
+    eligibleForRepair: true,
+    supportEligible: isUnderWarranty || isPearCareActive
+  };
+}
+
+function getProductWarranty(productId) {
+  const deviceType = getDeviceType(productId);
+  const plans = pearCarePlans[deviceType] || [];
+  const applicablePlans = plans.filter(p => p.applicableProducts.includes(productId));
+
+  return {
+    productId,
+    productName: getProductName(productId),
+    standardWarranty,
+    pearCarePlans: applicablePlans
+  };
+}
+
+function getPearCarePlans(deviceType) {
+  return {
+    deviceType,
+    plans: pearCarePlans[deviceType] || [],
+    standardWarranty
+  };
+}
+
+// Repairs
+function getRepairOptions(productId, issueType) {
+  const deviceType = getDeviceType(productId);
+  const productPricing = repairPricing[deviceType]?.[productId];
+
+  if (!productPricing) {
+    return null;
+  }
+
+  const repairTypes = issueType
+    ? { [issueType]: productPricing.repairs[issueType] }
+    : productPricing.repairs;
+
+  const options = Object.entries(repairTypes)
+    .filter(([, pricing]) => pricing)
+    .map(([type, pricing]) => ({
+      repairType: type,
+      name: formatRepairType(type),
+      pricing: {
+        outOfWarranty: pricing.outOfWarranty,
+        withPearCare: pricing.withPearCare,
+        underWarranty: pricing.underWarranty || "Not applicable"
+      },
+      estimatedTime: getRepairTime(type),
+      mailInAvailable: true,
+      storeRepairAvailable: true
+    }));
+
+  return {
+    productId,
+    productName: productPricing.productName,
+    repairOptions: options,
+    disclaimer: "Prices and availability may vary. Final pricing determined after device inspection."
+  };
+}
+
+function getRepairPricing(productId, repairType) {
+  const deviceType = getDeviceType(productId);
+  const productPricing = repairPricing[deviceType]?.[productId];
+
+  if (!productPricing || !productPricing.repairs[repairType]) {
+    return null;
+  }
+
+  const pricing = productPricing.repairs[repairType];
+
+  return {
+    productId,
+    productName: productPricing.productName,
+    repairType,
+    repairName: formatRepairType(repairType),
+    pricing: {
+      outOfWarranty: pricing.outOfWarranty,
+      withPearCare: pricing.withPearCare,
+      underWarranty: pricing.underWarranty || "Not applicable"
+    },
+    estimatedTime: getRepairTime(repairType),
+    partsIncluded: getRepairParts(repairType),
+    warranty: "90-day repair warranty"
+  };
+}
+
+// Software
+function listSoftwareUpdates({ osType, deviceType, limit = 10, offset = 0 }) {
+  let filtered = [...softwareUpdates];
+
+  if (osType) {
+    filtered = filtered.filter(u => u.osType === osType);
+  }
+  if (deviceType) {
+    // Filter by compatible devices
+    filtered = filtered.filter(u => {
+      const deviceName = getProductName(deviceType);
+      return u.compatibleDevices.some(d => d.includes(deviceName) || deviceName.includes(d.split(' ')[0]));
+    });
+  }
+
+  const total = filtered.length;
+  const items = filtered.slice(offset, offset + limit).map(u => ({
+    id: u.id,
+    name: u.name,
+    version: u.version,
+    releaseDate: u.releaseDate,
+    osType: u.osType,
+    updateType: u.updateType,
+    size: u.size,
+    highlights: u.highlights
+  }));
+
+  return { items, total, limit, offset };
+}
+
+function getSoftwareUpdate(updateId) {
+  const update = softwareUpdates.find(u => u.id === updateId);
+  if (!update) return null;
+  return { ...update };
+}
+
+function checkSoftwareCompatibility(productId, updateId) {
+  const update = softwareUpdates.find(u => u.id === updateId);
+  if (!update) return null;
+
+  const productName = getProductName(productId);
+  const isCompatible = update.compatibleDevices.some(d =>
+    d.includes(productName) || productName.includes(d.split(' ')[0])
+  );
+
+  return {
+    productId,
+    productName,
+    updateId,
+    updateName: update.name,
+    compatible: isCompatible,
+    currentVersion: "17.2.1", // Simulated
+    updateVersion: update.version,
+    size: update.size,
+    requirements: isCompatible ? [
+      "At least 50% battery or connected to power",
+      "Wi-Fi connection recommended",
+      `${update.size} of available storage`
+    ] : ["This update is not compatible with your device"],
+    installationInstructions: isCompatible ? update.installationInstructions : null
+  };
+}
+
+// Diagnostics
+function runDiagnostics(deviceInfo) {
+  const diagnosticId = `DIAG-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  const tests = Object.values(diagnosticTests);
+  const totalDuration = tests.reduce((sum, t) => sum + t.duration, 0);
+
+  // Simulate test results
+  const testResults = tests.map(test => {
+    const passed = Math.random() > 0.15; // 85% pass rate
+    const metrics = {};
+    test.metrics.forEach(m => {
+      metrics[m] = {
+        status: passed ? "pass" : (Math.random() > 0.5 ? "warning" : "fail"),
+        value: passed ? "Normal" : "Issue detected"
+      };
+    });
+
+    return {
+      testId: test.id,
+      testName: test.name,
+      status: passed ? "pass" : "fail",
+      metrics,
+      recommendations: passed ? [] : [`Consider having your ${test.name.toLowerCase()} checked by a technician`]
+    };
+  });
+
+  const overallStatus = testResults.every(t => t.status === "pass") ? "pass" :
+                        testResults.some(t => t.status === "fail") ? "issues_found" : "warning";
+
+  const result = {
+    diagnosticId,
+    deviceInfo,
+    startedAt: new Date().toISOString(),
+    completedAt: new Date(Date.now() + totalDuration * 1000).toISOString(),
+    overallStatus,
+    tests: testResults,
+    recommendations: testResults.flatMap(t => t.recommendations),
+    nextSteps: overallStatus === "pass"
+      ? ["Your device appears to be functioning normally"]
+      : ["Schedule a Genius Grove appointment for further diagnosis", "Back up your device before service"]
+  };
+
+  diagnosticResults.set(diagnosticId, result);
+  return result;
+}
+
+function getDiagnosticResults(diagnosticId) {
+  return diagnosticResults.get(diagnosticId) || null;
+}
+
+// Search
+function searchContent(query, { contentType, deviceType, category, limit = 20, offset = 0 }) {
+  const queryLower = query.toLowerCase();
+  let results = [];
+
+  // Search articles
+  if (!contentType || contentType === 'article' || contentType === 'all') {
+    const articleResults = articles
+      .filter(a => {
+        const matchesQuery = a.title.toLowerCase().includes(queryLower) ||
+                            a.summary.toLowerCase().includes(queryLower) ||
+                            a.content.toLowerCase().includes(queryLower) ||
+                            a.topics.some(t => t.toLowerCase().includes(queryLower));
+        const matchesDevice = !deviceType || a.deviceTypes.includes(deviceType);
+        const matchesCategory = !category || a.category === category;
+        return matchesQuery && matchesDevice && matchesCategory;
+      })
+      .map(a => ({
+        type: 'article',
+        id: a.id,
+        title: a.title,
+        summary: a.summary,
+        url: `/support/articles/${a.id}`,
+        relevance: calculateRelevance(a, queryLower),
+        category: a.category,
+        deviceTypes: a.deviceTypes
+      }));
+    results.push(...articleResults);
+  }
+
+  // Search FAQs
+  if (!contentType || contentType === 'faq' || contentType === 'all') {
+    const faqResults = faqs
+      .filter(f => {
+        const matchesQuery = f.question.toLowerCase().includes(queryLower) ||
+                            f.answer.toLowerCase().includes(queryLower) ||
+                            f.topics.some(t => t.toLowerCase().includes(queryLower));
+        const matchesDevice = !deviceType || f.deviceTypes.length === 0 || f.deviceTypes.includes(deviceType);
+        const matchesCategory = !category || f.category === category;
+        return matchesQuery && matchesDevice && matchesCategory;
+      })
+      .map(f => ({
+        type: 'faq',
+        id: f.id,
+        title: f.question,
+        summary: f.shortAnswer,
+        url: `/support/faqs/${f.id}`,
+        relevance: calculateRelevance(f, queryLower),
+        category: f.category,
+        deviceTypes: f.deviceTypes
+      }));
+    results.push(...faqResults);
+  }
+
+  // Sort by relevance
+  results.sort((a, b) => b.relevance - a.relevance);
+
+  const total = results.length;
+  const items = results.slice(offset, offset + limit);
+
+  return {
+    query,
+    items,
+    total,
+    limit,
+    offset,
+    filters: { contentType, deviceType, category }
+  };
+}
+
+function getSearchSuggestions(query) {
+  const queryLower = query.toLowerCase();
+  const suggestions = [];
+
+  // Get topic suggestions
+  const allTopics = [...new Set([
+    ...articles.flatMap(a => a.topics),
+    ...faqs.flatMap(f => f.topics)
+  ])];
+  const topicMatches = allTopics
+    .filter(t => t.toLowerCase().includes(queryLower))
+    .slice(0, 3)
+    .map(t => ({ type: 'topic', text: t }));
+  suggestions.push(...topicMatches);
+
+  // Get article title suggestions
+  const titleMatches = articles
+    .filter(a => a.title.toLowerCase().includes(queryLower))
+    .slice(0, 3)
+    .map(a => ({ type: 'article', text: a.title, id: a.id }));
+  suggestions.push(...titleMatches);
+
+  // Get FAQ suggestions
+  const faqMatches = faqs
+    .filter(f => f.question.toLowerCase().includes(queryLower))
+    .slice(0, 2)
+    .map(f => ({ type: 'faq', text: f.question, id: f.id }));
+  suggestions.push(...faqMatches);
+
+  return {
+    query,
+    suggestions: suggestions.slice(0, 8)
+  };
+}
+
+// ============ UTILITY FUNCTIONS ============
+function getDeviceType(productId) {
+  if (!productId) return 'unknown';
+  if (productId.startsWith('PEAR-PPH')) return 'pphone';
+  if (productId.startsWith('PEAR-PBK') || productId.startsWith('PEAR-PBA')) return 'pearbook';
+  if (productId.startsWith('PEAR-PW')) return 'pear_watch';
+  if (productId.startsWith('PEAR-PPD')) return 'pearpods';
+  return 'unknown';
+}
+
+function getProductName(productId) {
+  const productNames = {
+    'PEAR-PPH-1601': 'pPhone 16 Pro Max',
+    'PEAR-PPH-1602': 'pPhone 16 Pro',
+    'PEAR-PPH-1603': 'pPhone 16',
+    'PEAR-PBK-1401': 'PearBook Pro 14"',
+    'PEAR-PBK-1601': 'PearBook Pro 16"',
+    'PEAR-PBA-1301': 'PearBook Air 13"',
+    'PEAR-PBA-1501': 'PearBook Air 15"',
+    'PEAR-PWU-0201': 'Pear Watch Ultra 2',
+    'PEAR-PWS-1001': 'Pear Watch Series 10',
+    'PEAR-PPD-0301': 'PearPods Pro 2',
+    'PEAR-PPD-0401': 'PearPods 4',
+    'PEAR-PPD-MAX-01': 'PearPods Max'
+  };
+  return productNames[productId] || productId;
+}
+
+function formatRepairType(repairType) {
+  return repairType
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+function getRepairTime(repairType) {
+  const times = {
+    screen_replacement: '1-2 hours',
+    battery_replacement: '1-2 hours',
+    back_glass: '2-3 hours',
+    camera_repair: '3-5 days',
+    display_replacement: '3-5 days',
+    keyboard_replacement: '3-5 days'
+  };
+  return times[repairType] || '3-5 days';
+}
+
+function getRepairParts(repairType) {
+  const parts = {
+    screen_replacement: ['Display assembly', 'Adhesive kit'],
+    battery_replacement: ['Battery', 'Adhesive strips'],
+    back_glass: ['Back glass panel', 'Adhesive kit'],
+    camera_repair: ['Camera module'],
+    display_replacement: ['Display assembly', 'Hinges'],
+    keyboard_replacement: ['Top case with keyboard', 'Battery']
+  };
+  return parts[repairType] || ['Replacement parts'];
+}
+
+function calculateRelevance(item, query) {
+  let score = 0;
+  const title = (item.title || item.question || '').toLowerCase();
+  const summary = (item.summary || item.shortAnswer || '').toLowerCase();
+
+  if (title.includes(query)) score += 10;
+  if (title.startsWith(query)) score += 5;
+  if (summary.includes(query)) score += 3;
+  if (item.topics?.some(t => t.toLowerCase().includes(query))) score += 2;
+
+  return score;
+}
+
+module.exports = {
+  // Articles
+  listArticles,
+  getArticle,
+  submitArticleFeedback,
+
+  // FAQs
+  listFAQs,
+  getFAQ,
+
+  // Warranty
+  checkWarrantyCoverage,
+  getProductWarranty,
+  getPearCarePlans,
+
+  // Repairs
+  getRepairOptions,
+  getRepairPricing,
+
+  // Software
+  listSoftwareUpdates,
+  getSoftwareUpdate,
+  checkSoftwareCompatibility,
+
+  // Diagnostics
+  runDiagnostics,
+  getDiagnosticResults,
+
+  // Search
+  searchContent,
+  getSearchSuggestions
+};

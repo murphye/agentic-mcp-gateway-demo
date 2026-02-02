@@ -93,77 +93,77 @@ binds:
           - name: product-catalog
             openapi:
               schema:
-                file: services/product-catalog/server/api/openapi.yaml
+                file: pear-services/product-catalog/server/api/openapi.yaml
               host: localhost
               port: 8080
               path: /v1/product-catalog
           - name: inventory
             openapi:
               schema:
-                file: services/inventory/server/api/openapi.yaml
+                file: pear-services/inventory/server/api/openapi.yaml
               host: localhost
               port: 8081
               path: /v1/inventory
           - name: online-store
             openapi:
               schema:
-                file: services/online-store/server/api/openapi.yaml
+                file: pear-services/online-store/server/api/openapi.yaml
               host: localhost
               port: 8082
               path: /v1/online-store
           - name: shipping
             openapi:
               schema:
-                file: services/shipping/server/api/openapi.yaml
+                file: pear-services/shipping/server/api/openapi.yaml
               host: localhost
               port: 8083
               path: /v1/shipping
           - name: physical-stores
             openapi:
               schema:
-                file: services/physical-stores/server/api/openapi.yaml
+                file: pear-services/physical-stores/server/api/openapi.yaml
               host: localhost
               port: 8084
               path: /v1/physical-stores
           - name: product-support
             openapi:
               schema:
-                file: services/product-support/server/api/openapi.yaml
+                file: pear-services/product-support/server/api/openapi.yaml
               host: localhost
               port: 8085
               path: /v1/product-support
           - name: payments
             openapi:
               schema:
-                file: services/payments/server/api/openapi.yaml
+                file: pear-services/payments/server/api/openapi.yaml
               host: localhost
               port: 8086
               path: /v1/payments
           - name: order-management
             openapi:
               schema:
-                file: services/order-management/server/api/openapi.yaml
+                file: pear-services/order-management/server/api/openapi.yaml
               host: localhost
               port: 8087
               path: /v1/order-management
           - name: customer-accounts
             openapi:
               schema:
-                file: services/customer-accounts/server/api/openapi.yaml
+                file: pear-services/customer-accounts/server/api/openapi.yaml
               host: localhost
               port: 8088
               path: /v1/customer-accounts
           - name: customer-support
             openapi:
               schema:
-                file: services/customer-support/server/api/openapi.yaml
+                file: pear-services/customer-support/server/api/openapi.yaml
               host: localhost
               port: 8089
               path: /v1/customer-support
           - name: analytics
             openapi:
               schema:
-                file: services/analytics/server/api/openapi.yaml
+                file: pear-services/analytics/server/api/openapi.yaml
               host: localhost
               port: 8090
               path: /v1/analytics

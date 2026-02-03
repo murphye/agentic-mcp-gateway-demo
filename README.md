@@ -20,6 +20,61 @@ The demo is comprised of:
 
 * *Pear Gateway*: a dual-purpose API/agent gateway (REST and MCP) that is used by *Pear Store* and *Pear Genius*, and integrates with *Pear Auth*; implemented using [**agentgateway**](https://agentgateway.dev)
 
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         Pear Genius Agent                           │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  ┌─────────────┐    ┌─────────────────────────────────────────┐     │
+│  │   LangGraph │    │           Supervisor Agent              │     │
+│  │    Router   │───▶│  (Intent Classification & Orchestration)│     │
+│  └─────────────┘    └──────────────┬──────────────────────────┘     │
+│                                    │                                │
+│         ┌──────────────────────────┼──────────────────────────┐     │
+│         ▼                          ▼                          ▼     │
+│  ┌─────────────┐          ┌─────────────┐           ┌─────────────┐ │
+│  │   Order     │          │  Warranty   │           │Troubleshoot │ │
+│  │   Agent     │          │   Agent     │           │   Agent     │ │
+│  └──────┬──────┘          └──────┬──────┘           └──-────┬─────┘ │
+│         │                        │                          │       │
+│         └────────────────────────┼──────────────────────────┘       │
+│                                  │                                  │
+│                                  ▼                                  │
+│                         ┌─────────────────┐                         │
+│                         │   MCP Client    │                         │
+│                         │  (Tool Calls)   │                         │
+│                         └────────┬────────┘                         │
+│                                  │                                  │
+└──────────────────────────────────┼──────────────────────────────────┘
+                                   │ MCP Protocol
+                                   │ (SSE/WebSocket)
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                      AgentGateway - MCP Server                      │
+│                                                                     │
+│  Exposes backend services as MCP Tools:                             │
+│  ┌────────────────────────────────────────────────────────────-─┐   │
+│  │ • order-management/get_order     • shipping/track_shipment   │   │
+│  │ • order-management/list_orders   • shipping/create_label     │   │
+│  │ • product-support/check_warranty • payments/process_refund   │   │
+│  │ • product-support/get_repairs    • customer-accounts/profile │   │
+│  │ • physical-stores/book_appt      • customer-support/tickets  │   │
+│  │ • inventory/check_stock          • analytics/get_metrics     │   │
+│  └─────────────────────────────────────────────────────────────-┘   │
+│                                  │                                  │
+└──────────────────────────────────┼──────────────────────────────────┘
+                                   │ REST API
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         Backend Services                            │
+├─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬────────-┤
+│ order-  │ product │customer │shipping │payments │physical │customer │
+│ mgmt    │ support │ accounts│         │         │ stores  │ support │
+└─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴───────-─┘
+```
+
 ## Screenshots and Examples
 
 ### Pear Store Screenshots
@@ -110,7 +165,6 @@ The good news is that screen repairs are very common and typically completed qui
 
 You: 
 ```
-
 
 ## Technical Overview
 

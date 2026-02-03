@@ -121,7 +121,9 @@ Pear Genius: Here's the status of your recent orders:
 Your PearPhone order has already been delivered, and your PearPods Pro 2 should arrive by January 23rd. You can track the PearPods shipment using the UPS tracking number above.
 
 Is there anything specific about either order you'd like me to help you with?
+```
 
+```
 You: My PearPhone screen is cracked. Is it covered under warranty?
 
   Tools used: getOrder, listDevices, getProduct

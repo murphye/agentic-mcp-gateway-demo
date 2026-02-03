@@ -1,10 +1,25 @@
 """Main entry point for Pear Genius agent."""
 
 import asyncio
+import logging
 import uuid
 
 import structlog
 from langchain_core.messages import HumanMessage
+
+
+# Suppress spurious "Session termination failed: 202" warning from MCP client
+# HTTP 202 (Accepted) is actually a success response, not a failure
+class MCPSessionTerminationFilter(logging.Filter):
+    """Filter out false-positive session termination warnings."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        if "Session termination failed: 202" in record.getMessage():
+            return False
+        return True
+
+
+logging.getLogger("mcp.client.streamable_http").addFilter(MCPSessionTerminationFilter())
 
 from .agents.supervisor import create_agent_graph, get_last_ai_response
 from .auth.keycloak import create_test_customer_context

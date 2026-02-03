@@ -1,0 +1,1522 @@
+{
+  "id": "pear",
+  "realm": "pear",
+  "displayName": "Pear Computer",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>Pear Computer</span></div>",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 5,
+  "defaultSignatureAlgorithm": "RS256",
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "ssoSessionIdleTimeoutRememberMe": 0,
+  "ssoSessionMaxLifespanRememberMe": 0,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespanEnabled": false,
+  "offlineSessionMaxLifespan": 5184000,
+  "accessCodeLifespan": 60,
+  "accessCodeLifespanUserAction": 300,
+  "accessCodeLifespanLogin": 1800,
+  "actionTokenGeneratedByAdminLifespan": 43200,
+  "actionTokenGeneratedByUserLifespan": 300,
+  "defaultRoles": ["offline_access", "uma_authorization"],
+  "requiredCredentials": ["password"],
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyInitialCounter": 0,
+  "otpPolicyDigits": 6,
+  "otpPolicyLookAheadWindow": 1,
+  "otpPolicyPeriod": 30,
+  "webAuthnPolicyRpEntityName": "keycloak",
+  "webAuthnPolicySignatureAlgorithms": ["ES256"],
+  "webAuthnPolicyRpId": "",
+  "webAuthnPolicyAttestationConveyancePreference": "not specified",
+  "webAuthnPolicyAuthenticatorAttachment": "not specified",
+  "webAuthnPolicyRequireResidentKey": "not specified",
+  "webAuthnPolicyUserVerificationRequirement": "not specified",
+  "webAuthnPolicyCreateTimeout": 0,
+  "webAuthnPolicyAvoidSameAuthenticatorRegister": false,
+  "smtpServer": {
+    "host": "smtp.pearcomputer.com",
+    "port": "587",
+    "from": "noreply@pearcomputer.com",
+    "fromDisplayName": "Pear Computer",
+    "starttls": "true",
+    "auth": "true"
+  },
+  "loginTheme": "pear",
+  "accountTheme": "pear",
+  "adminTheme": "keycloak",
+  "emailTheme": "pear",
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "es", "fr", "de", "ja", "zh-CN"],
+  "defaultLocale": "en",
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients",
+  "roles": {
+    "realm": [
+      {
+        "name": "customer",
+        "description": "Base customer role - can view own orders, manage own account",
+        "composite": false
+      },
+      {
+        "name": "premium_customer",
+        "description": "Premium/Pear One subscriber with enhanced benefits",
+        "composite": true,
+        "composites": {
+          "realm": ["customer"]
+        }
+      },
+      {
+        "name": "family_organizer",
+        "description": "Family sharing group organizer",
+        "composite": true,
+        "composites": {
+          "realm": ["customer"]
+        }
+      },
+      {
+        "name": "developer",
+        "description": "Pear Developer Program member",
+        "composite": true,
+        "composites": {
+          "realm": ["customer"]
+        }
+      },
+      {
+        "name": "employee",
+        "description": "Base employee role - internal Pear Computer staff",
+        "composite": false
+      },
+      {
+        "name": "support_agent",
+        "description": "Customer support agent - can view customer info and tickets",
+        "composite": true,
+        "composites": {
+          "realm": ["employee"]
+        }
+      },
+      {
+        "name": "sales_associate",
+        "description": "Retail sales associate - can process sales and view inventory",
+        "composite": true,
+        "composites": {
+          "realm": ["employee"]
+        }
+      },
+      {
+        "name": "store_manager",
+        "description": "Retail store manager - full store operations access",
+        "composite": true,
+        "composites": {
+          "realm": ["employee", "sales_associate"]
+        }
+      },
+      {
+        "name": "inventory_manager",
+        "description": "Inventory manager - can manage stock levels and transfers",
+        "composite": true,
+        "composites": {
+          "realm": ["employee"]
+        }
+      },
+      {
+        "name": "analytics_viewer",
+        "description": "Can view analytics dashboards and reports",
+        "composite": true,
+        "composites": {
+          "realm": ["employee"]
+        }
+      },
+      {
+        "name": "analytics_admin",
+        "description": "Can create and manage analytics reports",
+        "composite": true,
+        "composites": {
+          "realm": ["employee", "analytics_viewer"]
+        }
+      },
+      {
+        "name": "order_manager",
+        "description": "Can manage and process all orders",
+        "composite": true,
+        "composites": {
+          "realm": ["employee"]
+        }
+      },
+      {
+        "name": "admin",
+        "description": "System administrator with full access",
+        "composite": true,
+        "composites": {
+          "realm": ["employee", "store_manager", "inventory_manager", "analytics_admin", "order_manager", "support_agent"]
+        }
+      }
+    ],
+    "client": {
+      "customer-accounts-api": [
+        {
+          "name": "accounts:read:own",
+          "description": "Read own account data"
+        },
+        {
+          "name": "accounts:write:own",
+          "description": "Modify own account data"
+        },
+        {
+          "name": "accounts:read:all",
+          "description": "Read all customer accounts (employees only)"
+        },
+        {
+          "name": "accounts:write:all",
+          "description": "Modify any customer account (admin only)"
+        }
+      ],
+      "payments-api": [
+        {
+          "name": "payments:read:own",
+          "description": "Read own payment methods"
+        },
+        {
+          "name": "payments:write:own",
+          "description": "Manage own payment methods"
+        },
+        {
+          "name": "payments:read:all",
+          "description": "Read all payment data (employees only)"
+        },
+        {
+          "name": "payments:process",
+          "description": "Process payment transactions"
+        },
+        {
+          "name": "payments:refund",
+          "description": "Process refunds"
+        }
+      ],
+      "orders-api": [
+        {
+          "name": "orders:read:own",
+          "description": "Read own orders"
+        },
+        {
+          "name": "orders:write:own",
+          "description": "Create/modify own orders"
+        },
+        {
+          "name": "orders:read:all",
+          "description": "Read all orders (employees only)"
+        },
+        {
+          "name": "orders:write:all",
+          "description": "Modify any order"
+        },
+        {
+          "name": "orders:cancel",
+          "description": "Cancel orders"
+        },
+        {
+          "name": "orders:fulfill",
+          "description": "Mark orders as fulfilled"
+        }
+      ],
+      "inventory-api": [
+        {
+          "name": "inventory:read",
+          "description": "View inventory levels"
+        },
+        {
+          "name": "inventory:write",
+          "description": "Modify inventory levels"
+        },
+        {
+          "name": "inventory:transfer",
+          "description": "Transfer inventory between locations"
+        },
+        {
+          "name": "inventory:adjust",
+          "description": "Make inventory adjustments"
+        }
+      ],
+      "analytics-api": [
+        {
+          "name": "analytics:read",
+          "description": "View analytics dashboards"
+        },
+        {
+          "name": "analytics:reports:read",
+          "description": "View reports"
+        },
+        {
+          "name": "analytics:reports:write",
+          "description": "Create and manage reports"
+        },
+        {
+          "name": "analytics:query",
+          "description": "Execute analytics queries"
+        }
+      ],
+      "product-catalog-api": [
+        {
+          "name": "products:read",
+          "description": "View products"
+        },
+        {
+          "name": "products:write",
+          "description": "Create and modify products"
+        },
+        {
+          "name": "products:pricing",
+          "description": "Manage product pricing"
+        }
+      ],
+      "support-api": [
+        {
+          "name": "tickets:read:own",
+          "description": "Read own support tickets"
+        },
+        {
+          "name": "tickets:write:own",
+          "description": "Create/update own tickets"
+        },
+        {
+          "name": "tickets:read:all",
+          "description": "Read all support tickets"
+        },
+        {
+          "name": "tickets:write:all",
+          "description": "Manage all tickets"
+        },
+        {
+          "name": "tickets:assign",
+          "description": "Assign tickets to agents"
+        }
+      ],
+      "stores-api": [
+        {
+          "name": "stores:read",
+          "description": "View store information"
+        },
+        {
+          "name": "stores:write",
+          "description": "Manage store information"
+        },
+        {
+          "name": "stores:appointments",
+          "description": "Manage store appointments"
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "Customers",
+      "path": "/Customers",
+      "attributes": {
+        "userType": ["customer"]
+      },
+      "realmRoles": ["customer"],
+      "clientRoles": {
+        "customer-accounts-api": ["accounts:read:own", "accounts:write:own"],
+        "payments-api": ["payments:read:own", "payments:write:own"],
+        "orders-api": ["orders:read:own", "orders:write:own"],
+        "support-api": ["tickets:read:own", "tickets:write:own"],
+        "product-catalog-api": ["products:read"],
+        "stores-api": ["stores:read"]
+      },
+      "subGroups": [
+        {
+          "name": "Premium",
+          "path": "/Customers/Premium",
+          "attributes": {
+            "tier": ["premium"],
+            "pearOneSubscriber": ["true"]
+          },
+          "realmRoles": ["premium_customer"]
+        },
+        {
+          "name": "Standard",
+          "path": "/Customers/Standard",
+          "attributes": {
+            "tier": ["standard"]
+          }
+        },
+        {
+          "name": "Family-Organizers",
+          "path": "/Customers/Family-Organizers",
+          "attributes": {
+            "familySharing": ["organizer"]
+          },
+          "realmRoles": ["family_organizer"]
+        },
+        {
+          "name": "Developer-Program",
+          "path": "/Customers/Developer-Program",
+          "attributes": {
+            "developerAccess": ["true"]
+          },
+          "realmRoles": ["developer"]
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "path": "/Employees",
+      "attributes": {
+        "userType": ["employee"]
+      },
+      "realmRoles": ["employee"],
+      "clientRoles": {
+        "customer-accounts-api": ["accounts:read:all"],
+        "orders-api": ["orders:read:all"],
+        "product-catalog-api": ["products:read"],
+        "stores-api": ["stores:read"]
+      },
+      "subGroups": [
+        {
+          "name": "Corporate",
+          "path": "/Employees/Corporate",
+          "attributes": {
+            "department": ["corporate"]
+          },
+          "subGroups": [
+            {
+              "name": "Executives",
+              "path": "/Employees/Corporate/Executives",
+              "attributes": {
+                "level": ["executive"]
+              },
+              "realmRoles": ["admin"],
+              "clientRoles": {
+                "analytics-api": ["analytics:read", "analytics:reports:read", "analytics:reports:write", "analytics:query"]
+              }
+            },
+            {
+              "name": "Engineering",
+              "path": "/Employees/Corporate/Engineering",
+              "attributes": {
+                "department": ["engineering"]
+              },
+              "clientRoles": {
+                "product-catalog-api": ["products:write"]
+              }
+            },
+            {
+              "name": "Support",
+              "path": "/Employees/Corporate/Support",
+              "attributes": {
+                "department": ["support"]
+              },
+              "realmRoles": ["support_agent"],
+              "clientRoles": {
+                "support-api": ["tickets:read:all", "tickets:write:all", "tickets:assign"],
+                "orders-api": ["orders:cancel"]
+              }
+            },
+            {
+              "name": "Analytics",
+              "path": "/Employees/Corporate/Analytics",
+              "attributes": {
+                "department": ["analytics"]
+              },
+              "realmRoles": ["analytics_admin"],
+              "clientRoles": {
+                "analytics-api": ["analytics:read", "analytics:reports:read", "analytics:reports:write", "analytics:query"]
+              }
+            },
+            {
+              "name": "Operations",
+              "path": "/Employees/Corporate/Operations",
+              "attributes": {
+                "department": ["operations"]
+              },
+              "realmRoles": ["inventory_manager", "order_manager"],
+              "clientRoles": {
+                "inventory-api": ["inventory:read", "inventory:write", "inventory:transfer", "inventory:adjust"],
+                "orders-api": ["orders:write:all", "orders:fulfill"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Retail",
+          "path": "/Employees/Retail",
+          "attributes": {
+            "department": ["retail"]
+          },
+          "clientRoles": {
+            "inventory-api": ["inventory:read"],
+            "stores-api": ["stores:appointments"]
+          },
+          "subGroups": [
+            {
+              "name": "Store-Managers",
+              "path": "/Employees/Retail/Store-Managers",
+              "attributes": {
+                "role": ["manager"]
+              },
+              "realmRoles": ["store_manager"],
+              "clientRoles": {
+                "inventory-api": ["inventory:write", "inventory:transfer"],
+                "stores-api": ["stores:write"],
+                "orders-api": ["orders:write:all", "orders:cancel"],
+                "payments-api": ["payments:refund"],
+                "analytics-api": ["analytics:read", "analytics:reports:read"]
+              }
+            },
+            {
+              "name": "Sales-Associates",
+              "path": "/Employees/Retail/Sales-Associates",
+              "attributes": {
+                "role": ["sales"]
+              },
+              "realmRoles": ["sales_associate"],
+              "clientRoles": {
+                "payments-api": ["payments:process"],
+                "orders-api": ["orders:write:all"]
+              }
+            },
+            {
+              "name": "Genius-Bar",
+              "path": "/Employees/Retail/Genius-Bar",
+              "attributes": {
+                "role": ["technical_support"]
+              },
+              "realmRoles": ["support_agent"],
+              "clientRoles": {
+                "support-api": ["tickets:read:all", "tickets:write:all"]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "cust-001",
+      "username": "john.smith@email.com",
+      "email": "john.smith@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "John",
+      "lastName": "Smith",
+      "createdTimestamp": 1592218800000,
+      "attributes": {
+        "phone": ["+1-415-555-0123"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/Los_Angeles"],
+        "dateOfBirth": ["1985-03-15"],
+        "pearId": ["cust-001"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-001",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Premium"]
+    },
+    {
+      "id": "cust-002",
+      "username": "emily.chen@email.com",
+      "email": "emily.chen@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Emily",
+      "lastName": "Chen",
+      "createdTimestamp": 1615384800000,
+      "attributes": {
+        "phone": ["+1-310-555-0456"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/Los_Angeles"],
+        "dateOfBirth": ["1992-07-22"],
+        "pearId": ["cust-002"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-002",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "cust-003",
+      "username": "marcus.johnson@email.com",
+      "email": "marcus.johnson@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Marcus",
+      "lastName": "Johnson",
+      "createdTimestamp": 1641366000000,
+      "attributes": {
+        "phone": ["+1-312-555-0789"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/Chicago"],
+        "dateOfBirth": ["1988-11-30"],
+        "pearId": ["cust-003"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-003",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "cust-004",
+      "username": "sarah.williams@email.com",
+      "email": "sarah.williams@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Sarah",
+      "lastName": "Williams",
+      "createdTimestamp": 1655740800000,
+      "attributes": {
+        "phone": ["+1-206-555-0321"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/Los_Angeles"],
+        "dateOfBirth": ["1995-04-18"],
+        "pearId": ["cust-004"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-004",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "cust-005",
+      "username": "david.park@email.com",
+      "email": "david.park@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "David",
+      "lastName": "Park",
+      "createdTimestamp": 1676376000000,
+      "attributes": {
+        "phone": ["+1-512-555-0567"],
+        "phoneVerified": ["false"],
+        "locale": ["en-US"],
+        "timezone": ["America/Chicago"],
+        "dateOfBirth": ["1990-09-05"],
+        "pearId": ["cust-005"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-005",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Developer-Program"]
+    },
+    {
+      "id": "cust-006",
+      "username": "amanda.rodriguez@email.com",
+      "email": "amanda.rodriguez@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Amanda",
+      "lastName": "Rodriguez",
+      "createdTimestamp": 1630317600000,
+      "attributes": {
+        "phone": ["+1-305-555-0890"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/New_York"],
+        "dateOfBirth": ["1987-12-03"],
+        "pearId": ["cust-006"],
+        "userType": ["customer"],
+        "familyGroupId": ["fam-001"],
+        "familyRole": ["organizer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-006",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Premium", "/Customers/Family-Organizers"]
+    },
+    {
+      "id": "cust-007",
+      "username": "michael.thompson@email.com",
+      "email": "michael.thompson@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Michael",
+      "lastName": "Thompson",
+      "createdTimestamp": 1683712800000,
+      "attributes": {
+        "phone": ["+1-303-555-0234"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/Denver"],
+        "dateOfBirth": ["1983-06-25"],
+        "pearId": ["cust-007"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-007",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "cust-008",
+      "username": "jennifer.lee@email.com",
+      "email": "jennifer.lee@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Jennifer",
+      "lastName": "Lee",
+      "createdTimestamp": 1669363200000,
+      "attributes": {
+        "phone": ["+1-617-555-0456"],
+        "phoneVerified": ["true"],
+        "locale": ["en-US"],
+        "timezone": ["America/New_York"],
+        "dateOfBirth": ["1991-02-14"],
+        "pearId": ["cust-008"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-008",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "cust-009",
+      "username": "robert.martinez@email.com",
+      "email": "robert.martinez@email.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Robert",
+      "lastName": "Martinez",
+      "createdTimestamp": 1706256000000,
+      "attributes": {
+        "phone": ["+1-602-555-0678"],
+        "phoneVerified": ["false"],
+        "locale": ["en-US"],
+        "timezone": ["America/Phoenix"],
+        "dateOfBirth": ["1979-08-12"],
+        "pearId": ["cust-009"],
+        "userType": ["customer"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-password-009",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Customers/Standard"]
+    },
+    {
+      "id": "emp-001",
+      "username": "alice.morgan@pearcomputer.com",
+      "email": "alice.morgan@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Alice",
+      "lastName": "Morgan",
+      "createdTimestamp": 1546300800000,
+      "attributes": {
+        "phone": ["+1-408-555-1001"],
+        "employeeId": ["emp-001"],
+        "department": ["executive"],
+        "title": ["VP of Operations"],
+        "hireDate": ["2019-01-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-001",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Corporate/Executives"]
+    },
+    {
+      "id": "emp-002",
+      "username": "bob.wilson@pearcomputer.com",
+      "email": "bob.wilson@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Bob",
+      "lastName": "Wilson",
+      "createdTimestamp": 1567296000000,
+      "attributes": {
+        "phone": ["+1-408-555-1002"],
+        "employeeId": ["emp-002"],
+        "department": ["support"],
+        "title": ["Senior Support Agent"],
+        "hireDate": ["2019-09-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-002",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Corporate/Support"]
+    },
+    {
+      "id": "emp-003",
+      "username": "carol.davis@pearcomputer.com",
+      "email": "carol.davis@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Carol",
+      "lastName": "Davis",
+      "createdTimestamp": 1588291200000,
+      "attributes": {
+        "phone": ["+1-408-555-1003"],
+        "employeeId": ["emp-003"],
+        "department": ["analytics"],
+        "title": ["Analytics Manager"],
+        "hireDate": ["2020-05-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-003",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Corporate/Analytics"]
+    },
+    {
+      "id": "emp-004",
+      "username": "dan.miller@pearcomputer.com",
+      "email": "dan.miller@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Dan",
+      "lastName": "Miller",
+      "createdTimestamp": 1609459200000,
+      "attributes": {
+        "phone": ["+1-408-555-1004"],
+        "employeeId": ["emp-004"],
+        "department": ["operations"],
+        "title": ["Inventory Manager"],
+        "hireDate": ["2021-01-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-004",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Corporate/Operations"]
+    },
+    {
+      "id": "emp-005",
+      "username": "eva.garcia@pearcomputer.com",
+      "email": "eva.garcia@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Eva",
+      "lastName": "Garcia",
+      "createdTimestamp": 1619827200000,
+      "attributes": {
+        "phone": ["+1-415-555-2001"],
+        "employeeId": ["emp-005"],
+        "department": ["retail"],
+        "title": ["Store Manager"],
+        "storeId": ["store-sf-001"],
+        "hireDate": ["2021-05-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-005",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Retail/Store-Managers"]
+    },
+    {
+      "id": "emp-006",
+      "username": "frank.brown@pearcomputer.com",
+      "email": "frank.brown@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Frank",
+      "lastName": "Brown",
+      "createdTimestamp": 1630454400000,
+      "attributes": {
+        "phone": ["+1-415-555-2002"],
+        "employeeId": ["emp-006"],
+        "department": ["retail"],
+        "title": ["Sales Associate"],
+        "storeId": ["store-sf-001"],
+        "hireDate": ["2021-09-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-006",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Retail/Sales-Associates"]
+    },
+    {
+      "id": "emp-007",
+      "username": "grace.taylor@pearcomputer.com",
+      "email": "grace.taylor@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Grace",
+      "lastName": "Taylor",
+      "createdTimestamp": 1640995200000,
+      "attributes": {
+        "phone": ["+1-415-555-2003"],
+        "employeeId": ["emp-007"],
+        "department": ["retail"],
+        "title": ["Genius Bar Specialist"],
+        "storeId": ["store-sf-001"],
+        "hireDate": ["2022-01-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-007",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Retail/Genius-Bar"]
+    },
+    {
+      "id": "emp-008",
+      "username": "henry.kim@pearcomputer.com",
+      "email": "henry.kim@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Henry",
+      "lastName": "Kim",
+      "createdTimestamp": 1651363200000,
+      "attributes": {
+        "phone": ["+1-310-555-3001"],
+        "employeeId": ["emp-008"],
+        "department": ["retail"],
+        "title": ["Store Manager"],
+        "storeId": ["store-la-001"],
+        "hireDate": ["2022-05-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-008",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Retail/Store-Managers"]
+    },
+    {
+      "id": "emp-009",
+      "username": "iris.patel@pearcomputer.com",
+      "email": "iris.patel@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Iris",
+      "lastName": "Patel",
+      "createdTimestamp": 1661990400000,
+      "attributes": {
+        "phone": ["+1-408-555-1005"],
+        "employeeId": ["emp-009"],
+        "department": ["engineering"],
+        "title": ["Product Engineer"],
+        "hireDate": ["2022-09-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "demo-employee-009",
+          "temporary": false
+        }
+      ],
+      "groups": ["/Employees/Corporate/Engineering"]
+    },
+    {
+      "id": "emp-010",
+      "username": "admin@pearcomputer.com",
+      "email": "admin@pearcomputer.com",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "System",
+      "lastName": "Admin",
+      "createdTimestamp": 1514764800000,
+      "attributes": {
+        "employeeId": ["emp-000"],
+        "department": ["it"],
+        "title": ["System Administrator"],
+        "hireDate": ["2018-01-01"],
+        "userType": ["employee"]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin-password",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"],
+      "groups": ["/Employees/Corporate/Executives"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "pear-web-store",
+      "name": "Pear Web Store",
+      "description": "Pear Computer Online Store Web Application (Customer-facing)",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "rootUrl": "https://store.pearcomputer.com",
+      "baseUrl": "/",
+      "redirectUris": [
+        "https://store.pearcomputer.com/*",
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "https://store.pearcomputer.com",
+        "http://localhost:3000"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": ["openid", "profile", "email", "pear_profile", "roles", "groups"],
+      "optionalClientScopes": ["offline_access", "pear_family"]
+    },
+    {
+      "clientId": "pear-employee-portal",
+      "name": "Pear Employee Portal",
+      "description": "Internal employee portal for Pear Computer staff",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "rootUrl": "https://employee.pearcomputer.com",
+      "baseUrl": "/",
+      "redirectUris": [
+        "https://employee.pearcomputer.com/*",
+        "http://localhost:3001/*"
+      ],
+      "webOrigins": [
+        "https://employee.pearcomputer.com",
+        "http://localhost:3001"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": ["openid", "profile", "email", "pear_employee", "roles", "groups"],
+      "optionalClientScopes": ["offline_access"]
+    },
+    {
+      "clientId": "customer-accounts-api",
+      "name": "Customer Accounts API",
+      "description": "Internal service client for Customer Accounts Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "customer-accounts-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "payments-api",
+      "name": "Payments API",
+      "description": "Internal service client for Payments Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "payments-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "orders-api",
+      "name": "Orders API",
+      "description": "Internal service client for Order Management Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "orders-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "inventory-api",
+      "name": "Inventory API",
+      "description": "Internal service client for Inventory Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "inventory-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "analytics-api",
+      "name": "Analytics API",
+      "description": "Internal service client for Analytics Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "analytics-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "product-catalog-api",
+      "name": "Product Catalog API",
+      "description": "Internal service client for Product Catalog Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "product-catalog-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "support-api",
+      "name": "Support API",
+      "description": "Internal service client for Customer Support Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "support-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    },
+    {
+      "clientId": "stores-api",
+      "name": "Stores API",
+      "description": "Internal service client for Physical Stores Service",
+      "enabled": true,
+      "publicClient": false,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "secret": "stores-api-secret",
+      "attributes": {
+        "access.token.lifespan": "600"
+      }
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "pear_profile",
+      "description": "Extended Pear profile information",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Access your Pear ID profile information"
+      },
+      "protocolMappers": [
+        {
+          "name": "pear-id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "pearId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "pear_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "phone-number",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "phone",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "phone_number",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "phone-verified",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "phoneVerified",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "phone_number_verified",
+            "jsonType.label": "boolean"
+          }
+        },
+        {
+          "name": "locale",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "locale",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "locale",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "user-type",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "userType",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "user_type",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pear_employee",
+      "description": "Employee-specific profile information",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "employee-id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "employeeId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "employee_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "department",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "department",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "department",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "title",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "title",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "job_title",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "store-id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "storeId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "store_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "user-type",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "userType",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "user_type",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "pear_family",
+      "description": "Family sharing information",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Access your family sharing information"
+      },
+      "protocolMappers": [
+        {
+          "name": "family-group-id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "familyGroupId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "family_group_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "family-role",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "familyRole",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "family_role",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "groups",
+      "description": "User group membership",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "groups",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "roles",
+      "description": "User roles",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "realm-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "realm_roles",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "client-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-client-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "resource_access.${client_id}.roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "defaultDefaultClientScopes": [
+    "role_list",
+    "profile",
+    "email",
+    "pear_profile",
+    "roles",
+    "groups"
+  ],
+  "defaultOptionalClientScopes": [
+    "offline_access",
+    "address",
+    "phone",
+    "pear_family",
+    "pear_employee"
+  ],
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": "",
+    "xContentTypeOptions": "nosniff",
+    "xRobotsTag": "none",
+    "xFrameOptions": "SAMEORIGIN",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
+    "xXSSProtection": "1; mode=block",
+    "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+  },
+  "passwordPolicy": "length(8) and digits(1) and upperCase(1) and specialChars(1)",
+  "eventsConfig": {
+    "eventsEnabled": true,
+    "eventsExpiration": 604800,
+    "eventsListeners": ["jboss-logging"],
+    "enabledEventTypes": [
+      "LOGIN",
+      "LOGIN_ERROR",
+      "LOGOUT",
+      "REGISTER",
+      "REGISTER_ERROR",
+      "CODE_TO_TOKEN",
+      "CODE_TO_TOKEN_ERROR",
+      "REFRESH_TOKEN",
+      "UPDATE_PASSWORD",
+      "UPDATE_PASSWORD_ERROR",
+      "RESET_PASSWORD",
+      "RESET_PASSWORD_ERROR"
+    ],
+    "adminEventsEnabled": true,
+    "adminEventsDetailsEnabled": true
+  }
+}

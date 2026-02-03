@@ -20,6 +20,98 @@ The demo is comprised of:
 
 * *Pear Gateway*: a dual-purpose API/agent gateway (REST and MCP) that is used by *Pear Store* and *Pear Genius*, and integrates with *Pear Auth*; implemented using [**agentgateway**](https://agentgateway.dev)
 
+## Screenshots and Examples
+
+### Pear Store Screenshots
+
+<img src="images/shop.png" width="800">
+
+<img src="images/bag.png" width="800">
+
+<img src="images/support.png" width="800">
+
+## Pear Genius Examples
+
+> **Note:** This is an interim version that is CLI-only. A web-based version is coming soon!
+
+```
+Starting Pear Genius...
+============================================================
+  Pear Genius - Customer Support Agent
+============================================================
+
+Authenticated as: John Smith (plus member)
+
+Pear Genius: Hello John Smith! I'm Pear Genius, your personal support assistant. I can help you with orders, returns, warranty questions, troubleshooting, and more. How can I assist you today?
+
+You: where is my order?
+
+  Tools used: getOrder
+
+Pear Genius: Here's the status of your recent orders:
+
+## Order #PEAR-2024-123456 (ORD-2024-001) ✅ **DELIVERED**
+- **Items**: PearPhone 16 Pro (Space Black, 256GB) + Clear Case
+- **Status**: Delivered on January 17th at 2:30 PM
+- **Delivery**: Left at front door as requested
+- **Tracking**: FedEx #1234567890123456
+
+## Order #PEAR-2024-123458 (ORD-2024-003) 🚚 **IN TRANSIT**
+- **Items**: PearPods Pro 2 (White) - Gift order with "Happy Birthday!" message
+- **Status**: Currently in transit from Phoenix, AZ
+- **Expected Delivery**: January 23rd
+- **Tracking**: UPS #1Z999AA10123456784
+- **Latest Update**: In transit to destination (Phoenix, AZ - Jan 21, 6:00 PM)
+
+Your PearPhone order has already been delivered, and your PearPods Pro 2 should arrive by January 23rd. You can track the PearPods shipment using the UPS tracking number above.
+
+Is there anything specific about either order you'd like me to help you with?
+
+You: My PearPhone screen is cracked. Is it covered under warranty?
+
+  Tools used: getOrder, listDevices, getProduct
+
+Pear Genius: Based on your device information, here's what you need to know about warranty coverage for your cracked PearPhone 16 Pro screen:
+
+## **Warranty Coverage for Cracked Screen:**
+
+❌ **Physical damage like cracked screens is NOT covered under Pear's Limited Warranty**
+
+Your PearPhone 16 Pro has:
+- **Serial Number**: PEAR-PPH16-2024-001234
+- **Warranty Expires**: January 15, 2025 (still under warranty for manufacturing defects)
+- **Purchase Date**: January 15, 2024
+
+## **Your Repair Options:**
+
+### **1. Out-of-Warranty Screen Repair**
+- **Estimated Cost**: $279-$329 for PearPhone 16 Pro screen replacement
+- **Turnaround**: Same day at most Pear Stores
+- **Warranty**: 90-day warranty on the repair
+
+### **2. PearCare+ (if you have it)**
+If you purchased PearCare+ with your device:
+- **Screen repair**: $29 with PearCare+
+- **Accidental damage coverage**: Up to 2 incidents per year
+
+### **3. Third-Party Repair**
+- Less expensive but may void warranty
+- Quality and parts may vary
+
+## **Next Steps:**
+
+1. **Check if you have PearCare+**: I can help verify this
+2. **Schedule repair**: Genius Bar appointment or mail-in service
+3. **Get quote**: Exact pricing depends on damage extent
+
+**Do you remember purchasing PearCare+ with your PearPhone, or would you like me to help you schedule a repair appointment to get an exact quote?**
+
+The good news is that screen repairs are very common and typically completed quickly!
+
+You: 
+```
+
+
 ## Technical Overview
 
 > **Note:** Most of the code for this demo was generated using Claude Code.

@@ -126,46 +126,38 @@ Is there anything specific about either order you'd like me to help you with?
 ```
 You: My PearPhone screen is cracked. Is it covered under warranty?
 
-  Tools used: getOrder, listDevices, getProduct
+  Tools used: getOrder, checkReturnEligibility, createReturn, runDiagnostics
 
-Pear Genius: Based on your device information, here's what you need to know about warranty coverage for your cracked PearPhone 16 Pro screen:
+Pear Genius: **Regarding warranty coverage for your cracked screen:**
 
-## **Warranty Coverage for Cracked Screen:**
+Unfortunately, **physical damage like cracked screens is typically NOT covered** under Pear's Limited Warranty. The warranty covers:
+- Manufacturing defects
+- Hardware failures not caused by damage
+- Software issues
 
-❌ **Physical damage like cracked screens is NOT covered under Pear's Limited Warranty**
+However, the diagnostics show that while your display functions are working normally, there are some issues with your camera and speaker/microphone that might be related to the physical damage.
 
-Your PearPhone 16 Pro has:
-- **Serial Number**: PEAR-PPH16-2024-001234
-- **Warranty Expires**: January 15, 2025 (still under warranty for manufacturing defects)
-- **Purchase Date**: January 15, 2024
+## Your Repair Options:
 
-## **Your Repair Options:**
+1. **Out-of-warranty screen replacement**
+   - Estimated cost: $279-$329 for PearPhone 16 Pro
+   - Performed by certified technicians
+   - Genuine Pear parts with 90-day repair warranty
 
-### **1. Out-of-Warranty Screen Repair**
-- **Estimated Cost**: $279-$329 for PearPhone 16 Pro screen replacement
-- **Turnaround**: Same day at most Pear Stores
-- **Warranty**: 90-day warranty on the repair
+2. **PearCare+ Coverage (if you have it)**
+   - If you purchased PearCare+, screen damage is covered for just $29 deductible
+   - Would you like me to check if you have PearCare+ on this device?
 
-### **2. PearCare+ (if you have it)**
-If you purchased PearCare+ with your device:
-- **Screen repair**: $29 with PearCare+
-- **Accidental damage coverage**: Up to 2 incidents per year
+3. **Comprehensive repair**
+   - Given the camera and audio issues detected, you might want a full assessment
+   - These additional issues could potentially be warranty-covered if they're not damage-related
 
-### **3. Third-Party Repair**
-- Less expensive but may void warranty
-- Quality and parts may vary
+## Next Steps:
+1. **Schedule a Genius Grove appointment** for an in-person assessment
+2. **Get an exact repair quote** - they can assess if the camera/audio issues are related to the screen damage
+3. **Back up your device** before any service
 
-## **Next Steps:**
-
-1. **Check if you have PearCare+**: I can help verify this
-2. **Schedule repair**: Genius Bar appointment or mail-in service
-3. **Get quote**: Exact pricing depends on damage extent
-
-**Do you remember purchasing PearCare+ with your PearPhone, or would you like me to help you schedule a repair appointment to get an exact quote?**
-
-The good news is that screen repairs are very common and typically completed quickly!
-
-You: 
+Would you like me to help you find your nearest Genius Grove location or check if you have PearCare+ coverage on this device?
 ```
 
 ## Technical Overview

@@ -8,7 +8,6 @@ from pear_genius.state.conversation import (
     CustomerContext,
     CustomerTier,
     EscalationReason,
-    IntentCategory,
 )
 
 
@@ -76,8 +75,6 @@ class TestAgentState:
         assert state.messages == []
         assert state.customer is None
         assert state.is_authenticated is False
-        assert state.current_agent == "supervisor"
-        assert state.current_intent is None
         assert state.turn_count == 0
         assert state.needs_escalation is False
         assert state.tool_results == {}
@@ -143,21 +140,6 @@ class TestAgentState:
         assert state.turn_count == 1
         state.turn_count += 1
         assert state.turn_count == 2
-
-
-class TestIntentCategory:
-    """Tests for IntentCategory enum."""
-
-    def test_all_intent_categories(self):
-        """Test all intent category values."""
-        assert IntentCategory.ORDER.value == "order"
-        assert IntentCategory.RETURN.value == "return"
-        assert IntentCategory.WARRANTY.value == "warranty"
-        assert IntentCategory.TROUBLESHOOT.value == "troubleshoot"
-        assert IntentCategory.ACCOUNT.value == "account"
-        assert IntentCategory.PRODUCT.value == "product"
-        assert IntentCategory.ESCALATE.value == "escalate"
-        assert IntentCategory.GENERAL.value == "general"
 
 
 class TestEscalationReason:

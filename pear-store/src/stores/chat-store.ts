@@ -1,6 +1,22 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
+export interface PendingApprovalAction {
+  tool_call_id: string;
+  tool_name: string;
+  title: string;
+  description: string[];
+}
+
+export interface PendingApproval {
+  actions: PendingApprovalAction[];
+}
+
+export interface ResolvedApproval {
+  actions: PendingApprovalAction[];
+  status: "approved" | "rejected";
+}
+
 export interface ChatMessage {
   id: string;
   role: "user" | "assistant" | "system";
@@ -8,6 +24,8 @@ export interface ChatMessage {
   timestamp: number;
   isStreaming?: boolean;
   toolsUsed?: string[];
+  /** When present, this message renders as a resolved approval card. */
+  approval?: ResolvedApproval;
 }
 
 interface ChatState {
@@ -17,6 +35,8 @@ interface ChatState {
   isStreaming: boolean;
   activeTools: string[];
   error: string | null;
+  pendingApproval: PendingApproval | null;
+  isAwaitingApproval: boolean;
 
   setSessionId: (id: string) => void;
   addMessage: (message: ChatMessage) => void;
@@ -28,6 +48,9 @@ interface ChatState {
   removeActiveTool: (tool: string) => void;
   clearActiveTools: () => void;
   setError: (error: string | null) => void;
+  setPendingApproval: (approval: PendingApproval) => void;
+  clearPendingApproval: () => void;
+  resolveApproval: (status: "approved" | "rejected") => void;
   reset: () => void;
 }
 
@@ -40,6 +63,8 @@ export const useChatStore = create<ChatState>()(
       isStreaming: false,
       activeTools: [],
       error: null,
+      pendingApproval: null,
+      isAwaitingApproval: false,
 
       setSessionId: (id) => set({ sessionId: id }),
 
@@ -88,6 +113,32 @@ export const useChatStore = create<ChatState>()(
 
       setError: (error) => set({ error }),
 
+      setPendingApproval: (approval) =>
+        set({ pendingApproval: approval, isAwaitingApproval: true }),
+
+      clearPendingApproval: () =>
+        set({ pendingApproval: null, isAwaitingApproval: false }),
+
+      resolveApproval: (status) =>
+        set((state) => {
+          if (!state.pendingApproval) return {};
+          const resolvedMessage: ChatMessage = {
+            id: crypto.randomUUID(),
+            role: "system",
+            content: "",
+            timestamp: Date.now(),
+            approval: {
+              actions: state.pendingApproval.actions,
+              status,
+            },
+          };
+          return {
+            messages: [...state.messages, resolvedMessage],
+            pendingApproval: null,
+            isAwaitingApproval: false,
+          };
+        }),
+
       reset: () =>
         set({
           sessionId: null,
@@ -96,6 +147,8 @@ export const useChatStore = create<ChatState>()(
           isStreaming: false,
           activeTools: [],
           error: null,
+          pendingApproval: null,
+          isAwaitingApproval: false,
         }),
     }),
     {

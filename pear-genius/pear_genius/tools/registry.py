@@ -73,16 +73,15 @@ def get_tools_for_agent(agent_name: str) -> list[BaseTool]:
     using get_all_tools() or get_tools_for_intent() during agent
     initialization.
 
-    For the supervisor agent with LangGraph, tools are loaded at
-    graph construction time via the async load_mcp_tools() function.
+    Tools are loaded asynchronously at graph construction time
+    via get_all_tools().
 
     Args:
-        agent_name: Name of the agent (supervisor, order, warranty, etc.)
+        agent_name: Name of the agent
 
     Returns:
         Empty list - use async functions for actual tool loading
     """
-    # Note: This is kept for backwards compatibility with supervisor.py
     # In async contexts, use get_all_tools() or get_tools_for_intent()
     logger.debug(
         "Synchronous get_tools_for_agent called",

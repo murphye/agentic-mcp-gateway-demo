@@ -18,18 +18,6 @@ class CustomerTier(str, Enum):
     PREMIER = "premier"
 
 
-class IntentCategory(str, Enum):
-    """High-level intent categories for routing."""
-
-    ORDER = "order"  # Order status, tracking, modifications
-    RETURN = "return"  # Returns and exchanges
-    WARRANTY = "warranty"  # Warranty and repairs
-    TROUBLESHOOT = "troubleshoot"  # Technical issues
-    ACCOUNT = "account"  # Account management
-    PRODUCT = "product"  # Product questions
-    GENERAL = "general"  # General inquiries
-    ESCALATE = "escalate"  # Needs human agent
-
 
 class CustomerContext(BaseModel):
     """Customer context extracted from authentication."""
@@ -67,14 +55,14 @@ class ConversationMemory:
     started_at: datetime = field(default_factory=datetime.utcnow)
     turn_count: int = 0
     tools_called: list[str] = field(default_factory=list)
-    intents_detected: list[IntentCategory] = field(default_factory=list)
+    intents_detected: list[str] = field(default_factory=list)
     entities_extracted: dict[str, Any] = field(default_factory=dict)
 
     def add_tool_call(self, tool_name: str) -> None:
         """Record a tool call."""
         self.tools_called.append(tool_name)
 
-    def add_intent(self, intent: IntentCategory) -> None:
+    def add_intent(self, intent: str) -> None:
         """Record a detected intent."""
         if intent not in self.intents_detected:
             self.intents_detected.append(intent)
@@ -97,10 +85,6 @@ class AgentState(BaseModel):
 
     # Customer context (populated after authentication)
     customer: CustomerContext | None = None
-
-    # Current routing state
-    current_agent: str = "supervisor"
-    current_intent: IntentCategory | None = None
 
     # Escalation state
     needs_escalation: bool = False

@@ -139,6 +139,20 @@ const listOrders = ({ status, startDate, endDate, channel, customerId, page, lim
 );
 
 /**
+* Get orders for a specific customer (path-parameter variant of listOrders)
+*/
+const getOrdersByCustomer = ({ customerId }) => new Promise(
+  async (resolve, reject) => {
+    try {
+      const result = orderData.listOrders({ customerId });
+      resolve(Service.successResponse(result));
+    } catch (e) {
+      reject(Service.rejectResponse(e.message || 'Invalid input', e.status || 405));
+    }
+  },
+);
+
+/**
 * Lookup order by number
 */
 const lookupOrder = ({ orderNumber, email }) => new Promise(
@@ -161,6 +175,7 @@ module.exports = {
   createOrder,
   getGiftReceipt,
   getOrder,
+  getOrdersByCustomer,
   getOrderReceipt,
   getOrderTracking,
   listOrders,

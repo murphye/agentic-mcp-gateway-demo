@@ -28,6 +28,10 @@ const getOrder = async (request, response) => {
   await Controller.handleRequest(request, response, service.getOrder);
 };
 
+const getOrdersByCustomer = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getOrdersByCustomer);
+};
+
 const getOrderReceipt = async (request, response) => {
   await Controller.handleRequest(request, response, service.getOrderReceipt);
 };
@@ -51,6 +55,7 @@ module.exports = {
   createOrder,
   getGiftReceipt,
   getOrder,
+  getOrdersByCustomer,
   getOrderReceipt,
   getOrderTracking,
   listOrders,

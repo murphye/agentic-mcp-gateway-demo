@@ -164,10 +164,9 @@ const compareProducts = ({ compareProductsRequest }) => new Promise(
  * Retrieve detailed information about a specific product
  *
  * productId String Unique product identifier
- * include List Additional data to include (optional)
  * returns Product
  */
-const getProduct = ({ productId, include }) => new Promise(
+const getProduct = ({ productId }) => new Promise(
   async (resolve, reject) => {
     try {
       const product = catalogData.getProductById(productId);
@@ -180,17 +179,6 @@ const getProduct = ({ productId, include }) => new Promise(
       }
 
       const response = mapProductToResponse(product);
-
-      // Handle optional includes
-      if (include && Array.isArray(include)) {
-        if (!include.includes('specifications')) {
-          delete response.specifications;
-        }
-        if (!include.includes('variants')) {
-          delete response.variants;
-        }
-        // pricing and reviews would be handled separately if needed
-      }
 
       resolve(Service.successResponse(response));
     } catch (e) {

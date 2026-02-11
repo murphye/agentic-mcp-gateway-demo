@@ -51,3 +51,29 @@ export async function sendChatMessage(
 
   return res;
 }
+
+export async function approveAction(sessionId: string): Promise<Response> {
+  const res = await fetch(
+    `${PEAR_GENIUS_URL}/api/chat/sessions/${sessionId}/approve`,
+    { method: "POST" }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to approve action: ${res.status}`);
+  }
+
+  return res;
+}
+
+export async function rejectAction(sessionId: string): Promise<Response> {
+  const res = await fetch(
+    `${PEAR_GENIUS_URL}/api/chat/sessions/${sessionId}/reject`,
+    { method: "POST" }
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to reject action: ${res.status}`);
+  }
+
+  return res;
+}

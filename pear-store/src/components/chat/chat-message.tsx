@@ -7,8 +7,8 @@ interface ChatMessageProps {
   message: ChatMessageType;
 }
 
-// Matches ORD-YYYY-NNN style order IDs (the API lookup format)
-const ORDER_ID_REGEX = /(ORD-\d{4}-\d{3,})/g;
+// Matches both ORD-YYYY-NNN order IDs and PEAR-YYYY-NNNNNN order numbers
+const ORDER_ID_REGEX = /(ORD-\d{4}-\d{3,}|PEAR-\d{4}-\d{4,})/g;
 
 function linkifyOrderIds(text: string): string {
   return text.replace(ORDER_ID_REGEX, (id) => `[${id}](/account/orders/${id})`);

@@ -20,7 +20,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-openapi-validator": "^4.13.8",
-    "js-yaml": "^3.3.0",
+    "js-yaml": "^4.1.1",
     "ono": "^5.0.1",
     "openapi-sampler": "^1.0.0-beta.15",
     "swagger-ui-express": "^4.0.2",
@@ -29,7 +29,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^5.16.0",
+    "eslint": "^10.0.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.17.2",
     "mocha": "^7.1.1"

@@ -1,7 +1,10 @@
 """MCP Client for connecting to AgentGateway using langchain-mcp-adapters.
 
-Includes a workaround for https://github.com/langchain-ai/langchain-mcp-adapters/issues/283
-where structuredContent is ignored.
+Includes workarounds for:
+- https://github.com/langchain-ai/langchain-mcp-adapters/issues/283
+  (structuredContent ignored)
+- ExceptionGroup from MCP streamable-HTTP transport TaskGroup
+  (raised during tool invocation; caught at tool level so the agent can retry)
 """
 
 import json
@@ -17,7 +20,9 @@ from ..config import settings
 logger = structlog.get_logger()
 
 
-# Monkey-patch langchain-mcp-adapters to handle structuredContent
+# ---------------------------------------------------------------------------
+# Patch 1: Handle structuredContent in MCP responses
+# ---------------------------------------------------------------------------
 # This fixes: https://github.com/langchain-ai/langchain-mcp-adapters/issues/283
 _original_convert_call_tool_result = None
 
@@ -79,6 +84,48 @@ def _apply_structured_content_patch():
 _apply_structured_content_patch()
 
 
+# ---------------------------------------------------------------------------
+# Patch 2: Wrap tools to handle ExceptionGroup from MCP transport
+# ---------------------------------------------------------------------------
+# The MCP streamable-HTTP transport uses an asyncio.TaskGroup internally.
+# During tool invocation the TaskGroup can raise an ExceptionGroup (a
+# BaseException subclass that bypasses normal `except Exception` handling).
+# This kills the LangGraph streaming mid-execution.  By wrapping each tool's
+# coroutine we convert the ExceptionGroup into a regular error message that
+# the agent can see and retry.
+# ---------------------------------------------------------------------------
+
+
+def _make_resilient_tools(tools: list[BaseTool]) -> list[BaseTool]:
+    """Wrap MCP tools so ExceptionGroup from the transport doesn't kill streaming."""
+    for tool in tools:
+        if tool.coroutine is None:
+            continue
+        original = tool.coroutine
+
+        async def _resilient(
+            *args, _orig=original, _name=tool.name, **kwargs
+        ):
+            try:
+                return await _orig(*args, **kwargs)
+            except BaseExceptionGroup as eg:
+                logger.warning(
+                    "MCP tool call raised ExceptionGroup (transport error)",
+                    tool=_name,
+                    error=str(eg),
+                )
+                # Return in content_and_artifact format so LangGraph can
+                # continue — the agent sees the error and can retry.
+                return (
+                    f"Error: the call to {_name} was interrupted by a "
+                    f"connection error. Please retry the tool call.",
+                    None,
+                )
+
+        tool.coroutine = _resilient
+    return tools
+
+
 def create_mcp_client() -> MultiServerMCPClient:
     """
     Create an MCP client configured to connect to AgentGateway.
@@ -128,6 +175,9 @@ async def load_mcp_tools(filter_essential: bool = True) -> list[BaseTool]:
 
         # Log tool names for debugging
         logger.debug("Available tools", tools=[t.name for t in tools])
+
+        # Wrap tools to handle ExceptionGroup from MCP transport
+        tools = _make_resilient_tools(tools)
 
         return tools
     except Exception as e:
@@ -188,9 +238,14 @@ ESSENTIAL_TOOLS = [
     "customer-accounts_getProfile",
     "customer-accounts_listDevices",
     "customer-accounts_listAddresses",
-    # Product catalog
+    # Product catalog (listProducts uses query params — fails via MCP proxy)
     "product-catalog_getProduct",
-    "product-catalog_listProducts",
+    # Inventory (path-param tools only — query-param tools fail via MCP proxy)
+    "inventory_getStockBySku",
+    # Physical stores (path-param tools only)
+    "physical-stores_getAllStores",
+    "physical-stores_getStore",
+    "physical-stores_getStoreInventory",
 ]
 
 

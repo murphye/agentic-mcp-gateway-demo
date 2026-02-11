@@ -3,6 +3,20 @@ const Service = require('./Service');
 const storeData = require('../data/storeData');
 
 /**
+ * Get all store locations
+ */
+const getAllStores = () => new Promise(
+  async (resolve, reject) => {
+    try {
+      const result = storeData.listStores({});
+      resolve(Service.successResponse(result));
+    } catch (e) {
+      reject(Service.rejectResponse(e.message || 'Invalid input', e.status || 500));
+    }
+  }
+);
+
+/**
  * Get store details
  */
 const getStore = ({ storeId }) => new Promise(
@@ -65,6 +79,7 @@ const listStores = ({ latitude, longitude, radius, city, state, country, postalC
 );
 
 module.exports = {
+  getAllStores,
   getStore,
   getStoreHours,
   listStores,

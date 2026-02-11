@@ -28,6 +28,11 @@ class Settings(BaseSettings):
     keycloak_client_id: str = "pear-genius"
     keycloak_client_secret: str = ""
 
+    # Server Configuration
+    server_host: str = "0.0.0.0"
+    server_port: int = 8000
+    cors_origins: list[str] = ["http://localhost:3001"]
+
     # Application Settings
     debug: bool = False
     log_level: str = "INFO"

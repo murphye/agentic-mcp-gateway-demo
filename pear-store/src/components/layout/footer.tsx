@@ -16,6 +16,7 @@ const footerLinks = {
   ],
   support: [
     { name: "Support Home", href: "/support" },
+    { name: "Pear Genius", href: "/support/pear-genius" },
     { name: "Product Support", href: "/product-support" },
     { name: "Contact Us", href: "/support/contact" },
     { name: "Store Locator", href: "/stores" },

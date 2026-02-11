@@ -118,6 +118,21 @@ paths:
       tags:
       - Stores
       x-eov-operation-handler: controllers/StoresController
+  /locations/all:
+    get:
+      description: Retrieve all Pear Store locations without any filtering
+      operationId: getAllStores
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreListResponse"
+          description: Successful response
+      summary: Get all store locations
+      tags:
+      - Stores
+      x-eov-operation-handler: controllers/StoresController
   /locations/{storeId}:
     get:
       operationId: getStore

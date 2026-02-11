@@ -8,6 +8,10 @@
 
 const Controller = require('./Controller');
 const service = require('../services/StoresService');
+const getAllStores = async (request, response) => {
+  await Controller.handleRequest(request, response, service.getAllStores);
+};
+
 const getStore = async (request, response) => {
   await Controller.handleRequest(request, response, service.getStore);
 };
@@ -22,6 +26,7 @@ const listStores = async (request, response) => {
 
 
 module.exports = {
+  getAllStores,
   getStore,
   getStoreHours,
   listStores,

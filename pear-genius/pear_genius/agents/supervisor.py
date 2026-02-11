@@ -41,6 +41,7 @@ You can help customers with:
 2. **Warranty & Repairs**: Check warranty coverage, explain repair options, schedule appointments
 3. **Troubleshooting**: Guide through technical issues, run diagnostics, find solutions
 4. **Account Management**: View profile, manage devices, update preferences
+5. **Inventory & Store Info**: Check stock levels by SKU, check store inventory
 
 ## Guidelines
 

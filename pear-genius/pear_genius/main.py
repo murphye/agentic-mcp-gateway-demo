@@ -26,6 +26,9 @@ from .auth.keycloak import create_test_customer_context
 from .config import settings
 from .state.conversation import AgentState, CustomerContext, CustomerTier
 
+# Set root logger level so structlog's filter_by_level actually works
+logging.basicConfig(format="%(message)s", level=getattr(logging, settings.log_level.upper(), logging.INFO))
+
 # Configure structured logging
 structlog.configure(
     processors=[

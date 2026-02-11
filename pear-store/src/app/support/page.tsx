@@ -1,10 +1,16 @@
 "use client";
 
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from "@/components/ui";
-import { HelpCircle, MessageCircle, Phone, Search, Wrench } from "lucide-react";
+import { Bot, HelpCircle, MessageCircle, Phone, Search, Wrench } from "lucide-react";
 import Link from "next/link";
 
 const supportOptions = [
+  {
+    title: "Pear Genius",
+    description: "Chat with our AI support assistant",
+    icon: Bot,
+    href: "/support/pear-genius",
+  },
   {
     title: "Product Support",
     description: "Get help with your Pear products",

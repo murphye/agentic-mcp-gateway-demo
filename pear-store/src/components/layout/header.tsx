@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/stores/cart-store";
-import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Menu, Search, ShoppingBag, Sparkles, User, X } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -41,7 +41,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:gap-x-8">
+        <div className="hidden lg:flex lg:items-center lg:gap-x-8">
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -51,6 +51,13 @@ export function Header() {
               {item.name}
             </Link>
           ))}
+          <Link
+            href="/support/pear-genius"
+            className="inline-flex items-center gap-1.5 bg-pear px-3 py-1 rounded-full text-sm font-semibold text-gray-dark hover:bg-pear-dark transition-colors"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Pear Genius
+          </Link>
         </div>
 
         {/* Right Actions */}
@@ -137,6 +144,14 @@ export function Header() {
                     {item.name}
                   </Link>
                 ))}
+                <Link
+                  href="/support/pear-genius"
+                  className="inline-flex items-center gap-2 bg-pear px-4 py-2 rounded-full text-lg font-semibold text-gray-dark"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Sparkles className="h-4 w-4" />
+                  Pear Genius
+                </Link>
               </div>
             </div>
           </div>

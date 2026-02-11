@@ -5,6 +5,7 @@ import json
 import logging
 import time
 import uuid
+from collections import OrderedDict
 
 import structlog
 import uvicorn
@@ -41,10 +42,11 @@ app.add_middleware(
 
 # --- Session Manager ---
 
+MAX_SESSIONS = 100  # Evict oldest sessions beyond this limit
+
 _shared_graph = None
-_shared_checkpointer = None
 _graph_lock = asyncio.Lock()
-_sessions: dict[str, "SessionData"] = {}
+_sessions: OrderedDict[str, "SessionData"] = OrderedDict()
 
 
 class SessionData:
@@ -58,13 +60,20 @@ class SessionData:
         self.is_first_message = True
 
 
+def _evict_sessions() -> None:
+    """Remove oldest sessions when over the limit."""
+    while len(_sessions) > MAX_SESSIONS:
+        evicted_id, _ = _sessions.popitem(last=False)
+        logger.info("Session evicted", session_id=evicted_id)
+
+
 async def get_shared_graph():
     """Get or create the shared compiled graph (MCP tools loaded once)."""
-    global _shared_graph, _shared_checkpointer
+    global _shared_graph
     if _shared_graph is None:
         async with _graph_lock:
             if _shared_graph is None:
-                _shared_graph, _shared_checkpointer = await create_agent_graph()
+                _shared_graph = await create_agent_graph()
                 logger.info("Shared agent graph created with MCP tools")
     return _shared_graph
 
@@ -192,23 +201,21 @@ async def _stream_graph_events(graph, input_data, config, session_id: str):
                 }
 
     except BaseException as e:
-        if accumulated_text:
-            logger.warning(
-                "Stream error after partial response",
-                error=str(e),
-                session_id=session_id,
+        log_fn = logger.warning if accumulated_text else logger.error
+        log_fn(
+            "Stream error",
+            error=str(e),
+            session_id=session_id,
+            had_partial=bool(accumulated_text),
+        )
+        yield {
+            "data": json.dumps(
+                {"type": "error", "content": "An error occurred processing your request."}
             )
-        else:
-            logger.error(
-                "Stream failed",
-                error=str(e),
-                session_id=session_id,
-            )
-            yield {
-                "data": json.dumps(
-                    {"type": "error", "content": "An error occurred processing your request."}
-                )
-            }
+        }
+        # Skip interrupt check and done event after error
+        yield {"data": json.dumps({"type": "done"})}
+        return
 
     # --- Check for interrupts (approval required) ---
     try:
@@ -284,6 +291,7 @@ async def create_session():
         customer_id=customer.customer_id,
         customer=customer,
     )
+    _evict_sessions()
 
     logger.info(
         "Session created",
@@ -338,7 +346,8 @@ async def send_message(session_id: str, request: SendMessageRequest):
 
     async def event_generator():
         async with session.lock:
-            if session.is_first_message:
+            is_first = session.is_first_message
+            if is_first:
                 # First message: seed the checkpointer with full AgentState
                 customer = session.customer
                 input_data = AgentState(
@@ -356,7 +365,7 @@ async def send_message(session_id: str, request: SendMessageRequest):
                 "Turn started",
                 session_id=session_id,
                 user_message=request.message[:120],
-                is_first=not session.is_first_message,
+                is_first=is_first,
             )
 
             async for sse_event in _stream_graph_events(graph, input_data, config, session_id):

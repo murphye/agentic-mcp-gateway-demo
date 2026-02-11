@@ -13,7 +13,7 @@ from pear_genius.state.conversation import (
 @pytest.fixture
 def mock_anthropic():
     """Mock the ChatAnthropic client."""
-    with patch("pear_genius.agents.base.ChatAnthropic") as mock:
+    with patch("pear_genius.agents.agent.ChatAnthropic") as mock:
         mock_instance = MagicMock()
         mock_instance.ainvoke = AsyncMock()
         mock.return_value = mock_instance
@@ -57,7 +57,7 @@ def premium_customer():
         customer_id="CUST-PREMIUM",
         email="premium@example.com",
         name="Premium User",
-        tier=CustomerTier.PREMIUM,
+        tier=CustomerTier.PREMIER,
         recent_orders=[
             {"id": "PO-100", "date": "2024-01-25", "status": "delivered"},
         ],

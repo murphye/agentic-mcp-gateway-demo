@@ -156,9 +156,8 @@ async def load_mcp_tools(filter_essential: bool = True) -> list[BaseTool]:
     Returns:
         List of LangChain-compatible tools from the MCP server
     """
-    client = create_mcp_client()
-
     try:
+        client = create_mcp_client()
         all_tools = await client.get_tools()
         logger.info("Loaded all MCP tools from AgentGateway", count=len(all_tools))
 

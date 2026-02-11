@@ -78,6 +78,7 @@ class TestAgentState:
         assert state.turn_count == 0
         assert state.needs_escalation is False
         assert state.tool_results == {}
+        assert state.approval_rejected is False
 
     def test_create_authenticated_state(self):
         """Test creating state with authenticated customer."""

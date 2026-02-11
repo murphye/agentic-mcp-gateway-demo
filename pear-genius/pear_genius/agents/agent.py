@@ -82,6 +82,12 @@ Escalate to a human agent when:
 If a state-changing action (cancel order, create return, schedule repair) fails or returns an error,
 do NOT call the same tool again. Instead, explain the issue to the customer and offer alternatives
 or escalate to a specialist.
+
+## Important: Never Output XML Tool Calls
+
+Never generate XML-formatted tool calls (like <function_calls>) in your text responses.
+Always use the tool calling API to invoke tools. If no tools are available, tell the customer
+you're experiencing a temporary system issue and suggest they try again shortly.
 """
 
 
@@ -108,19 +114,22 @@ class PearGeniusAgent:
         else:
             self.llm_with_tools = self.llm
 
-    async def process(self, state: AgentState) -> AgentState:
-        """Process the current state and generate a response."""
-        state.turn_count += 1
+    async def process(self, state: AgentState) -> dict:
+        """Process the current state and return state updates."""
+        updates: dict = {"turn_count": state.turn_count + 1, "approval_rejected": False}
 
         # Check for escalation conditions
+        escalation_reason = ""
         should_escalate, reason = self._check_escalation(state)
         if should_escalate:
-            state.needs_escalation = True
-            state.escalation_reason = EscalationReason(reason)
+            updates["needs_escalation"] = True
+            updates["escalation_reason"] = EscalationReason(reason)
+            escalation_reason = reason.replace("_", " ")
             logger.info("Escalation triggered", reason=reason)
 
         # Build messages with system prompt + customer context
-        system_msg = self._build_system_message(state)
+        # (escalation instructions are injected so the LLM explains the transfer)
+        system_msg = self._build_system_message(state, escalation_reason=escalation_reason)
         messages = [system_msg] + state.messages
 
         logger.info(
@@ -134,53 +143,87 @@ class PearGeniusAgent:
 
         if hasattr(response, "tool_calls") and response.tool_calls:
             for tc in response.tool_calls:
-                logger.info(
+                logger.debug(
                     "LLM tool call",
                     tool_name=tc.get("name"),
                     tool_args=tc.get("args"),
                 )
 
-        state.messages.append(response)
-        return state
+        updates["messages"] = [response]
+        return updates
 
-    def _build_system_message(self, state: AgentState) -> SystemMessage:
-        """Build the system message with customer context."""
+    def _build_system_message(self, state: AgentState, *, escalation_reason: str = "") -> SystemMessage:
+        """Build the system message, optionally with customer context and escalation instructions.
+
+        On the first turn (turn_count == 0) full customer context is included.
+        On subsequent turns a compact one-liner reminder is used instead to
+        reduce token usage — the full context is already in the message history.
+        """
         parts = [SYSTEM_PROMPT]
 
         if state.customer:
+            if state.turn_count == 0:
+                # First turn: include full customer context
+                parts.append(
+                    f"\n\nCustomer Context:\n"
+                    f"- Name: {state.customer.name}\n"
+                    f"- Customer ID: {state.customer.customer_id}\n"
+                    f"- Tier: {state.customer.tier.value}\n"
+                    f"- Email: {state.customer.email}"
+                )
+
+                if state.customer.recent_orders:
+                    orders = ", ".join(
+                        o.get("id", "Unknown") for o in state.customer.recent_orders[:3]
+                    )
+                    parts.append(f"- Recent Orders: {orders}")
+
+                if state.customer.registered_devices:
+                    devices = ", ".join(
+                        f"{d.get('name', 'Unknown')} (Product: {d.get('productId', 'N/A')})"
+                        for d in state.customer.registered_devices[:3]
+                    )
+                    parts.append(f"- Devices: {devices}")
+            else:
+                # Subsequent turns: compact reminder (full context already in history)
+                parts.append(
+                    f"\n\nCustomer: {state.customer.name} ({state.customer.customer_id}), "
+                    f"tier: {state.customer.tier.value}"
+                )
+
+        if escalation_reason:
             parts.append(
-                f"\n\nCustomer Context:\n"
-                f"- Name: {state.customer.name}\n"
-                f"- Customer ID: {state.customer.customer_id}\n"
-                f"- Tier: {state.customer.tier.value}\n"
-                f"- Email: {state.customer.email}"
+                f"\n\n## ESCALATION REQUIRED\n"
+                f"This conversation must be escalated (reason: {escalation_reason}). "
+                f"Explain to the customer why you need to transfer them to a specialist, "
+                f"reassure them, and let them know a team member will follow up shortly."
             )
-
-            if state.customer.recent_orders:
-                orders = ", ".join(
-                    o.get("id", "Unknown") for o in state.customer.recent_orders[:3]
-                )
-                parts.append(f"- Recent Orders: {orders}")
-
-            if state.customer.registered_devices:
-                devices = ", ".join(
-                    f"{d.get('name', 'Unknown')} (Product: {d.get('productId', 'N/A')})"
-                    for d in state.customer.registered_devices[:3]
-                )
-                parts.append(f"- Devices: {devices}")
 
         return SystemMessage(content="\n".join(parts))
 
     def _check_escalation(self, state: AgentState) -> tuple[bool, str]:
         """Check if conversation should be escalated to human."""
+        _ESCALATION_PHRASES = [
+            "speak to a human",
+            "talk to a human",
+            "transfer to agent",
+            "speak to an agent",
+            "talk to an agent",
+            "speak to someone",
+            "talk to someone",
+            "speak to a representative",
+            "talk to a representative",
+            "speak to a manager",
+            "talk to a manager",
+            "real person",
+            "human agent",
+            "live agent",
+        ]
         if state.messages:
             for msg in reversed(state.messages):
                 if isinstance(msg, HumanMessage):
                     text = msg.content.lower()
-                    if any(
-                        kw in text
-                        for kw in ["human", "agent", "representative", "speak to someone", "manager"]
-                    ):
+                    if any(phrase in text for phrase in _ESCALATION_PHRASES):
                         return True, "customer_request"
                     break
 
@@ -200,13 +243,21 @@ class PearGeniusAgent:
         return False, ""
 
 
+_ERROR_INDICATORS = [
+    '"error":', '"error" :', "error:",  # JSON error fields or prefixed messages
+    "status: 4", "status: 5",  # HTTP error status codes
+    "failed to", "could not", "unable to",  # Action failure phrases
+]
+
+
 def _has_error(content) -> bool:
-    """Check if tool message content contains an error."""
+    """Check if tool message content indicates an actual error response."""
     if isinstance(content, str):
-        return "error" in content.lower()
+        lower = content.lower()
+        return any(indicator in lower for indicator in _ERROR_INDICATORS)
     elif isinstance(content, list):
         return any(
-            isinstance(item, str) and "error" in item.lower()
+            isinstance(item, str) and _has_error(item)
             for item in content
         )
     return False
@@ -429,26 +480,33 @@ def approval_gate(state: AgentState):
     if decision.get("approved"):
         logger.info("Tool calls approved by user")
         return state
-    else:
-        logger.info("Tool calls rejected by user")
-        rejection_messages = []
-        for tc in last_message.tool_calls:
+
+    # Rejected — differentiate high-risk vs low-risk tool calls
+    logger.info("Tool calls rejected by user")
+    high_risk_ids = {tc["id"] for tc in high_risk_calls}
+    rejection_messages = []
+    for tc in last_message.tool_calls:
+        if tc["id"] in high_risk_ids:
             rejection_messages.append(
                 ToolMessage(
                     content="Action was rejected by the customer. Do not retry this action. Acknowledge the rejection and ask how else you can help.",
                     tool_call_id=tc["id"],
                 )
             )
-        return Command(update={"messages": rejection_messages})
+        else:
+            rejection_messages.append(
+                ToolMessage(
+                    content="This action was skipped because a high-risk action in this turn was rejected. You may call this tool again if still needed.",
+                    tool_call_id=tc["id"],
+                )
+            )
+    return Command(update={"messages": rejection_messages, "approval_rejected": True})
 
 
 def route_after_approval(state: AgentState) -> Literal["tools", "agent"]:
     """Route after approval gate: to tools if approved, to agent if rejected."""
-    last_message = state.messages[-1] if state.messages else None
-    if isinstance(last_message, ToolMessage):
-        # Rejection ToolMessages were injected — send back to agent
+    if state.approval_rejected:
         return "agent"
-    # AIMessage still present — approved or no approval needed
     return "tools"
 
 
@@ -461,11 +519,21 @@ async def create_agent_graph():
               → tools → agent
               → END
 
+    Note: Uses MemorySaver (in-memory) for the checkpointer. This is fine
+    for single-worker development but must be replaced with a persistent
+    checkpointer (e.g. PostgresSaver) for multi-worker production deployments.
+
     Returns:
-        Tuple of (compiled graph, checkpointer)
+        Compiled graph (checkpointer is embedded inside)
     """
     tools = await get_all_tools()
-    logger.info("Loaded MCP tools", count=len(tools))
+    if not tools:
+        logger.warning(
+            "No MCP tools loaded — the agent will not be able to call backend services. "
+            "Ensure AgentGateway and backend services are running."
+        )
+    else:
+        logger.info("Loaded MCP tools", count=len(tools))
 
     agent = PearGeniusAgent(tools=tools)
     tool_node = ToolNode(tools)
@@ -502,40 +570,7 @@ async def create_agent_graph():
     graph.add_edge("tools", "agent")
 
     compiled = graph.compile(checkpointer=checkpointer)
-    return compiled, checkpointer
-
-
-async def run_conversation(
-    user_message: str,
-    state: AgentState | None = None,
-    customer: CustomerContext | None = None,
-) -> AgentState:
-    """
-    Run a conversation turn with the Pear Genius agent.
-
-    Args:
-        user_message: The user's message
-        state: Existing conversation state (or None to start new)
-        customer: Customer context (required for new conversations)
-
-    Returns:
-        Updated conversation state
-    """
-    if state is None:
-        import uuid
-
-        state = AgentState(
-            session_id=str(uuid.uuid4()),
-            customer=customer,
-            is_authenticated=customer is not None,
-        )
-
-    state.messages.append(HumanMessage(content=user_message))
-
-    graph, _checkpointer = await create_agent_graph()
-    result = await graph.ainvoke(state)
-
-    return result
+    return compiled
 
 
 def get_last_ai_response(state: AgentState) -> str:

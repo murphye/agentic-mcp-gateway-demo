@@ -5,6 +5,8 @@ for use with LangChain/LangGraph agents. Tools are loaded dynamically
 from the MCP server rather than being defined manually.
 """
 
+import asyncio
+
 import structlog
 from langchain_core.tools import BaseTool
 
@@ -14,6 +16,7 @@ logger = structlog.get_logger()
 
 # Cache for loaded tools
 _tools_cache: list[BaseTool] | None = None
+_tools_lock = asyncio.Lock()
 
 
 async def get_all_tools(force_refresh: bool = False) -> list[BaseTool]:
@@ -29,8 +32,10 @@ async def get_all_tools(force_refresh: bool = False) -> list[BaseTool]:
     global _tools_cache
 
     if _tools_cache is None or force_refresh:
-        _tools_cache = await load_mcp_tools()
-        logger.info("Tools cache populated", count=len(_tools_cache))
+        async with _tools_lock:
+            if _tools_cache is None or force_refresh:
+                _tools_cache = await load_mcp_tools()
+                logger.info("Tools cache populated", count=len(_tools_cache))
 
     return _tools_cache
 

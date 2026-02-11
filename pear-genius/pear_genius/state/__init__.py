@@ -1,5 +1,5 @@
 """State management for Pear Genius agent."""
 
-from .conversation import AgentState, CustomerContext, ConversationMemory
+from .conversation import AgentState, CustomerContext
 
-__all__ = ["AgentState", "CustomerContext", "ConversationMemory"]
+__all__ = ["AgentState", "CustomerContext"]

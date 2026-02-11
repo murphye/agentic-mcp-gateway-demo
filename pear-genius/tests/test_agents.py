@@ -10,7 +10,13 @@ from pear_genius.state.conversation import (
     CustomerTier,
     EscalationReason,
 )
-from pear_genius.agents.agent import PearGeniusAgent, get_last_ai_response
+from pear_genius.agents.agent import (
+    PearGeniusAgent,
+    get_last_ai_response,
+    approval_gate,
+    route_after_approval,
+    HIGH_RISK_TOOLS,
+)
 
 
 class TestPearGeniusAgent:
@@ -155,3 +161,78 @@ class TestGetLastAIResponse:
 
         response = get_last_ai_response(state)
         assert response == ""
+
+
+class TestApprovalRejection:
+    """Tests for approval gate rejection differentiating high-risk vs low-risk."""
+
+    def test_route_after_approval_uses_flag(self):
+        """Test that route_after_approval uses approval_rejected flag, not message type."""
+        state = AgentState(session_id="test", approval_rejected=True)
+        assert route_after_approval(state) == "agent"
+
+        state = AgentState(session_id="test", approval_rejected=False)
+        assert route_after_approval(state) == "tools"
+
+    def test_approval_rejected_default_false(self):
+        """Test approval_rejected defaults to False."""
+        state = AgentState(session_id="test")
+        assert state.approval_rejected is False
+
+
+class TestSystemMessageOptimization:
+    """Tests for system message token optimization."""
+
+    @pytest.fixture
+    def agent(self):
+        with patch("pear_genius.agents.agent.ChatAnthropic"):
+            return PearGeniusAgent()
+
+    def test_first_turn_includes_full_context(self, agent):
+        """Test that first turn (turn_count=0) includes full customer context."""
+        customer = CustomerContext(
+            customer_id="CUST-001",
+            email="test@example.com",
+            name="Test User",
+            tier=CustomerTier.PLUS,
+        )
+        state = AgentState(session_id="test", customer=customer, turn_count=0)
+
+        msg = agent._build_system_message(state)
+        content = msg.content
+
+        assert "Customer Context:" in content
+        assert "CUST-001" in content
+        assert "test@example.com" in content
+        assert "plus" in content
+
+    def test_subsequent_turn_uses_compact_context(self, agent):
+        """Test that subsequent turns (turn_count>0) use compact customer reminder."""
+        customer = CustomerContext(
+            customer_id="CUST-001",
+            email="test@example.com",
+            name="Test User",
+            tier=CustomerTier.PLUS,
+        )
+        state = AgentState(session_id="test", customer=customer, turn_count=1)
+
+        msg = agent._build_system_message(state)
+        content = msg.content
+
+        # Compact format: no "Customer Context:" header, no email
+        assert "Customer Context:" not in content
+        assert "test@example.com" not in content
+        # But still has name and ID
+        assert "Test User" in content
+        assert "CUST-001" in content
+
+    def test_escalation_instructions_injected(self, agent):
+        """Test that escalation reason is injected into system message."""
+        state = AgentState(session_id="test", turn_count=0)
+
+        msg = agent._build_system_message(state, escalation_reason="customer request")
+        content = msg.content
+
+        assert "ESCALATION REQUIRED" in content
+        assert "customer request" in content
+        assert "specialist" in content

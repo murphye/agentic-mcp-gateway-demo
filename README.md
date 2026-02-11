@@ -23,56 +23,48 @@ The demo is comprised of:
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         Pear Genius Agent                           │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  ┌─────────────┐    ┌─────────────────────────────────────────┐     │
-│  │   LangGraph │    │           Supervisor Agent              │     │
-│  │    Router   │───▶│  (Intent Classification & Orchestration)│     │
-│  └─────────────┘    └──────────────┬──────────────────────────┘     │
-│                                    │                                │
-│         ┌──────────────────────────┼──────────────────────────┐     │
-│         ▼                          ▼                          ▼     │
-│  ┌─────────────┐          ┌─────────────┐           ┌─────────────┐ │
-│  │   Order     │          │  Warranty   │           │Troubleshoot │ │
-│  │   Agent     │          │   Agent     │           │   Agent     │ │
-│  └──────┬──────┘          └──────┬──────┘           └──-────┬─────┘ │
-│         │                        │                          │       │
-│         └────────────────────────┼──────────────────────────┘       │
-│                                  │                                  │
-│                                  ▼                                  │
-│                         ┌─────────────────┐                         │
-│                         │   MCP Client    │                         │
-│                         │  (Tool Calls)   │                         │
-│                         └────────┬────────┘                         │
-│                                  │                                  │
-└──────────────────────────────────┼──────────────────────────────────┘
-                                   │ MCP Protocol
-                                   │ (SSE/WebSocket)
-                                   ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                      AgentGateway - MCP Server                      │
-│                                                                     │
-│  Exposes backend services as MCP Tools:                             │
-│  ┌────────────────────────────────────────────────────────────-─┐   │
-│  │ • order-management/get_order     • shipping/track_shipment   │   │
-│  │ • order-management/list_orders   • shipping/create_label     │   │
-│  │ • product-support/check_warranty • payments/process_refund   │   │
-│  │ • product-support/get_repairs    • customer-accounts/profile │   │
-│  │ • physical-stores/book_appt      • customer-support/tickets  │   │
-│  │ • inventory/check_stock          • analytics/get_metrics     │   │
-│  └─────────────────────────────────────────────────────────────-┘   │
-│                                  │                                  │
-└──────────────────────────────────┼──────────────────────────────────┘
-                                   │ REST API
-                                   ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                         Backend Services                            │
-├─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬────────-┤
-│ order-  │ product │customer │shipping │payments │physical │customer │
-│ mgmt    │ support │ accounts│         │         │ stores  │ support │
-└─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴───────-─┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  Frontend (pear-store)                                                 │
+│  Next.js + Zustand + SSE streaming                      Port 3001      │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │  HTTP + SSE (Chat API)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  API Gateway (AgentGateway as a dual-purpose proxy)     Port 3000      │
+│  /api/chat                                                             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │  HTTP + SSE (Chat API)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  Agent Server (pear-genius)                                            │
+│  FastAPI + LangGraph + Claude LLM                       Port 8000      │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────┐      │
+│  │  LangGraph State Machine                                     │      │
+│  │                                                              │      │
+│  │  agent ──→ should_continue ──→ approval_gate ──→ tools ──→ agent    │
+│  │    │                              │                          |      │
+│  │    └──→ END                       └──→ interrupt() ──→ resume       │
+│  └──────────────────────────────────────────────────────────────┘      │
+│                              │                                         │
+│                              │ MCP (streamable-HTTP)                   │
+│                              ▼                                         │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  AgentGateway (MCP → REST proxy)                         Port 3000     │
+│  Reads OpenAPI specs → Exposes as MCP tools                            │
+│  POST /mcp (streamable-HTTP transport)                                 │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │  REST API calls
+                                    ▼
+┌──────────┬──────────┬──────────┬──────────┬──────────┬──────────┐
+│  order-  │ product- │customer- │shipping  │product-  │physical- │
+│  mgmt    │ support  │ accounts │          │ catalog  │ stores   │
+│  :8081   │  :8083   │  :8084   │  :8082   │  :8085   │  :8087   │
+└──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+        Express/Node.js microservices (OpenAPI-first)
 ```
 
 ## Screenshots and Examples

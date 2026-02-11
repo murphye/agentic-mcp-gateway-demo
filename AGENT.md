@@ -55,13 +55,13 @@ The result is an architecture where the LLM never talks directly to REST APIs. I
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │  Agent Server (pear-genius)                                            │
-│  FastAPI + LangGraph + Claude LLM                       Port 8000     │
+│  FastAPI + LangGraph + Claude LLM                       Port 8000      │
 │                                                                        │
 │  ┌──────────────────────────────────────────────────────────────┐      │
 │  │  LangGraph State Machine                                     │      │
-│  │                                                               │      │
+│  │                                                              │      │
 │  │  agent ──→ should_continue ──→ approval_gate ──→ tools ──→ agent    │
-│  │    │                              │                                 │
+│  │    │                              │                          |      │
 │  │    └──→ END                       └──→ interrupt() ──→ resume       │
 │  └──────────────────────────────────────────────────────────────┘      │
 │                              │                                         │
@@ -191,9 +191,9 @@ The Pear Genius graph has three nodes and uses conditional edges to route betwee
                    │       │                                          │
                    │       ▼                                          │
                    │ route_after_approval()                           │
-                   │    │           │                                  │
-                   │    │approved   │rejected                          │
-                   │    ▼           └──────────────────────────────────┘
+                   │    │           │                                 │
+                   │    │approved   │rejected                         │
+                   │    ▼           └─────────────────────────────────┘
                    │ ┌─────────┐
                    │ │  tools  │
                    │ └────┬────┘

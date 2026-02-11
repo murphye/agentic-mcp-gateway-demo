@@ -5,6 +5,8 @@ for use with LangChain/LangGraph agents. Tools are loaded dynamically
 from the MCP server rather than being defined manually.
 """
 
+import asyncio
+
 import structlog
 from langchain_core.tools import BaseTool
 
@@ -14,6 +16,7 @@ logger = structlog.get_logger()
 
 # Cache for loaded tools
 _tools_cache: list[BaseTool] | None = None
+_tools_lock = asyncio.Lock()
 
 
 async def get_all_tools(force_refresh: bool = False) -> list[BaseTool]:
@@ -29,8 +32,10 @@ async def get_all_tools(force_refresh: bool = False) -> list[BaseTool]:
     global _tools_cache
 
     if _tools_cache is None or force_refresh:
-        _tools_cache = await load_mcp_tools()
-        logger.info("Tools cache populated", count=len(_tools_cache))
+        async with _tools_lock:
+            if _tools_cache is None or force_refresh:
+                _tools_cache = await load_mcp_tools()
+                logger.info("Tools cache populated", count=len(_tools_cache))
 
     return _tools_cache
 
@@ -73,16 +78,15 @@ def get_tools_for_agent(agent_name: str) -> list[BaseTool]:
     using get_all_tools() or get_tools_for_intent() during agent
     initialization.
 
-    For the supervisor agent with LangGraph, tools are loaded at
-    graph construction time via the async load_mcp_tools() function.
+    Tools are loaded asynchronously at graph construction time
+    via get_all_tools().
 
     Args:
-        agent_name: Name of the agent (supervisor, order, warranty, etc.)
+        agent_name: Name of the agent
 
     Returns:
         Empty list - use async functions for actual tool loading
     """
-    # Note: This is kept for backwards compatibility with supervisor.py
     # In async contexts, use get_all_tools() or get_tools_for_intent()
     logger.debug(
         "Synchronous get_tools_for_agent called",

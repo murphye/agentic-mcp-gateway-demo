@@ -3,18 +3,32 @@
 import { useChat } from "@/lib/hooks/use-chat";
 import { ArrowLeft, Bot, SquarePen } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 
 import { ChatInput } from "./chat-input";
 import { ChatMessageList } from "./chat-message-list";
 
 export function ChatInterface() {
+  // Hide the site footer on this page to prevent scroll issues
+  useEffect(() => {
+    const footer = document.getElementById("site-footer");
+    if (footer) footer.style.display = "none";
+    return () => {
+      if (footer) footer.style.display = "";
+    };
+  }, []);
+
   const {
     messages,
     isConnecting,
     isStreaming,
     activeTools,
     error,
+    pendingApproval,
+    isAwaitingApproval,
     sendMessage,
+    handleApprove,
+    handleReject,
     newChat,
   } = useChat();
 
@@ -36,9 +50,11 @@ export function ChatInterface() {
           <p className="text-xs text-gray-medium">
             {isConnecting
               ? "Connecting..."
-              : isStreaming
-                ? "Typing..."
-                : "AI Support Assistant"}
+              : isAwaitingApproval
+                ? "Awaiting your approval..."
+                : isStreaming
+                  ? "Typing..."
+                  : "AI Support Assistant"}
           </p>
         </div>
         <button
@@ -65,10 +81,16 @@ export function ChatInterface() {
         messages={messages}
         isStreaming={isStreaming}
         activeTools={activeTools}
+        pendingApproval={pendingApproval}
+        onApprove={handleApprove}
+        onReject={handleReject}
       />
 
       {/* Input */}
-      <ChatInput onSend={sendMessage} disabled={isConnecting || isStreaming} />
+      <ChatInput
+        onSend={sendMessage}
+        disabled={isConnecting || isStreaming || isAwaitingApproval}
+      />
     </div>
   );
 }

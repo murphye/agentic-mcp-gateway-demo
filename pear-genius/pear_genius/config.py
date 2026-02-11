@@ -20,7 +20,6 @@ class Settings(BaseSettings):
 
     # AgentGateway / MCP Configuration
     agent_gateway_url: str = "http://localhost:3000"
-    mcp_transport: str = "sse"  # sse or websocket
 
     # Keycloak Configuration
     keycloak_url: str = "http://localhost:8080"

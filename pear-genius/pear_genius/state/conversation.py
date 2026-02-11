@@ -1,7 +1,5 @@
 """Conversation state management for LangGraph."""
 
-from dataclasses import dataclass, field
-from datetime import datetime
 from enum import Enum
 from typing import Annotated, Any
 
@@ -16,19 +14,6 @@ class CustomerTier(str, Enum):
     STANDARD = "standard"
     PLUS = "plus"
     PREMIER = "premier"
-
-
-class IntentCategory(str, Enum):
-    """High-level intent categories for routing."""
-
-    ORDER = "order"  # Order status, tracking, modifications
-    RETURN = "return"  # Returns and exchanges
-    WARRANTY = "warranty"  # Warranty and repairs
-    TROUBLESHOOT = "troubleshoot"  # Technical issues
-    ACCOUNT = "account"  # Account management
-    PRODUCT = "product"  # Product questions
-    GENERAL = "general"  # General inquiries
-    ESCALATE = "escalate"  # Needs human agent
 
 
 class CustomerContext(BaseModel):
@@ -59,31 +44,6 @@ class EscalationReason(str, Enum):
     UNRESOLVED_ISSUE = "unresolved_issue"
 
 
-@dataclass
-class ConversationMemory:
-    """Tracks conversation context and history."""
-
-    session_id: str
-    started_at: datetime = field(default_factory=datetime.utcnow)
-    turn_count: int = 0
-    tools_called: list[str] = field(default_factory=list)
-    intents_detected: list[IntentCategory] = field(default_factory=list)
-    entities_extracted: dict[str, Any] = field(default_factory=dict)
-
-    def add_tool_call(self, tool_name: str) -> None:
-        """Record a tool call."""
-        self.tools_called.append(tool_name)
-
-    def add_intent(self, intent: IntentCategory) -> None:
-        """Record a detected intent."""
-        if intent not in self.intents_detected:
-            self.intents_detected.append(intent)
-
-    def add_entity(self, entity_type: str, value: Any) -> None:
-        """Record an extracted entity."""
-        self.entities_extracted[entity_type] = value
-
-
 class AgentState(BaseModel):
     """
     LangGraph state for the Pear Genius agent.
@@ -97,10 +57,6 @@ class AgentState(BaseModel):
 
     # Customer context (populated after authentication)
     customer: CustomerContext | None = None
-
-    # Current routing state
-    current_agent: str = "supervisor"
-    current_intent: IntentCategory | None = None
 
     # Escalation state
     needs_escalation: bool = False
@@ -117,6 +73,7 @@ class AgentState(BaseModel):
     # Flags
     is_authenticated: bool = False
     conversation_complete: bool = False
+    approval_rejected: bool = False
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 

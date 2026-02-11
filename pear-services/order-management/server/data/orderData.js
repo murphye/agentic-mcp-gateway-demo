@@ -206,7 +206,7 @@ const initSampleData = () => {
   const order3 = {
     id: 'ORD-2024-003',
     orderNumber: 'PEAR-2024-123458',
-    status: 'shipped',
+    status: 'processing',
     channel: 'retail_store',
     customer: {
       id: 'cust-001',
@@ -973,6 +973,195 @@ const initSampleData = () => {
     deliveredAt: null
   };
 
+  // Order 11 - Jennifer Martinez (cust-010) - Delivered PearPhone + case
+  const order11 = {
+    id: 'ORD-2024-011',
+    orderNumber: 'PEAR-2024-123466',
+    status: 'delivered',
+    channel: 'online',
+    customer: {
+      id: 'cust-010',
+      email: 'jennifer.martinez@email.com',
+      name: 'Jennifer Martinez'
+    },
+    items: [
+      {
+        id: 'item-016',
+        productId: 'PEAR-PPH-1601',
+        variantId: 'PPH1601-256-BLU',
+        sku: 'PPH1601-256-BLU',
+        name: 'PearPhone 16 Pro',
+        image: 'https://assets.pearcomputer.com/products/pearphone-16-pro-blue.jpg',
+        options: { color: 'Blue Titanium', storage: '256GB' },
+        quantity: 1,
+        unitPrice: { amount: 1199.99, currency: 'USD' },
+        totalPrice: { amount: 1199.99, currency: 'USD' },
+        status: 'delivered',
+        serialNumber: 'PEAR-PPH16-2024-007890',
+        warranty: { type: 'Limited Warranty', expiresAt: '2027-02-05' }
+      },
+      {
+        id: 'item-017',
+        productId: 'PEAR-ACC-CASE-16',
+        variantId: 'ACC-CASE-16-SIL',
+        sku: 'ACC-CASE-16-SIL',
+        name: 'PearPhone 16 Silicone Case',
+        image: 'https://assets.pearcomputer.com/products/pearphone-16-case-silicone.jpg',
+        options: { color: 'Storm Blue' },
+        quantity: 1,
+        unitPrice: { amount: 49.00, currency: 'USD' },
+        totalPrice: { amount: 49.00, currency: 'USD' },
+        status: 'delivered',
+        serialNumber: null,
+        warranty: null
+      }
+    ],
+    shippingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US',
+      phone: '+1-503-555-0742'
+    },
+    billingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US'
+    },
+    shipping: {
+      method: 'Express',
+      carrier: 'FedEx',
+      estimatedDelivery: { minDate: '2026-02-07', maxDate: '2026-02-08' },
+      instructions: 'Leave at front door'
+    },
+    payment: {
+      method: 'credit_card',
+      last4: '4821',
+      brand: 'Visa',
+      status: 'captured',
+      transactionId: 'txn-011-sample'
+    },
+    pricing: {
+      subtotal: { amount: 1248.99, currency: 'USD' },
+      shipping: { amount: 0, currency: 'USD' },
+      tax: { amount: 99.92, currency: 'USD' },
+      discount: { amount: 0, currency: 'USD' },
+      tradeInCredit: { amount: 0, currency: 'USD' },
+      total: { amount: 1348.91, currency: 'USD' }
+    },
+    shipments: [
+      {
+        id: 'ship-007',
+        carrier: 'FedEx',
+        trackingNumber: '4567890123456789',
+        trackingUrl: 'https://www.fedex.com/track?tracknumber=4567890123456789',
+        status: 'delivered',
+        items: [{ itemId: 'item-016', quantity: 1 }, { itemId: 'item-017', quantity: 1 }],
+        shippedAt: '2026-02-06T08:00:00Z',
+        estimatedDelivery: '2026-02-08',
+        deliveredAt: '2026-02-07T15:20:00Z',
+        events: [
+          { status: 'delivered', description: 'Delivered - Left at front door', location: 'Portland, OR', timestamp: '2026-02-07T15:20:00Z' },
+          { status: 'out_for_delivery', description: 'Out for delivery', location: 'Portland, OR', timestamp: '2026-02-07T09:00:00Z' },
+          { status: 'in_transit', description: 'In transit', location: 'Seattle, WA', timestamp: '2026-02-07T04:00:00Z' },
+          { status: 'picked_up', description: 'Picked up', location: 'Cupertino, CA', timestamp: '2026-02-06T08:00:00Z' }
+        ]
+      }
+    ],
+    isGift: false,
+    giftMessage: null,
+    notes: null,
+    placedAt: '2026-02-05T14:30:00Z',
+    updatedAt: '2026-02-07T15:20:00Z',
+    estimatedDelivery: '2026-02-08',
+    deliveredAt: '2026-02-07T15:20:00Z'
+  };
+
+  // Order 12 - Jennifer Martinez (cust-010) - Processing PearPods (cancellable)
+  const order12 = {
+    id: 'ORD-2024-012',
+    orderNumber: 'PEAR-2024-123467',
+    status: 'processing',
+    channel: 'online',
+    customer: {
+      id: 'cust-010',
+      email: 'jennifer.martinez@email.com',
+      name: 'Jennifer Martinez'
+    },
+    items: [
+      {
+        id: 'item-018',
+        productId: 'PEAR-PPP-3',
+        variantId: 'PPP3-USB-C',
+        sku: 'PPP3-USB-C',
+        name: 'PearPods Pro 3 (USB-C)',
+        image: 'https://assets.pearcomputer.com/products/pearpods-pro-3.jpg',
+        options: { connector: 'USB-C' },
+        quantity: 1,
+        unitPrice: { amount: 249.00, currency: 'USD' },
+        totalPrice: { amount: 249.00, currency: 'USD' },
+        status: 'confirmed',
+        serialNumber: null,
+        warranty: { type: 'Limited Warranty', expiresAt: '2027-02-08' }
+      }
+    ],
+    shippingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US',
+      phone: '+1-503-555-0742'
+    },
+    billingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US'
+    },
+    shipping: {
+      method: 'Standard',
+      carrier: 'UPS',
+      estimatedDelivery: { minDate: '2026-02-14', maxDate: '2026-02-17' },
+      instructions: null
+    },
+    payment: {
+      method: 'pear_pay',
+      last4: null,
+      brand: 'Pear Pay',
+      status: 'captured',
+      transactionId: 'txn-012-sample'
+    },
+    pricing: {
+      subtotal: { amount: 249.00, currency: 'USD' },
+      shipping: { amount: 0, currency: 'USD' },
+      tax: { amount: 19.92, currency: 'USD' },
+      discount: { amount: 0, currency: 'USD' },
+      tradeInCredit: { amount: 0, currency: 'USD' },
+      total: { amount: 268.92, currency: 'USD' }
+    },
+    shipments: [],
+    isGift: false,
+    giftMessage: null,
+    notes: null,
+    placedAt: '2026-02-08T09:15:00Z',
+    updatedAt: '2026-02-08T09:15:00Z',
+    estimatedDelivery: '2026-02-17',
+    deliveredAt: null
+  };
+
   orders.set(order1.id, order1);
   orders.set(order2.id, order2);
   orders.set(order3.id, order3);
@@ -983,6 +1172,120 @@ const initSampleData = () => {
   orders.set(order8.id, order8);
   orders.set(order9.id, order9);
   orders.set(order10.id, order10);
+  // Order 13 - Jennifer Martinez (cust-010) - Delivered PearWatch (outside return window)
+  const order13 = {
+    id: 'ORD-2025-013',
+    orderNumber: 'PEAR-2025-134201',
+    status: 'delivered',
+    channel: 'online',
+    customer: {
+      id: 'cust-010',
+      email: 'jennifer.martinez@email.com',
+      name: 'Jennifer Martinez'
+    },
+    items: [
+      {
+        id: 'item-019',
+        productId: 'PEAR-PWS-10',
+        variantId: 'PWS10-42-GPS-CELL-MID',
+        sku: 'PWS10-42-GPS-CELL-MID',
+        name: 'PearWatch Series 10 42mm',
+        image: 'https://assets.pearcomputer.com/products/pearwatch-10-midnight.jpg',
+        options: { size: '42mm', connectivity: 'GPS + Cellular', color: 'Midnight' },
+        quantity: 1,
+        unitPrice: { amount: 499.00, currency: 'USD' },
+        totalPrice: { amount: 499.00, currency: 'USD' },
+        status: 'delivered',
+        serialNumber: 'PEAR-PWS10-2025-009876',
+        warranty: { type: 'Limited Warranty', expiresAt: '2026-10-18' }
+      },
+      {
+        id: 'item-020',
+        productId: 'PEAR-ACC-BAND-MILANESE',
+        variantId: 'BAND-MILANESE-42-GLD',
+        sku: 'BAND-MILANESE-42-GLD',
+        name: 'Milanese Loop 42mm',
+        image: 'https://assets.pearcomputer.com/products/milanese-loop-gold.jpg',
+        options: { size: '42mm', color: 'Gold' },
+        quantity: 1,
+        unitPrice: { amount: 99.00, currency: 'USD' },
+        totalPrice: { amount: 99.00, currency: 'USD' },
+        status: 'delivered',
+        serialNumber: null,
+        warranty: null
+      }
+    ],
+    shippingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US',
+      phone: '+1-503-555-0742'
+    },
+    billingAddress: {
+      firstName: 'Jennifer',
+      lastName: 'Martinez',
+      street1: '742 Evergreen Terrace',
+      city: 'Portland',
+      state: 'OR',
+      postalCode: '97205',
+      country: 'US'
+    },
+    shipping: {
+      method: 'Express',
+      carrier: 'UPS',
+      estimatedDelivery: { minDate: '2025-10-20', maxDate: '2025-10-21' },
+      instructions: 'Leave at front door'
+    },
+    payment: {
+      method: 'credit_card',
+      last4: '4821',
+      brand: 'Visa',
+      status: 'captured',
+      transactionId: 'txn-013-sample'
+    },
+    pricing: {
+      subtotal: { amount: 598.00, currency: 'USD' },
+      shipping: { amount: 0, currency: 'USD' },
+      tax: { amount: 47.84, currency: 'USD' },
+      discount: { amount: 0, currency: 'USD' },
+      tradeInCredit: { amount: 0, currency: 'USD' },
+      total: { amount: 645.84, currency: 'USD' }
+    },
+    shipments: [
+      {
+        id: 'ship-008',
+        carrier: 'UPS',
+        trackingNumber: '1Z999CC30198765432',
+        trackingUrl: 'https://www.ups.com/track?tracknum=1Z999CC30198765432',
+        status: 'delivered',
+        items: [{ itemId: 'item-019', quantity: 1 }, { itemId: 'item-020', quantity: 1 }],
+        shippedAt: '2025-10-19T10:00:00Z',
+        estimatedDelivery: '2025-10-21',
+        deliveredAt: '2025-10-20T14:45:00Z',
+        events: [
+          { status: 'delivered', description: 'Delivered - Left at front door', location: 'Portland, OR', timestamp: '2025-10-20T14:45:00Z' },
+          { status: 'out_for_delivery', description: 'Out for delivery', location: 'Portland, OR', timestamp: '2025-10-20T08:30:00Z' },
+          { status: 'in_transit', description: 'In transit', location: 'Seattle, WA', timestamp: '2025-10-20T03:00:00Z' },
+          { status: 'picked_up', description: 'Picked up', location: 'Cupertino, CA', timestamp: '2025-10-19T10:00:00Z' }
+        ]
+      }
+    ],
+    isGift: false,
+    giftMessage: null,
+    notes: null,
+    placedAt: '2025-10-18T11:30:00Z',
+    updatedAt: '2025-10-20T14:45:00Z',
+    estimatedDelivery: '2025-10-21',
+    deliveredAt: '2025-10-20T14:45:00Z'
+  };
+
+  orders.set(order11.id, order11);
+  orders.set(order12.id, order12);
+  orders.set(order13.id, order13);
 
   // Sample returns
   // Return 1 - for the partial refund on order 1 (John Smith)
@@ -1224,6 +1527,29 @@ const initSampleData = () => {
     customerId: 'cust-008'
   };
 
+  // Sub 8 - Jennifer Martinez (cust-010) PearCare+ for PearPhone
+  const sub8 = {
+    id: 'SUB-2024-008',
+    name: 'PearCare+ for PearPhone',
+    product: 'PearCare+',
+    plan: 'PearPhone',
+    status: 'active',
+    billingCycle: 'monthly',
+    price: { amount: 9.99, currency: 'USD' },
+    nextBillingDate: '2026-03-05',
+    startedAt: '2026-02-05T14:30:00Z',
+    endsAt: null,
+    autoRenew: true,
+    features: [
+      'Accidental damage protection',
+      'Battery service',
+      'Express replacement',
+      '24/7 priority support'
+    ],
+    usage: null,
+    customerId: 'cust-010'
+  };
+
   subscriptions.set(sub1.id, sub1);
   subscriptions.set(sub2.id, sub2);
   subscriptions.set(sub3.id, sub3);
@@ -1231,6 +1557,7 @@ const initSampleData = () => {
   subscriptions.set(sub5.id, sub5);
   subscriptions.set(sub6.id, sub6);
   subscriptions.set(sub7.id, sub7);
+  subscriptions.set(sub8.id, sub8);
 };
 
 initSampleData();
@@ -1265,7 +1592,16 @@ const listOrders = (filters = {}) => {
   };
 };
 
-const getOrder = (orderId) => orders.get(orderId) || null;
+const getOrder = (orderId) => {
+  // Direct ID lookup
+  const order = orders.get(orderId);
+  if (order) return order;
+  // Fallback: search by orderNumber (e.g. PEAR-2024-123466)
+  for (const o of orders.values()) {
+    if (o.orderNumber === orderId) return o;
+  }
+  return null;
+};
 
 const lookupOrder = (orderNumber, email) => {
   for (const order of orders.values()) {
@@ -1572,8 +1908,9 @@ const checkReturnEligibility = (request) => {
   if (!order) return null;
 
   const returnWindowDays = 14;
-  const orderDate = new Date(order.placedAt);
-  const returnWindowEnds = new Date(orderDate.getTime() + returnWindowDays * 24 * 60 * 60 * 1000);
+  // Use delivery date if available, otherwise fall back to order placed date
+  const baseDate = new Date(order.deliveredAt || order.placedAt);
+  const returnWindowEnds = new Date(baseDate.getTime() + returnWindowDays * 24 * 60 * 60 * 1000);
   const now = new Date();
   const eligible = now <= returnWindowEnds;
 

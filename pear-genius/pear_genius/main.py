@@ -21,7 +21,7 @@ class MCPSessionTerminationFilter(logging.Filter):
 
 logging.getLogger("mcp.client.streamable_http").addFilter(MCPSessionTerminationFilter())
 
-from .agents.supervisor import create_agent_graph, get_last_ai_response
+from .agents.agent import create_agent_graph, get_last_ai_response
 from .auth.keycloak import create_test_customer_context
 from .config import settings
 from .state.conversation import AgentState, CustomerContext, CustomerTier
@@ -176,23 +176,12 @@ async def run_cli():
     print()
 
     # Create a test customer for demo purposes
-    # Uses cust-001 which has existing orders in the order-management service
     customer = create_test_customer_context(
-        customer_id="cust-001",
-        email="john.smith@email.com",
-        name="John Smith",
+        customer_id="cust-010",
+        email="jennifer.martinez@email.com",
+        name="Jennifer Martinez",
         tier=CustomerTier.PLUS,
     )
-
-    # Populate with real order IDs from the order-management service
-    customer.recent_orders = [
-        {"id": "ORD-2024-001", "date": "2024-01-15", "status": "delivered"},
-        {"id": "ORD-2024-003", "date": "2024-01-20", "status": "shipped"},
-    ]
-    customer.registered_devices = [
-        {"id": "DEV-001", "name": "John's PearPhone 16 Pro", "serial": "PEAR-PPH16-2024-001234"},
-        {"id": "DEV-002", "name": "John's PearPods Pro 2", "serial": "PEAR-PPP2-2024-005678"},
-    ]
 
     print(f"Authenticated as: {customer.name} ({customer.tier.value} member)")
     print()

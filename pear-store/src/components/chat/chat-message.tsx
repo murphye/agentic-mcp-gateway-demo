@@ -7,8 +7,16 @@ interface ChatMessageProps {
   message: ChatMessageType;
 }
 
-// Matches ORD-YYYY-NNN style order IDs (the API lookup format)
-const ORDER_ID_REGEX = /(ORD-\d{4}-\d{3,})/g;
+// Matches both ORD-YYYY-NNN order IDs and PEAR-YYYY-NNNNNN order numbers
+const ORDER_ID_REGEX = /(ORD-\d{4}-\d{3,}|PEAR-\d{4}-\d{4,})/g;
+
+// Strip hallucinated XML tool calls that the model may emit when tools fail to load
+const XML_TOOL_CALL_REGEX =
+  /<function_calls>[\s\S]*?<\/function_calls>\s*(<function_result>[\s\S]*?<\/function_result>)?/g;
+
+function sanitizeContent(text: string): string {
+  return text.replace(XML_TOOL_CALL_REGEX, "").trim();
+}
 
 function linkifyOrderIds(text: string): string {
   return text.replace(ORDER_ID_REGEX, (id) => `[${id}](/account/orders/${id})`);
@@ -50,7 +58,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                 ),
               }}
             >
-              {linkifyOrderIds(message.content)}
+              {linkifyOrderIds(sanitizeContent(message.content))}
             </ReactMarkdown>
             {message.isStreaming && (
               <span className="inline-block w-1.5 h-4 bg-pear-dark animate-pulse ml-0.5 align-text-bottom" />

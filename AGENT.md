@@ -43,9 +43,15 @@ The result is an architecture where the LLM never talks directly to REST APIs. I
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
 │  Frontend (pear-store)                                                 │
-│  Next.js + Zustand + SSE streaming                      Port 3001     │
+│  Next.js + Zustand + SSE streaming                      Port 3001      │
 └───────────────────────────────────┬────────────────────────────────────┘
-                                    │  HTTP + SSE
+                                    │  HTTP + SSE (Chat API)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│  API Gateway (AgentGateway as a dual-purpose proxy)     Port 3000      │
+│  /api/chat                                                             │
+└───────────────────────────────────┬────────────────────────────────────┘
+                                    │  HTTP + SSE (Chat API)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
 │  Agent Server (pear-genius)                                            │
@@ -65,7 +71,7 @@ The result is an architecture where the LLM never talks directly to REST APIs. I
                                     │
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│  AgentGateway (Rust proxy)                              Port 3000     │
+│  AgentGateway (MCP → REST proxy)                         Port 3000     │
 │  Reads OpenAPI specs → Exposes as MCP tools                            │
 │  POST /mcp (streamable-HTTP transport)                                 │
 └───────────────────────────────────┬────────────────────────────────────┘

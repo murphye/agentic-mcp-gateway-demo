@@ -6,7 +6,7 @@ binds:
     name: http-listener
     routes:
 
-    # REST Services
+    # API Services
 
     - name: product-catalog
       backends:
@@ -84,6 +84,15 @@ binds:
       matches:
       - path:
           pathPrefix: /v1/analytics
+
+    # Pear Genius Chat API
+
+    - name: pear-genius
+      backends:
+      - host: 127.0.0.1:8000
+      matches:
+      - path:
+          pathPrefix: /api/chat
 
     # MCP
     - name: mcp

@@ -1,5 +1,5 @@
 const PEAR_GENIUS_URL =
-  process.env.NEXT_PUBLIC_PEAR_GENIUS_URL || "http://localhost:8000";
+  process.env.NEXT_PUBLIC_PEAR_GENIUS_URL || "http://localhost:3000";
 
 export interface CreateSessionResponse {
   session_id: string;
